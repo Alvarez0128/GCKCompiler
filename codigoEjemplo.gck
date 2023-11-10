@@ -1,0 +1,36 @@
+package main
+
+import "fmt"
+
+func main() {
+    var numero int = 42
+    cadena := "Hola, mundo"
+    booleano := true
+
+    fmt.Println("Número:", numero)
+    fmt.Println("Cadena:", cadena)
+    fmt.Println("Booleano:", booleano)
+
+    if numero > 0 {
+        fmt.Println("El número es positivo")
+    } else {
+        fmt.Println("El número es negativo o cero")
+    }
+
+    for i := 0; i < 5; i++ {
+        fmt.Println("Iteración:", i)
+    }
+
+    // Declaración de una estructura personalizada
+    type Persona struct {
+        Nombre string
+        Edad   int
+    }
+
+    persona := Persona{"Juan", 30}
+    fmt.Println("Persona:", persona)
+
+    // Declaración de un slice
+    numeros := []int{1, 2, 3, 4, 5}
+    fmt.Println("Slice de números:", numeros)
+}
