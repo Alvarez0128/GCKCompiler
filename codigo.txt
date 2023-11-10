@@ -8,7 +8,7 @@ func main() {
     booleano := true
 
     fmt.Println("Número:", numero)
-    fmt.Println("Cadena:", cadena)
+    fmt.Println("Cadena:", cadena)dfddddd
     fmt.Println("Booleano:", booleano)
 
     if numero > 0 {

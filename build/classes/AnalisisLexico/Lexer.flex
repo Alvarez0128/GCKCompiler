@@ -15,13 +15,14 @@ package AnalisisLexico;
     public TablaToken tablaToken = new TablaToken();
 %}
 
-L=[A-Za-z]+
+
 D=[0-9]+
 FinalDeLinea = \r | \n |\r\n 
 EntradaCaracter = [^\r\n]
+EntradaComentMultln = [^\r]
 espacio={FinalDeLinea} | [ \t\f]
 ComentarioSimple = "//"{EntradaCaracter}*{FinalDeLinea}
-ComentarioMultilinea = "/-"{EntradaCaracter}*"-/"
+ComentarioMultilinea = "/-"{EntradaComentMultln}*"-/"
 CadenaCaracteres = \"{EntradaCaracter}*\"
 Identificador = [:jletter:][:jletterdigit:]*
 NumFloat = [-+]?{D}+(\.{D}+)
@@ -71,6 +72,7 @@ IdentificadorError = {D}{Identificador}
     "true"                      {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "false"                     {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "break"                     {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
+    "importAll"                 {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "="                         {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
     "+="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
     "-="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}

@@ -18,11 +18,13 @@ import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.JTextComponent;
 
 public class Directory {
     JFileChooser selecFile = new JFileChooser();
+    JTabbedPane tabs = new JTabbedPane();
     private File file;
     private FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos .gck","gck");
     private final String[] options = new String[]{"Guardar y continuar", "Descartar"};
@@ -32,6 +34,14 @@ public class Directory {
     private final JTextComponent jTextComponent;
     
     
+    public Directory(JFrame var1, JTextComponent var2, String var3, String var4, JTabbedPane tab) {
+        this.title = var3;
+        this.extension = var4;
+        this.jFrame = var1;
+        this.jTextComponent = var2;
+        this.tabs = tab;
+        //System.out.println(Functions.ANSI_PURPLE_BLACK + "Directory v0.35 (By Yisus Efebei and M45t3r L3g10n)");
+    }
     public Directory(JFrame var1, JTextComponent var2, String var3, String var4) {
         this.title = var3;
         this.extension = var4;
@@ -39,7 +49,6 @@ public class Directory {
         this.jTextComponent = var2;
         //System.out.println(Functions.ANSI_PURPLE_BLACK + "Directory v0.35 (By Yisus Efebei and M45t3r L3g10n)");
     }
-
     private String getTextFile(File var1) {
         String var2 = "";
 
@@ -261,6 +270,7 @@ public class Directory {
                         this.jFrame.setTitle(var2.getName());
                         this.selecFile = var1;
                         this.file = var2;
+                        this.tabs.setTitleAt(0, var2.getName());
                     }
 
                     this.jTextComponent.setCaretPosition(0);
