@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import org.fife.ui.autocomplete.*;
 import org.fife.ui.rsyntaxtextarea.*;
 import org.fife.ui.rtextarea.*;
 import GUI.Directory;
@@ -683,39 +682,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem9ActionPerformed
     
-    private CompletionProvider createCompletionProvider() {
-
-      // A DefaultCompletionProvider is the simplest concrete implementation
-      // of CompletionProvider. This provider has no understanding of
-      // language semantics. It simply checks the text entered up to the
-      // caret position for a match against known completions. This is all
-      // that is needed in the majority of cases.
-      DefaultCompletionProvider provider = new DefaultCompletionProvider();
-
-      // Add completions for all Java keywords. A BasicCompletion is just
-      // a straightforward word completion.
-      provider.addCompletion(new BasicCompletion(provider, "abstract"));
-      provider.addCompletion(new BasicCompletion(provider, "assert"));
-      provider.addCompletion(new BasicCompletion(provider, "break"));
-      provider.addCompletion(new BasicCompletion(provider, "case"));
-      // ... etc ...
-      provider.addCompletion(new BasicCompletion(provider, "transient"));
-      provider.addCompletion(new BasicCompletion(provider, "try"));
-      provider.addCompletion(new BasicCompletion(provider, "void"));
-      provider.addCompletion(new BasicCompletion(provider, "volatile"));
-      provider.addCompletion(new BasicCompletion(provider, "while"));
-
-      // Add a couple of "shorthand" completions. These completions don't
-      // require the input text to be the same thing as the replacement text.
-      provider.addCompletion(new ShorthandCompletion(provider, "sysout",
-            "System.out.println(", "System.out.println("));
-      provider.addCompletion(new ShorthandCompletion(provider, "syserr",
-            "System.err.println(", "System.err.println("));
-
-      return provider;
-
-   }
-    
     private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
       try {
          Theme theme = Theme.load(new FileInputStream("byMe.xml"));
@@ -734,9 +700,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
         textArea.setCodeFoldingEnabled(true); //Para contraer partes del codigo
         
-        CompletionProvider provider = createCompletionProvider();
-        AutoCompletion ac = new AutoCompletion(provider);
-        ac.install(textArea);
+        
         textArea.setAntiAliasingEnabled(true);
         textArea.setAnimateBracketMatching(true);
         textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
