@@ -702,17 +702,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
         textArea.setCodeFoldingEnabled(true);
         textArea.setAntiAliasingEnabled(true);
-        changeStyleViaThemeXml(textArea);
         textArea.setAnimateBracketMatching(true);
-        textArea.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        changeStyleViaThemeXml(textArea);
+        textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
         /*CompletionProvider provider = createCompletionProvider();
         AutoCompletion ac = new AutoCompletion(provider);
         ac.install(textArea);*/
-        
-        
-        
-        
-        
     }//GEN-LAST:event_menuNuevoActionPerformed
 
     
@@ -845,7 +840,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         RSyntaxTextArea textArea = new RSyntaxTextArea();
         directorio = new Directory(this, textArea, "GCKKKK", ".gck");
         
-        changeStyleViaThemeXml(textArea);    
+           
         panelContenedorPestañas.add(new RTextScrollPane(textArea));
         //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
         textArea.setCodeFoldingEnabled(true); //Para contraer partes del codigo
@@ -853,7 +848,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         textArea.setAntiAliasingEnabled(true);
         textArea.setAnimateBracketMatching(true);
+        changeStyleViaThemeXml(textArea); 
         textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        
         
         panelContenedorPestañas.setTitleAt(0, "Script");
         panelContenedorPestañas.putClientProperty("JTabbedPane.tabClosable", true);

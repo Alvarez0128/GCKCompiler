@@ -25,11 +25,12 @@ ComentarioSimple = "//"{EntradaCaracter}*{FinalDeLinea}
 ComentarioMultilinea = "/-"{EntradaComentMultln}*"-/"
 CadenaCaracteres = \"{EntradaCaracter}*\"
 Identificador = [:jletter:][:jletterdigit:]*
-NumFloat = [-+]?{D}+(\.{D}+)
+NumFloat = [-+]?{D}(\.{D})
 NumEntero = [-+]?{D}+
 
-NumFloatError = [-+]?{D}(\.)+ | [-+]?(\.)+{D} | [-+]?(\.)+{D}\.(\.)+{D}
-
+//Patrones para los errores
+NumFloatError = ([-+]*{D}(\.)+ | [-+]*(\.)+{D} | [-+]*(\.)+{D}(\.)+{D} | [-+]*{D}(\.)+{D}(\.)+{D} | [+-][-+]+{D}(\.{D}))+
+NumEntError = [+-][+-]+{D} | [+-][+-]+{Identificador}
 IdentificadorError = {D}{Identificador}
 
 
@@ -103,8 +104,9 @@ IdentificadorError = {D}{Identificador}
     "!"                         {tablaToken.insertar(new Token(yytext(),"OpLogico",yyline+1,yycolumn+1));}
     "\."                        {tablaToken.insertar(new Token(yytext(),"OpAccesoMiembros",yyline+1,yycolumn+1));}
     {CadenaCaracteres}          {tablaToken.insertar(new Token(yytext(),"CadenaCaracteres",yyline+1,yycolumn+1));} 
-    {NumFloatError}             {tablaError.insertar(new ErrorToken(1,"Léxico","Numero decimal invalido",yytext(),yyline+1,yycolumn+1));}
-    {IdentificadorError}        {tablaError.insertar(new ErrorToken(2,"Léxico","Identificador invalido",yytext(),yyline+1,yycolumn+1));}
+    {NumFloatError}             {tablaError.insertar(new ErrorToken(1,"Léxico","Número decimal inválido; verifique que coincida con el formato #.#",yytext(),yyline+1,yycolumn+1));}
+    {NumEntError}               {tablaError.insertar(new ErrorToken(2,"Léxico","Número inválido; verifique que coincida con el formato +# o -#",yytext(),yyline+1,yycolumn+1));}
+    {IdentificadorError}        {tablaError.insertar(new ErrorToken(3,"Léxico","Identificador inválido; debe iniciar con una letra",yytext(),yyline+1,yycolumn+1));}
     {Identificador}             {tablaToken.insertar(new Token(yytext(),"Identificador",yyline+1,yycolumn+1));}       
     {NumEntero}                 {tablaToken.insertar(new Token(yytext(),"NumEntero",yyline+1,yycolumn+1));} 
     {NumFloat}                  {tablaToken.insertar(new Token(yytext(),"NumFlotante",yyline+1,yycolumn+1));} 
@@ -115,7 +117,7 @@ IdentificadorError = {D}{Identificador}
 
 }
 
-.                               {tablaError.insertar(new ErrorToken(3,"Léxico","Simbolo desconocido",yytext(),yyline+1,yycolumn+1));}
+.                               {tablaError.insertar(new ErrorToken(3,"Léxico","Simbolo desconocido; revise que el simbolo coincida con el alfabeto",yytext(),yyline+1,yycolumn+1));}
 
 
 

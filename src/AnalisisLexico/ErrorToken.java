@@ -27,7 +27,7 @@ public class ErrorToken {
 
     @Override
     public String toString() {
-        return "Error "+tipo+ ": en la línea: " + linea + ", columna: "+Column+" - descripción: " + descripcion + ", Cadena: " + lexema;
+        return "Error "+tipo+" "+ id+": en la línea: " + linea + ", columna: "+Column+" - descripción: " + descripcion + ", Cadena: " + lexema;
     }
     
     
