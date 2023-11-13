@@ -270,7 +270,7 @@ public class Directory {
                         this.jFrame.setTitle(var2.getName());
                         this.selecFile = var1;
                         this.file = var2;
-                        this.tabs.setTitleAt(0, var2.getName());
+                        //this.tabs.setTitleAt(1, var2.getName());
                     }
 
                     this.jTextComponent.setCaretPosition(0);

@@ -69,6 +69,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         contenedorBaseTS = new javax.swing.JPanel();
         scrollTS = new javax.swing.JScrollPane();
         jTableTS = new javax.swing.JTable();
+        ventanaTSFija = new javax.swing.JFrame();
+        contenedorBaseTS1 = new javax.swing.JPanel();
+        scrollTS1 = new javax.swing.JScrollPane();
+        jTableTS1 = new javax.swing.JTable();
         panelContenedorPrincipal = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         panelBaseIzquierdo = new javax.swing.JPanel();
@@ -88,6 +92,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         anLexButton = new javax.swing.JButton();
         tsButton = new javax.swing.JButton();
+        jToolBar2 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuNuevo = new javax.swing.JMenuItem();
@@ -192,6 +198,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         scrollTS.setViewportView(jTableTS);
+        if (jTableTS.getColumnModel().getColumnCount() > 0) {
+            jTableTS.getColumnModel().getColumn(2).setHeaderValue("Linea");
+            jTableTS.getColumnModel().getColumn(3).setHeaderValue("Columna");
+        }
 
         javax.swing.GroupLayout contenedorBaseTSLayout = new javax.swing.GroupLayout(contenedorBaseTS);
         contenedorBaseTS.setLayout(contenedorBaseTSLayout);
@@ -226,6 +236,97 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
 
         ventanaTS.setIconImage(new FlatSVGIcon("assets/TS.svg").getImage());
+
+        jTableTS1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "int"},
+                {"2", "float"},
+                {"3", "const"},
+                {"4", "char"},
+                {"5", "String"},
+                {"6", "bool"},
+                {"7", "true"},
+                {"8", "false"},
+                {"9", "Array"},
+                {"10", "Color"},
+                {"11", "Rect2"},
+                {"12", "importAll"},
+                {"13", "Dictionary"},
+                {"14", "extends"},
+                {"15", "Vector2"},
+                {"16", "File"},
+                {"17", "return"},
+                {"18", "new"},
+                {"19", "AABB"},
+                {"20", "TimeSpan"},
+                {"21", "Resource"},
+                {"22", "Object"},
+                {"23", "Start"},
+                {"24", "SceneTree"},
+                {"25", "PhysicsShape"},
+                {"26", "class"},
+                {"27", "void"},
+                {"28", "print"},
+                {"29", "PhysicsBody"},
+                {"30", "func"},
+                {"31", "Error"},
+                {"32", "for"},
+                {"33", "while"},
+                {"34", "if"},
+                {"35", "elif"},
+                {"36", "else"},
+                {"37", "break"},
+                {null, null}
+            },
+            new String [] {
+                "ID", "Lexema"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableTS1.setShowGrid(true);
+        jTableTS1.setSurrendersFocusOnKeystroke(true);
+        scrollTS1.setViewportView(jTableTS1);
+
+        javax.swing.GroupLayout contenedorBaseTS1Layout = new javax.swing.GroupLayout(contenedorBaseTS1);
+        contenedorBaseTS1.setLayout(contenedorBaseTS1Layout);
+        contenedorBaseTS1Layout.setHorizontalGroup(
+            contenedorBaseTS1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollTS1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+        );
+        contenedorBaseTS1Layout.setVerticalGroup(
+            contenedorBaseTS1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollTS1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+        );
+
+        ventanaTSFija.setSize(new java.awt.Dimension(250, 480));
+        ventanaTSFija.setLocationRelativeTo(null);
+        ventanaTSFija.setType(java.awt.Window.Type.POPUP);
+        // Layout setup code - not shown here
+        ventanaTSFija.setIconImage(new FlatSVGIcon("assets/TS.svg").getImage());
+
+        javax.swing.GroupLayout ventanaTSFijaLayout = new javax.swing.GroupLayout(ventanaTSFija.getContentPane());
+        ventanaTSFija.getContentPane().setLayout(ventanaTSFijaLayout);
+        ventanaTSFijaLayout.setHorizontalGroup(
+            ventanaTSFijaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ventanaTSFijaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contenedorBaseTS1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        ventanaTSFijaLayout.setVerticalGroup(
+            ventanaTSFijaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ventanaTSFijaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contenedorBaseTS1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -400,6 +501,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(tsButton);
 
+        jToolBar2.setRollover(true);
+
+        jButton1.setText("TS Fija");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton1);
+
         javax.swing.GroupLayout panelContenedorPrincipalLayout = new javax.swing.GroupLayout(panelContenedorPrincipal);
         panelContenedorPrincipal.setLayout(panelContenedorPrincipalLayout);
         panelContenedorPrincipalLayout.setHorizontalGroup(
@@ -408,7 +522,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jSplitPane2))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorPrincipalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(135, 135, 135)
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -416,7 +532,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             panelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSplitPane2)
                 .addContainerGap())
@@ -579,9 +697,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
         RSyntaxTextArea textArea = new RSyntaxTextArea(); // Crea una nueva instancia de RSyntaxTextArea
         RTextScrollPane scrollPane = new RTextScrollPane(textArea);
-        panelContenedorPestañas.add("Sin título", scrollPane);
+        panelContenedorPestañas.add("Script", scrollPane);
         directorio = new Directory(this, textArea, "GCKKKK", ".gck",panelContenedorPestañas);
-        textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
+        //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
         textArea.setCodeFoldingEnabled(true);
         textArea.setAntiAliasingEnabled(true);
         changeStyleViaThemeXml(textArea);
@@ -709,6 +827,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ventanaTSFija.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
       try {
@@ -725,7 +847,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         changeStyleViaThemeXml(textArea);    
         panelContenedorPestañas.add(new RTextScrollPane(textArea));
-        textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
+        //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
         textArea.setCodeFoldingEnabled(true); //Para contraer partes del codigo
         
         
@@ -733,7 +855,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         textArea.setAnimateBracketMatching(true);
         textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
         
-        panelContenedorPestañas.setTitleAt(0, "Sin título");
+        panelContenedorPestañas.setTitleAt(0, "Script");
         panelContenedorPestañas.putClientProperty("JTabbedPane.tabClosable", true);
         panelContenedorPestañas.putClientProperty( "JTabbedPane.tabCloseCallback",(IntConsumer) tabIndex -> {
             if (tabIndex >= 0) {
@@ -829,6 +951,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton anLexButton;
     private javax.swing.JPanel contenedorBaseLexico;
     private javax.swing.JPanel contenedorBaseTS;
+    private javax.swing.JPanel contenedorBaseTS1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -856,7 +980,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableTS;
+    private javax.swing.JTable jTableTS1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
     private javax.swing.JMenuItem menuAbrir;
@@ -873,9 +999,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JInternalFrame pantalla;
     private javax.swing.JScrollPane scrollLexico;
     private javax.swing.JScrollPane scrollTS;
+    private javax.swing.JScrollPane scrollTS1;
     private javax.swing.JButton tsButton;
     private javax.swing.JTextPane txtResultado;
     private javax.swing.JFrame ventanaLexico;
     private javax.swing.JFrame ventanaTS;
+    private javax.swing.JFrame ventanaTSFija;
     // End of variables declaration//GEN-END:variables
 }
