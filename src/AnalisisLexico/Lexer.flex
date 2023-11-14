@@ -29,9 +29,14 @@ NumFloat = [-+]?{D}(\.{D})
 NumEntero = [-+]?{D}+
 
 //Patrones para los errores
-NumFloatError = ([-+]*{D}(\.)+ | [-+]*(\.)+{D} | [-+]*(\.)+{D}(\.)+{D} | [-+]*{D}(\.)+{D}(\.)+{D} | [+-][-+]+{D}(\.{D}))+
-NumEntError = [+-][+-]+{D} | [+-][+-]+{Identificador}
 IdentificadorError = {D}{Identificador}
+
+NumFloatError = ([-+]*{D}[:jletter:]*(\.)+ | [-+]*(\.)+{D}[:jletter:]* | [-+]*(\.)+{D}[:jletter:]*(\.)+{D}[:jletter:]* | 
+                [-+]*{D}[:jletter:]*(\.)+{D}[:jletter:]*(\.)+{D}[:jletter:]* | [+-][-+]+{D}[:jletter:]*(\.{D}[:jletter:]*) | 
+                [-+]?{D}(\.{D}[:jletter:]+) | [-+]?{D}(\.({Identificador}|{IdentificadorError})+))+
+
+NumEntError = [+-][+-]+{D} | [+-][+-]+{Identificador}
+
 
 
 
