@@ -21,7 +21,7 @@ FinalDeLinea = \r | \n |\r\n
 EntradaCaracter = [^\r\n]
 EntradaComentMultln = [^\r]
 espacio={FinalDeLinea} | [ \t\f]
-ComentarioSimple = "//"{EntradaCaracter}*{FinalDeLinea}
+ComentarioSimple = ("//"{EntradaCaracter}*{FinalDeLinea}*) | ("#"{EntradaCaracter}*{FinalDeLinea}*)
 ComentarioMultilinea = "/-"{EntradaComentMultln}*"-/"
 CadenaCaracteres = \"{EntradaCaracter}*\"
 Identificador = [:jletter:][:jletterdigit:]*
@@ -29,8 +29,9 @@ NumFloat = [-+]?{D}(\.{D})
 NumEntero = [-+]?{D}+
 
 //Patrones para los errores
-IdentificadorError = {D}{Identificador}
 
+IdentificadorError = {D}{Identificador} | [^\t\n\r\f a-zA-Z]+{Identificador}
+CadCaracteresError = \"{EntradaCaracter}* | {EntradaCaracter}*\"
 NumFloatError = ([-+]*{D}[:jletter:]*(\.)+ | [-+]*(\.)+{D}[:jletter:]* | [-+]*(\.)+{D}[:jletter:]*(\.)+{D}[:jletter:]* | 
                 [-+]*{D}[:jletter:]*(\.)+{D}[:jletter:]*(\.)+{D}[:jletter:]* | [+-][-+]+{D}[:jletter:]*(\.{D}[:jletter:]*) | 
                 [-+]?{D}(\.{D}[:jletter:]+) | [-+]?{D}(\.({Identificador}|{IdentificadorError})+))+
@@ -68,6 +69,7 @@ NumEntError = [+-][+-]+{D} | [+-][+-]+{Identificador}
     "void"                      {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "print"                     {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "PhysicsBody"               {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
+    "range"                     {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "func"                      {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "Error"                     {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
     "for"                       {tablaToken.insertar(new Token(yytext(),"RESERVADA",yyline+1,yycolumn+1));}
@@ -109,6 +111,7 @@ NumEntError = [+-][+-]+{D} | [+-][+-]+{Identificador}
     "!"                         {tablaToken.insertar(new Token(yytext(),"OpLogico",yyline+1,yycolumn+1));}
     "\."                        {tablaToken.insertar(new Token(yytext(),"OpAccesoMiembros",yyline+1,yycolumn+1));}
     {CadenaCaracteres}          {tablaToken.insertar(new Token(yytext(),"CadenaCaracteres",yyline+1,yycolumn+1));} 
+    {CadCaracteresError}        {tablaError.insertar(new ErrorToken(1,"Léxico","Se esperaba otra \" ; verifique que la cadena de caracteres sea válida",yytext(),yyline+1,yycolumn+1));}
     {NumFloatError}             {tablaError.insertar(new ErrorToken(1,"Léxico","Número decimal inválido; verifique que coincida con el formato #.#",yytext(),yyline+1,yycolumn+1));}
     {NumEntError}               {tablaError.insertar(new ErrorToken(2,"Léxico","Número inválido; verifique que coincida con el formato +# o -#",yytext(),yyline+1,yycolumn+1));}
     {IdentificadorError}        {tablaError.insertar(new ErrorToken(3,"Léxico","Identificador inválido; debe iniciar con una letra",yytext(),yyline+1,yycolumn+1));}

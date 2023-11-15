@@ -1,1 +1,10 @@
-2321312.s3e.22.3232sdsd
+1	int
+2	float
+3	const
+4	char
+5	String
+6	bool
+7	true
+8	false
+9	Array
+10	Color

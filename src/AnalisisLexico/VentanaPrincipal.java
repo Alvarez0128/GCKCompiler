@@ -30,6 +30,7 @@ import GUI.Directory;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.io.File;
 import java.net.URI;
 
@@ -86,6 +87,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         panelBaseDerecho = new javax.swing.JPanel();
+        jSplitPane4 = new javax.swing.JSplitPane();
         panelBasePestañas = new javax.swing.JPanel();
         panelContenedorPestañas = new javax.swing.JTabbedPane();
         pantalla = new javax.swing.JInternalFrame();
@@ -424,13 +426,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jSplitPane2.setLeftComponent(panelBaseIzquierdo);
 
+        jSplitPane4.setDividerSize(2);
+        jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane4.setResizeWeight(1.0);
+
         panelBasePestañas.setLayout(new java.awt.CardLayout());
         panelBasePestañas.add(panelContenedorPestañas, "card2");
 
+        jSplitPane4.setLeftComponent(panelBasePestañas);
+
         pantalla.setBorder(null);
         pantalla.setClosable(true);
-        pantalla.setIconifiable(true);
-        pantalla.setResizable(true);
+        pantalla.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        pantalla.setTitle("Output");
         pantalla.setFrameIcon(null);
         pantalla.setVisible(true);
 
@@ -444,42 +452,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pantallaLayout.setHorizontalGroup(
             pantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pantallaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jScrollPane3)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         pantallaLayout.setVerticalGroup(
             pantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pantallaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
+
+        jSplitPane4.setRightComponent(pantalla);
+        try {
+            pantalla.setIcon(true);
+        } catch (java.beans.PropertyVetoException e1) {
+            e1.printStackTrace();
+        }
 
         javax.swing.GroupLayout panelBaseDerechoLayout = new javax.swing.GroupLayout(panelBaseDerecho);
         panelBaseDerecho.setLayout(panelBaseDerechoLayout);
         panelBaseDerechoLayout.setHorizontalGroup(
             panelBaseDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBaseDerechoLayout.createSequentialGroup()
-                .addGroup(panelBaseDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelBasePestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 954, Short.MAX_VALUE)
-                    .addComponent(pantalla))
+                .addContainerGap()
+                .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBaseDerechoLayout.setVerticalGroup(
             panelBaseDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBaseDerechoLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(panelBasePestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
-
-        try {
-            pantalla.setIcon(true);
-        } catch (java.beans.PropertyVetoException e1) {
-            e1.printStackTrace();
-        }
 
         jSplitPane2.setRightComponent(panelBaseDerecho);
 
@@ -816,12 +823,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
             Reader lector = new BufferedReader(new FileReader("codigo.txt"));
             Lexer lexer = new Lexer(lector);
-            String resultado = "";
             txtResultado.setForeground(Color.green);
             
             Object [] row = new Object[2];
+        
+            jSplitPane4.setDividerLocation(0.75);
+            
             pantalla.setVisible(true);
             ventanaLexico.setVisible(true);
+            
             
             while (true) {
                 
@@ -853,7 +863,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void menuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarActionPerformed
         directorio.Save();
     }//GEN-LAST:event_menuGuardarActionPerformed
-
+    
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         
     }//GEN-LAST:event_jMenuItem9ActionPerformed
@@ -1033,6 +1043,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
