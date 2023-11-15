@@ -756,9 +756,10 @@
               <SubComponents>
                 <Container class="javax.swing.JSplitPane" name="jSplitPane4">
                   <Properties>
-                    <Property name="dividerSize" type="int" value="2"/>
+                    <Property name="dividerSize" type="int" value="3"/>
                     <Property name="orientation" type="int" value="0"/>
                     <Property name="resizeWeight" type="double" value="1.0"/>
+                    <Property name="focusTraversalPolicyProvider" type="boolean" value="true"/>
                   </Properties>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
@@ -817,7 +818,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane3" pref="120" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane3" pref="119" max="32767" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               </Group>
                           </Group>

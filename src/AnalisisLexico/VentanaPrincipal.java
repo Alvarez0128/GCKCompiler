@@ -30,7 +30,6 @@ import GUI.Directory;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.io.File;
 import java.net.URI;
 
@@ -426,9 +425,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jSplitPane2.setLeftComponent(panelBaseIzquierdo);
 
-        jSplitPane4.setDividerSize(2);
+        jSplitPane4.setDividerSize(3);
         jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane4.setResizeWeight(1.0);
+        jSplitPane4.setFocusTraversalPolicyProvider(true);
 
         panelBasePestañas.setLayout(new java.awt.CardLayout());
         panelBasePestañas.add(panelContenedorPestañas, "card2");
@@ -460,7 +460,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             pantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pantallaLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -773,22 +773,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_menuCerrarActionPerformed
-
+    
     private void tsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tsButtonActionPerformed
         ventanaTS.setVisible(true);
-        /*DefaultTableModel Tabla = (DefaultTableModel) jTableTS.getModel();
-        vaciarTabla(Tabla,jTableTS);
-        Object [] row = new Object[3];
-        
-        
-        Iterator<TS>itrSimbolos = simbolos.iterator();
-        while(itrSimbolos.hasNext()){
-            TS simbolo = itrSimbolos.next();
-            row[0]=simbolo.getId();
-            row[1]=simbolo;//Tipo
-            row[2]=simbolo.getReferencias();
-            Tabla.addRow(row);           
-        }*/
     }//GEN-LAST:event_tsButtonActionPerformed
 
     private void anLexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anLexButtonActionPerformed
