@@ -6,10 +6,10 @@ package AnalisisLexico;
  * @author cesar
  */
 public class Token {
-    String lexema;
-    String grupoLexico;
-    int linea;
-    int columna;
+    public String lexema;
+    public String grupoLexico;
+    public int linea;
+    public int columna;
 
     public Token(String lexema, String grupoLexico, int linea, int column) {
         this.lexema = lexema;

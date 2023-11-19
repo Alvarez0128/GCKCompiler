@@ -15,7 +15,7 @@
 	<caret color="f4b5d9" />
 	<selection useFG="false" bg="405c7c" roundedEdges="false" />
 	<currentLineHighlight color="2F393C" fade="false" />
-	<marginLine fg="10141c" />
+	<marginLine fg="1e2533" />
 	<markAllHighlight color="FFE900" />
 	<!-- TODO: Fix me -->
 	<markOccurrencesHighlight color="5b7179" border="true" />
@@ -28,7 +28,7 @@
 	</secondaryLanguages>
 
 	<!-- Gutter styling. -->
-	<gutterBorder color="10141c" />
+	<gutterBorder color="1e2533" />
 	<lineNumbers fg="9ab8a1" currentFG="b8cdbd"/>
 	<foldIndicator fg="b8cdbd" armedFg="b8cdbd" iconBg="2f383c" iconArmedBg="3f484c" />
 	<iconRowHeader activeLineRange="3399ff" />
@@ -40,11 +40,11 @@
 		<style token="RESERVED_WORD_2" fg="ed84c0" bold="true" />
 		<style token="ANNOTATION" fg="E8E2B7" />
 		<style token="COMMENT_DOCUMENTATION" fg="6C788C" />
-		<style token="COMMENT_EOL" fg="66747B" />
-		<style token="COMMENT_MULTILINE" fg="66747B" />
+		<style token="COMMENT_EOL" fg="66747B" italic="true"/>
+		<style token="COMMENT_MULTILINE" fg="66747B" italic="true"/>
 		<style token="COMMENT_KEYWORD" fg="ae9fbf" />
 		<style token="COMMENT_MARKUP" fg="ae9fbf" />
-		<style token="FUNCTION" fg="50a9ed" />
+		<style token="FUNCTION" fg="83f8d6" />
 		<style token="DATA_TYPE" fg="f46f80" bold="true" />
 		<style token="LITERAL_BOOLEAN" fg="51aaee" bold="true" />
 		<style token="LITERAL_NUMBER_DECIMAL_INT" fg="99edd5" />
@@ -70,10 +70,10 @@
 		<style token="VARIABLE" fg="ae9fbf" bold="true" />
 		<style token="WHITESPACE" fg="E0E2E4" />
 
-		<style token="ERROR_IDENTIFIER" fg="E0E2E4" bg="04790e" />
-		<style token="ERROR_NUMBER_FORMAT" fg="E0E2E4" bg="04790e" />
-		<style token="ERROR_STRING_DOUBLE" fg="E0E2E4" bg="04790e" />
-		<style token="ERROR_CHAR" fg="E0E2E4" bg="04790e" />
+		<style token="ERROR_IDENTIFIER" fg="ff0000" bg="E0E2E4" underline="true"/>
+		<style token="ERROR_NUMBER_FORMAT" fg="ff0000" bg="E0E2E4" underline="true"/>
+		<style token="ERROR_STRING_DOUBLE" fg="ff0000" bg="E0E2E4" underline="true"/>
+		<style token="ERROR_CHAR" fg="ff0000" bg="E0E2E4" underline="true"/>
 	</tokenStyles>
 
 </RSyntaxTheme>
