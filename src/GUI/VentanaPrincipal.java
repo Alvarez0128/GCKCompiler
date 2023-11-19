@@ -32,7 +32,7 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.io.File;
 import java.net.URI;
-import org.fife.ui.rsyntaxtextarea.folding.CurlyFoldParser;
+import java.net.URISyntaxException;
 import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
 
 /**
@@ -874,16 +874,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         try {
             Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1seoKYCEsGI75csR81-TKETZ9cUdVXyy6pg3l5jwP8dw/edit?usp=sharing"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (IOException | URISyntaxException ex) {
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1qeY6uYMQqamKzeFeyg6Z0P87JS65njK4om06n904f1Q/edit?usp=sharing"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (IOException | URISyntaxException ex) {
         }
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -896,12 +894,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
             Theme theme = Theme.load(new FileInputStream("byMe.xml"));
             theme.apply(textArea);
-        } catch (IOException ioe) { // Never happens
-            ioe.printStackTrace();
-        }
+        } catch (IOException ioe) {
+            // Never happens
+                    }
     }
 
-    public void RSyntax() {
+    private void RSyntax() {
         RSyntaxTextArea textArea = new RSyntaxTextArea();
         RTextScrollPane scrollPane = new RTextScrollPane(textArea);
 
@@ -956,7 +954,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
