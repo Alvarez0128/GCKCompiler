@@ -226,8 +226,8 @@
                 <Component class="javax.swing.JTable" name="jTableTS1">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="2" rowCount="38">
-                        <Column editable="false" title="ID" type="java.lang.Object">
+                      <Table columnCount="2" rowCount="39">
+                        <Column editable="true" title="ID" type="java.lang.Object">
                           <Data value="1"/>
                           <Data value="2"/>
                           <Data value="3"/>
@@ -265,9 +265,10 @@
                           <Data value="35"/>
                           <Data value="36"/>
                           <Data value="37"/>
-                          <Data value="null"/>
+                          <Data value="38"/>
+                          <Data value="38"/>
                         </Column>
-                        <Column editable="false" title="Lexema" type="java.lang.Object">
+                        <Column editable="true" title="Lexema" type="java.lang.Object">
                           <Data value="int"/>
                           <Data value="float"/>
                           <Data value="const"/>
@@ -293,7 +294,9 @@
                           <Data value="Start"/>
                           <Data value="SceneTree"/>
                           <Data value="PhysicsShape"/>
+                          <Data value="in"/>
                           <Data value="class"/>
+                          <Data value="range"/>
                           <Data value="void"/>
                           <Data value="print"/>
                           <Data value="PhysicsBody"/>
@@ -305,7 +308,6 @@
                           <Data value="elif"/>
                           <Data value="else"/>
                           <Data value="break"/>
-                          <Data value="null"/>
                         </Column>
                       </Table>
                     </Property>

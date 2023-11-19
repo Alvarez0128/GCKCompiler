@@ -279,32 +279,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 {"23", "Start"},
                 {"24", "SceneTree"},
                 {"25", "PhysicsShape"},
-                {"26", "class"},
-                {"27", "void"},
-                {"28", "print"},
-                {"29", "PhysicsBody"},
-                {"30", "func"},
-                {"31", "Error"},
-                {"32", "for"},
-                {"33", "while"},
-                {"34", "if"},
-                {"35", "elif"},
-                {"36", "else"},
-                {"37", "break"},
-                {null, null}
+                {"26", "in"},
+                {"27", "class"},
+                {"28", "range"},
+                {"29", "void"},
+                {"30", "print"},
+                {"31", "PhysicsBody"},
+                {"32", "func"},
+                {"33", "Error"},
+                {"34", "for"},
+                {"35", "while"},
+                {"36", "if"},
+                {"37", "elif"},
+                {"38", "else"},
+                {"38", "break"}
             },
             new String [] {
                 "ID", "Lexema"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jTableTS1.setShowGrid(true);
         jTableTS1.setSurrendersFocusOnKeystroke(true);
         scrollTS1.setViewportView(jTableTS1);
