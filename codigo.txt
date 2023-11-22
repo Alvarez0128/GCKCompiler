@@ -1,2 +1,1 @@
-func main for in range
-func@4.fefsa@s.
+func main

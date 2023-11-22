@@ -41,33 +41,33 @@ import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    public ArrayList<Token> simbolos = null;
-    public ArrayList<ErrorToken> errores = null;
-    private Directory directorio;
-    
-    public VentanaPrincipal() {
-        initComponents();
-        setupTabTraversalKeys(panelContenedorPestañas);
-        AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-        atmf.putMapping("text/myLanguage", "Colores.Color");
-        
-        FoldParserManager.get().addFoldParserMapping("text/myLanguage", new Plegado());
-        //Inicializacion de una ventana para el jTabbedPane con un RSyntaxTextArea
-        RSyntax();
-        //Para centrar la ventana
-        setLocationRelativeTo(null);
-        setTitle("GCK Compiler");
+   public ArrayList<Token> simbolos = null;
+   public ArrayList<ErrorToken> errores = null;
+   private Directory directorio;
 
-        //Para navegar por las pestañas con Ctrl+tab, pero no funciona correctamente aún
-        setupTabTraversalKeys(panelContenedorPestañas);
-        //Establecer icono para la ventana
-        setIconImage(new FlatSVGIcon("assets/GCK.svg").getImage());
+   public VentanaPrincipal() {
+      initComponents();
+      setupTabTraversalKeys(panelContenedorPestañas);
+      AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+      atmf.putMapping("text/myLanguage", "Colores.Color");
 
-        pantalla.setVisible(false);
+      FoldParserManager.get().addFoldParserMapping("text/myLanguage", new Plegado());
+      //Inicializacion de una ventana para el jTabbedPane con un RSyntaxTextArea
+      RSyntax();
+      //Para centrar la ventana
+      setLocationRelativeTo(null);
+      setTitle("GCK Compiler");
 
-    }
+      //Para navegar por las pestañas con Ctrl+tab, pero no funciona correctamente aún
+      setupTabTraversalKeys(panelContenedorPestañas);
+      //Establecer icono para la ventana
+      setIconImage(new FlatSVGIcon("assets/GCK.svg").getImage());
 
-    @SuppressWarnings("unchecked")
+      pantalla.setVisible(false);
+
+   }
+
+   @SuppressWarnings("unchecked")
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
@@ -725,143 +725,152 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }// </editor-fold>//GEN-END:initComponents
 
     private void menuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarComoActionPerformed
-        directorio.SaveAs();
+       directorio.SaveAs();
     }//GEN-LAST:event_menuGuardarComoActionPerformed
 
-    private static void setupTabTraversalKeys(JTabbedPane tabbedPane) {
-        KeyStroke ctrlTab = KeyStroke.getKeyStroke("ctrl TAB");
-        KeyStroke ctrlShiftTab = KeyStroke.getKeyStroke("ctrl shift TAB");
+   private static void setupTabTraversalKeys(JTabbedPane tabbedPane) {
+      KeyStroke ctrlTab = KeyStroke.getKeyStroke("ctrl TAB");
+      KeyStroke ctrlShiftTab = KeyStroke.getKeyStroke("ctrl shift TAB");
 
-        // Remove ctrl-tab from normal focus traversal
-        Set<AWTKeyStroke> forwardKeys = new HashSet<AWTKeyStroke>(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
-        forwardKeys.remove(ctrlTab);
-        tabbedPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardKeys);
+      // Remove ctrl-tab from normal focus traversal
+      Set<AWTKeyStroke> forwardKeys = new HashSet<AWTKeyStroke>(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
+      forwardKeys.remove(ctrlTab);
+      tabbedPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardKeys);
 
-        // Remove ctrl-shift-tab from normal focus traversal
-        Set<AWTKeyStroke> backwardKeys = new HashSet<AWTKeyStroke>(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS));
-        backwardKeys.remove(ctrlShiftTab);
-        tabbedPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backwardKeys);
+      // Remove ctrl-shift-tab from normal focus traversal
+      Set<AWTKeyStroke> backwardKeys = new HashSet<AWTKeyStroke>(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS));
+      backwardKeys.remove(ctrlShiftTab);
+      tabbedPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backwardKeys);
 
-        // Add keys to the tab's input map
-        InputMap inputMap = tabbedPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        inputMap.put(ctrlTab, "navigateNext");
-        inputMap.put(ctrlShiftTab, "navigatePrevious");
-    }
+      // Add keys to the tab's input map
+      InputMap inputMap = tabbedPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+      inputMap.put(ctrlTab, "navigateNext");
+      inputMap.put(ctrlShiftTab, "navigatePrevious");
+   }
     private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
-        RSyntaxTextArea textArea = new RSyntaxTextArea(); // Crea una nueva instancia de RSyntaxTextArea
-        RTextScrollPane scrollPane = new RTextScrollPane(textArea);
-        panelContenedorPestañas.add("Script", scrollPane);
-        directorio = new Directory(this, textArea, "GCKKKK", ".gck", panelContenedorPestañas);
-        //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
-        
-        textArea.setSyntaxEditingStyle("text/myLanguage");
+       RSyntaxTextArea textArea = new RSyntaxTextArea(); // Crea una nueva instancia de RSyntaxTextArea
+       RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+       scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+          public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+             if (evt.isControlDown()) {
+                int fontSize = textArea.getFont().getSize();
+                fontSize += evt.getPreciseWheelRotation() > 0 ? -1 : 1;
+                textArea.setFont(new Font(textArea.getFont().getName(), textArea.getFont().getStyle(), fontSize));
+             }
+          }
+       });
+       panelContenedorPestañas.add("Script", scrollPane);
+       directorio = new Directory(this, textArea, "GCKKKK", ".gck", panelContenedorPestañas);
+       //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
 
-        textArea.setCodeFoldingEnabled(true);
-        textArea.setAntiAliasingEnabled(true);
-        textArea.setAnimateBracketMatching(true);
-        changeStyleViaThemeXml(textArea);
-        textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        /*CompletionProvider provider = createCompletionProvider();
+       textArea.setSyntaxEditingStyle("text/myLanguage");
+
+       textArea.setCodeFoldingEnabled(true);
+       textArea.setAntiAliasingEnabled(true);
+       textArea.setAnimateBracketMatching(true);
+       changeStyleViaThemeXml(textArea);
+       textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
+       /*CompletionProvider provider = createCompletionProvider();
         AutoCompletion ac = new AutoCompletion(provider);
         ac.install(textArea);*/
     }//GEN-LAST:event_menuNuevoActionPerformed
 
 
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
-        dispose();
+       dispose();
     }//GEN-LAST:event_menuSalirActionPerformed
 
     private void menuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirActionPerformed
-        directorio.Open();
+       directorio.Open();
     }//GEN-LAST:event_menuAbrirActionPerformed
 
     private void menuCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCerrarActionPerformed
-        if (panelContenedorPestañas.getTabCount() >= 0) {
-            Object[] options = {"Sí", "No"};
-            int option = JOptionPane.showOptionDialog(this, "¿Guardar antes de cerrar la pestaña?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            if (option == 0) { // 0 representa "Sí" en el array de opciones
-                directorio.Save();
-                panelContenedorPestañas.removeTabAt(panelContenedorPestañas.getSelectedIndex());
-            } else {
-                panelContenedorPestañas.removeTabAt(panelContenedorPestañas.getSelectedIndex());
-            }
-        }
+       if (panelContenedorPestañas.getTabCount() >= 0) {
+          Object[] options = {"Sí", "No"};
+          int option = JOptionPane.showOptionDialog(this, "¿Guardar antes de cerrar la pestaña?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+          if (option == 0) { // 0 representa "Sí" en el array de opciones
+             directorio.Save();
+             panelContenedorPestañas.removeTabAt(panelContenedorPestañas.getSelectedIndex());
+          } else {
+             panelContenedorPestañas.removeTabAt(panelContenedorPestañas.getSelectedIndex());
+          }
+       }
     }//GEN-LAST:event_menuCerrarActionPerformed
 
     private void tsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tsButtonActionPerformed
-        ventanaTS.setVisible(true);
+       ventanaTS.setVisible(true);
     }//GEN-LAST:event_tsButtonActionPerformed
 
     private void anLexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anLexButtonActionPerformed
-        String texto = "";
-        int indicePanelActivo = panelContenedorPestañas.getSelectedIndex(); // Obtiene el índice del panel activo
-        if (indicePanelActivo != -1) { // Asegúrate de que haya un panel activo seleccionado
-            Component componente = panelContenedorPestañas.getComponentAt(indicePanelActivo); // Obtiene el componente en el panel activo
-            if (componente instanceof JScrollPane) { // Comprueba si el componente es un JScrollPane
-                JScrollPane scrollPane = (JScrollPane) componente; // Convierte el componente en JScrollPane
-                Component componenteInterno = scrollPane.getViewport().getView(); // Obtiene el componente interno (en este caso, el JTextArea)
-                if (componenteInterno instanceof JTextArea) { // Comprueba si el componente interno es un JTextArea
-                    JTextArea textArea = (JTextArea) componenteInterno; // Convierte el componente interno en JTextArea
-                    texto += textArea.getText(); // Obtiene el texto del JTextArea
-                    // Ahora, 'texto' contiene el texto del JTextArea en el panel activo
+       String texto = "";
+       int indicePanelActivo = panelContenedorPestañas.getSelectedIndex(); // Obtiene el índice del panel activo
+       if (indicePanelActivo != -1) { // Asegúrate de que haya un panel activo seleccionado
+          Component componente = panelContenedorPestañas.getComponentAt(indicePanelActivo); // Obtiene el componente en el panel activo
+          if (componente instanceof JScrollPane) { // Comprueba si el componente es un JScrollPane
+             JScrollPane scrollPane = (JScrollPane) componente; // Convierte el componente en JScrollPane
+             Component componenteInterno = scrollPane.getViewport().getView(); // Obtiene el componente interno (en este caso, el JTextArea)
+             if (componenteInterno instanceof JTextArea) { // Comprueba si el componente interno es un JTextArea
+                JTextArea textArea = (JTextArea) componenteInterno; // Convierte el componente interno en JTextArea
+                texto += textArea.getText(); // Obtiene el texto del JTextArea
+                // Ahora, 'texto' contiene el texto del JTextArea en el panel activo
 
-                }
-            }
-        }
-        //simbolos.clear();
-        File archivo = new File("codigo.txt");
-        PrintWriter escribir;
-        DefaultTableModel Tabla = (DefaultTableModel) jTable1.getModel();
-        vaciarTabla(Tabla, jTable1);
-        try {
-            escribir = new PrintWriter(archivo);
-            escribir.print(texto);
-            escribir.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+             }
+          }
+       }
+       //simbolos.clear();
+       File archivo = new File("codigo.txt");
+       PrintWriter escribir;
+       DefaultTableModel Tabla = (DefaultTableModel) jTable1.getModel();
+       vaciarTabla(Tabla, jTable1);
+       try {
+          escribir = new PrintWriter(archivo);
+          escribir.print(texto);
+          escribir.close();
+       } catch (FileNotFoundException ex) {
+          Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+       }
 
-        try {
-            Reader lector = new BufferedReader(new FileReader("codigo.txt"));
-            Lexer lexer = new Lexer(lector);
-            txtResultado.setForeground(Color.green);
+       try {
+          Reader lector = new BufferedReader(new FileReader("codigo.txt"));
+          Lexer lexer = new Lexer(lector);
+          txtResultado.setForeground(Color.green);
 
-            Object[] row = new Object[2];
+          Object[] row = new Object[2];
 
-            jSplitPane4.setDividerLocation(0.75);
+          jSplitPane4.setDividerLocation(0.75);
 
-            pantalla.setVisible(true);
-            ventanaLexico.setVisible(true);
+          pantalla.setVisible(true);
+          ventanaLexico.setVisible(true);
 
-            while (true) {
+          while (true) {
 
-                if (lexer.yylex() == null) {
-                    simbolos = lexer.tablaToken.getTokens();
-                    errores = lexer.tablaError.getErrores();
-                    llenarTS();
-                    llenarTabla();
+             if (lexer.yylex() == null) {
+                simbolos = lexer.tablaToken.getTokens();
+                errores = lexer.tablaError.getErrores();
+                llenarTS();
+                llenarTabla();
 
-                    if (errores.isEmpty()) {
-                        txtResultado.setForeground(new Color(120, 212, 110));
-                        txtResultado.setText("-> Análisis finalizado sin errores");
-                    } else {
-                        txtResultado.setForeground(new Color(219, 88, 88));
-                        mostrarErrores();
-                    }
-
-                    return;
+                if (errores.isEmpty()) {
+                   txtResultado.setForeground(new Color(120, 212, 110));
+                   txtResultado.setText("-> Análisis finalizado sin errores");
+                } else {
+                   txtResultado.setForeground(new Color(219, 88, 88));
+                   mostrarErrores();
                 }
 
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                return;
+             }
+
+          }
+       } catch (FileNotFoundException ex) {
+          Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (IOException ex) {
+          Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }//GEN-LAST:event_anLexButtonActionPerformed
 
     private void menuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarActionPerformed
-        directorio.Save();
+       directorio.Save();
     }//GEN-LAST:event_menuGuardarActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
@@ -869,30 +878,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ventanaTSFija.setVisible(true);
+       ventanaTSFija.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+       // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        try {
-            Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1seoKYCEsGI75csR81-TKETZ9cUdVXyy6pg3l5jwP8dw/edit?usp=sharing"));
-        } catch (IOException | URISyntaxException ex) {
-        }
+       try {
+          Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1seoKYCEsGI75csR81-TKETZ9cUdVXyy6pg3l5jwP8dw/edit?usp=sharing"));
+       } catch (IOException | URISyntaxException ex) {
+       }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        try {
-            Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1qeY6uYMQqamKzeFeyg6Z0P87JS65njK4om06n904f1Q/edit?usp=sharing"));
-        } catch (IOException | URISyntaxException ex) {
-        }
+       try {
+          Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1qeY6uYMQqamKzeFeyg6Z0P87JS65njK4om06n904f1Q/edit?usp=sharing"));
+       } catch (IOException | URISyntaxException ex) {
+       }
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
    private void txtResultadoMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_txtResultadoMouseWheelMoved
@@ -903,120 +912,128 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
    }//GEN-LAST:event_txtResultadoMouseWheelMoved
 
-    private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
-        try {
-            Theme theme = Theme.load(new FileInputStream("byMe.xml"));
-            theme.apply(textArea);
-        } catch (IOException ioe) {
-            // Never happens
-                    }
-    }
+   private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
+      try {
+         Theme theme = Theme.load(new FileInputStream("byMe.xml"));
+         theme.apply(textArea);
+      } catch (IOException ioe) {
+         // Never happens
+      }
+   }
 
-    private void RSyntax() {
-        RSyntaxTextArea textArea = new RSyntaxTextArea();
-        RTextScrollPane scrollPane = new RTextScrollPane(textArea);
-
-        panelContenedorPestañas.add("Script",scrollPane);
-        directorio = new Directory(this, textArea, "GCKKKK", ".gck");
-        //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
-        
-        textArea.setSyntaxEditingStyle("text/myLanguage");
-        textArea.setCodeFoldingEnabled(true); //Para contraer partes del codigo
-        
-        textArea.setAntiAliasingEnabled(true);
-        textArea.setAnimateBracketMatching(true);
-        changeStyleViaThemeXml(textArea);
-        textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        
-        panelContenedorPestañas.putClientProperty("JTabbedPane.tabClosable", true);
-        panelContenedorPestañas.putClientProperty("JTabbedPane.tabCloseCallback", (IntConsumer) tabIndex -> {
-            if (tabIndex >= 0) {
-                Object[] options = {"Sí", "No"};
-                int option = JOptionPane.showOptionDialog(this, "¿Desea guardar antes de cerrar la pestaña?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-                if (option == 0) { // 0 representa "Sí" en el array de opciones
-                    directorio.Save();
-                    panelContenedorPestañas.removeTabAt(tabIndex);
-                } else {
-                    panelContenedorPestañas.removeTabAt(tabIndex);
-                }
+   private void RSyntax() {
+      RSyntaxTextArea textArea = new RSyntaxTextArea();
+      RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+      scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+         public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+            if (evt.isControlDown()) {
+               int fontSize = textArea.getFont().getSize();
+               fontSize += evt.getPreciseWheelRotation() > 0 ? -1 : 1;
+               textArea.setFont(new Font(textArea.getFont().getName(), textArea.getFont().getStyle(), fontSize));
             }
-        });
-        
-    }
+         }
+      });
+      panelContenedorPestañas.add("Script", scrollPane);
+      directorio = new Directory(this, textArea, "GCKKKK", ".gck");
+      //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
 
-    public static void main(String args[]) {
-        try {
-            FlatMaterialDeepOceanIJTheme.setup();
-            //Boton circular Cerrar pestaña 
-            UIManager.put("TabbedPane.closeArc", Integer.valueOf(999));
-            UIManager.put("TabbedPane.closeCrossFilledSize", Float.valueOf(5.5F));
-            UIManager.put("TabbedPane.closeIcon", new FlatTabbedPaneCloseIcon());
+      textArea.setSyntaxEditingStyle("text/myLanguage");
+      textArea.setCodeFoldingEnabled(true); //Para contraer partes del codigo
 
-            //Estilo underlined para los menuItems
-            UIManager.put("MenuItem.selectionType", "underline");
+      textArea.setAntiAliasingEnabled(true);
+      textArea.setAnimateBracketMatching(true);
+      changeStyleViaThemeXml(textArea);
+      textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
 
-            //Botones redondeados
-            UIManager.put("Button.arc", 999);
-
-            //Grosor de los bordes de focus de los componentes
-            UIManager.put("Component.focusWidth", 0);
-            UIManager.put("Component.innerFocusWidth", 0);
-
-            //Barra de scroll redondeada
-            UIManager.put("ScrollBar.thumbArc", 999);
-            UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-
-        } catch (Exception e) {
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaPrincipal().setVisible(true);
+      panelContenedorPestañas.putClientProperty("JTabbedPane.tabClosable", true);
+      panelContenedorPestañas.putClientProperty("JTabbedPane.tabCloseCallback", (IntConsumer) tabIndex -> {
+         if (tabIndex >= 0) {
+            Object[] options = {"Sí", "No"};
+            int option = JOptionPane.showOptionDialog(this, "¿Desea guardar antes de cerrar la pestaña?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (option == 0) { // 0 representa "Sí" en el array de opciones
+               directorio.Save();
+               panelContenedorPestañas.removeTabAt(tabIndex);
+            } else {
+               panelContenedorPestañas.removeTabAt(tabIndex);
             }
-        });
-    }
+         }
+      });
 
-    private void llenarTS() {
+   }
 
-        DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
-        dm.setRowCount(0);
-        for (Token entry : simbolos) {
-            if (entry.grupoLexico.equals("Identificador")) {
-                Object[] campos = {entry.lexema, "@" + entry.toString().split("@")[1], entry.linea, entry.columna};
-                dm.addRow(campos);
-            }
-        }
-        jTableTS.setModel(dm);
-    }
+   public static void main(String args[]) {
+      try {
+         FlatMaterialDeepOceanIJTheme.setup();
+         //Boton circular Cerrar pestaña 
+         UIManager.put("TabbedPane.closeArc", Integer.valueOf(999));
+         UIManager.put("TabbedPane.closeCrossFilledSize", Float.valueOf(5.5F));
+         UIManager.put("TabbedPane.closeIcon", new FlatTabbedPaneCloseIcon());
 
-    private void llenarTabla() {
+         //Estilo underlined para los menuItems
+         UIManager.put("MenuItem.selectionType", "underline");
 
-        DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
-        dm.setRowCount(0);
+         //Botones redondeados
+         UIManager.put("Button.arc", 999);
 
-        for (Token entry : simbolos) {
-            Object[] campos = {entry.lexema, entry.grupoLexico};
+         //Grosor de los bordes de focus de los componentes
+         UIManager.put("Component.focusWidth", 0);
+         UIManager.put("Component.innerFocusWidth", 0);
+
+         //Barra de scroll redondeada
+         UIManager.put("ScrollBar.thumbArc", 999);
+         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+
+      } catch (Exception e) {
+      }
+      java.awt.EventQueue.invokeLater(new Runnable() {
+         public void run() {
+            new VentanaPrincipal().setVisible(true);
+         }
+      });
+   }
+
+   private void llenarTS() {
+
+      DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
+      dm.setRowCount(0);
+      for (Token entry : simbolos) {
+         if (entry.grupoLexico.equals("Identificador")) {
+            Object[] campos = {entry.lexema, "@" + entry.toString().split("@")[1], entry.linea, entry.columna};
             dm.addRow(campos);
-        }
-        jTable1.setModel(dm);
-    }
+         }
+      }
+      jTableTS.setModel(dm);
+   }
 
-    private void mostrarErrores() {
+   private void llenarTabla() {
 
-        txtResultado.setText("");
-        for (ErrorToken entry : errores) {
-            txtResultado.setText(txtResultado.getText() + "\n" + entry.toString());
-        }
-        txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Análisis finalizado con errores");
-    }
+      DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
+      dm.setRowCount(0);
 
-    public static void vaciarTabla(DefaultTableModel Modelo, JTable JT) {
-        //Inicializamos la tabla con un modelo
-        Modelo = (DefaultTableModel) JT.getModel();
-        int i = 0;
-        while (i < Modelo.getRowCount()) {
-            Modelo.removeRow(i);
-        }//metodo while para remover los renglones de la tabla
-    }
+      for (Token entry : simbolos) {
+         Object[] campos = {entry.lexema, entry.grupoLexico};
+         dm.addRow(campos);
+      }
+      jTable1.setModel(dm);
+   }
+
+   private void mostrarErrores() {
+
+      txtResultado.setText("");
+      for (ErrorToken entry : errores) {
+         txtResultado.setText(txtResultado.getText() + "\n" + entry.toString());
+      }
+      txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Análisis finalizado con errores");
+   }
+
+   public static void vaciarTabla(DefaultTableModel Modelo, JTable JT) {
+      //Inicializamos la tabla con un modelo
+      Modelo = (DefaultTableModel) JT.getModel();
+      int i = 0;
+      while (i < Modelo.getRowCount()) {
+         Modelo.removeRow(i);
+      }//metodo while para remover los renglones de la tabla
+   }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton anLexButton;
