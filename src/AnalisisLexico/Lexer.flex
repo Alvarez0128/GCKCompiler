@@ -48,7 +48,7 @@ Reservada = (i|I)(n|N)(t|T)|(f|F)(l|L)(o|O)(a|A)(t|T)|(c|C)(o|O)(n|N)(s|S)(t|T)|
 //Patrones para los errores
 IdentificadorError = ({D}{Identificador} | {NoSeparador}+{Identificador} | {Identificador}{NoSeparador}+ | {NoSeparador}+{Identificador}{NoSeparador}+ | {Identificador}{NoSeparador}+{Identificador})+
 
-ReservadaError = ({NoSeparador}+{Reservada} | {Reservada}{NoSeparador}+ | {Reservada}{IdentificadorError} | {IdentificadorError}{Reservada})+
+ReservadaError = ({NumFloat}|{NumFloatError})*{NoSeparador}+{Reservada} | {Reservada}{NoSeparador}+({NumFloat}|{NumFloatError})* | {Reservada}{IdentificadorError} | {IdentificadorError}{Reservada} | {Reservada}({NumFloat}|{NumFloatError})+
 
 CadCharError = ({CadCharNoCerrada})
 CadCharError2 = ([\']({CualquierCaracterExceptoApostrofeOBarrainvertida}{CualquierCaracterExceptoApostrofeOBarrainvertida}+)[\'])
