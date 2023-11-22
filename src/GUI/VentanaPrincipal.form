@@ -847,6 +847,9 @@
                                   <Insets value="[0, 0, 0, 0]"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="txtResultadoMouseWheelMoved"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
