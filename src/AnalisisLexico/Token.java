@@ -22,4 +22,16 @@ public class Token {
         return new Object[]{lexema,grupoLexico,linea,columna};
     }
     
+    public String getLexicalComp(){
+       return grupoLexico;
+    }
+    public String getLexeme(){
+       return lexema;
+    }
+    public int getLine(){
+       return linea;
+    }
+    public int getColumn(){
+       return columna;
+    }
 }

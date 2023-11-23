@@ -30,7 +30,10 @@ import org.fife.ui.rtextarea.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
@@ -127,6 +130,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jMenu3 = new javax.swing.JMenu();
       jMenuItem9 = new javax.swing.JMenuItem();
       jMenu4 = new javax.swing.JMenu();
+      jMenu8 = new javax.swing.JMenu();
+      jMenuItem5 = new javax.swing.JMenuItem();
+      jMenuItem6 = new javax.swing.JMenuItem();
+      jMenuItem7 = new javax.swing.JMenuItem();
+      jMenu9 = new javax.swing.JMenu();
+      jMenuItem8 = new javax.swing.JMenuItem();
+      jMenuItem16 = new javax.swing.JMenuItem();
+      jMenuItem15 = new javax.swing.JMenuItem();
       jMenu5 = new javax.swing.JMenu();
       jMenu7 = new javax.swing.JMenu();
       jMenu6 = new javax.swing.JMenu();
@@ -668,6 +679,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jMenuBar1.add(jMenu3);
 
       jMenu4.setText("Fuente");
+
+      jMenu8.setText("Ventana");
+
+      jMenuItem5.setText("jMenuItem5");
+      jMenu8.add(jMenuItem5);
+
+      jMenuItem6.setText("jMenuItem6");
+      jMenu8.add(jMenuItem6);
+
+      jMenuItem7.setText("jMenuItem7");
+      jMenu8.add(jMenuItem7);
+
+      jMenu4.add(jMenu8);
+
+      jMenu9.setText("Código");
+
+      jMenuItem8.setText("jMenuItem8");
+      jMenu9.add(jMenuItem8);
+
+      jMenuItem16.setText("jMenuItem16");
+      jMenu9.add(jMenuItem16);
+
+      jMenuItem15.setText("jMenuItem15");
+      jMenu9.add(jMenuItem15);
+
+      jMenu4.add(jMenu9);
+
       jMenuBar1.add(jMenu4);
 
       jMenu5.setText("Opciones");
@@ -982,7 +1020,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          //Barra de scroll redondeada
          UIManager.put("ScrollBar.thumbArc", 999);
          UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-
+         
       } catch (Exception e) {
       }
       java.awt.EventQueue.invokeLater(new Runnable() {
@@ -990,6 +1028,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             new VentanaPrincipal().setVisible(true);
          }
       });
+
    }
 
    private void llenarTS() {
@@ -1035,6 +1074,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }//metodo while para remover los renglones de la tabla
    }
 
+   
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton anLexButton;
    private javax.swing.JPanel contenedorBaseLexico;
@@ -1048,6 +1088,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JMenu jMenu5;
    private javax.swing.JMenu jMenu6;
    private javax.swing.JMenu jMenu7;
+   private javax.swing.JMenu jMenu8;
+   private javax.swing.JMenu jMenu9;
    private javax.swing.JMenuBar jMenuBar1;
    private javax.swing.JMenuItem jMenuItem1;
    private javax.swing.JMenuItem jMenuItem10;
@@ -1055,9 +1097,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JMenuItem jMenuItem12;
    private javax.swing.JMenuItem jMenuItem13;
    private javax.swing.JMenuItem jMenuItem14;
+   private javax.swing.JMenuItem jMenuItem15;
+   private javax.swing.JMenuItem jMenuItem16;
    private javax.swing.JMenuItem jMenuItem2;
    private javax.swing.JMenuItem jMenuItem3;
    private javax.swing.JMenuItem jMenuItem4;
+   private javax.swing.JMenuItem jMenuItem5;
+   private javax.swing.JMenuItem jMenuItem6;
+   private javax.swing.JMenuItem jMenuItem7;
+   private javax.swing.JMenuItem jMenuItem8;
    private javax.swing.JMenuItem jMenuItem9;
    private javax.swing.JScrollPane jScrollPane1;
    private javax.swing.JScrollPane jScrollPane2;
