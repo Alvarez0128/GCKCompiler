@@ -34,4 +34,10 @@ public class Token {
     public int getColumn(){
        return columna;
     }
+    
+    
+    @Override
+    public String toString() {
+        return "Token(" + this.lexema + ", " + this.grupoLexico + ", " + this.linea + ", " + this.columna + ")";
+    }
 }

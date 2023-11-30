@@ -3,6 +3,7 @@ package GUI;
 import AnalisisLexico.ErrorToken;
 import AnalisisLexico.Lexer;
 import AnalisisLexico.Token;
+import AnalisisSintactico.Grammar;
 import com.formdev.flatlaf.icons.FlatTabbedPaneCloseIcon;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import java.awt.AWTKeyStroke;
@@ -30,10 +31,7 @@ import org.fife.ui.rtextarea.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
@@ -105,6 +103,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       txtResultado = new javax.swing.JTextPane();
       jToolBar1 = new javax.swing.JToolBar();
       anLexButton = new javax.swing.JButton();
+      jButton2 = new javax.swing.JButton();
       tsButton = new javax.swing.JButton();
       jToolBar2 = new javax.swing.JToolBar();
       jButton1 = new javax.swing.JButton();
@@ -519,6 +518,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          }
       });
       jToolBar1.add(anLexButton);
+
+      jButton2.setText("Análisis Sintáctico");
+      jButton2.setFocusable(false);
+      jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+      jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+      jButton2.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton2ActionPerformed(evt);
+         }
+      });
+      jToolBar1.add(jButton2);
 
       tsButton.setText("Tabla de símbolos");
       tsButton.setFocusable(false);
@@ -950,6 +960,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
    }//GEN-LAST:event_txtResultadoMouseWheelMoved
 
+   private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      Grammar gramatica = new Grammar(simbolos, errores);
+      
+      gramatica.show();
+   }//GEN-LAST:event_jButton2ActionPerformed
+
    private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
       try {
          Theme theme = Theme.load(new FileInputStream("byMe.xml"));
@@ -962,6 +978,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private void RSyntax() {
       RSyntaxTextArea textArea = new RSyntaxTextArea();
       RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+      
+      //METODO PARA HACER ZOOM AL CODIGO
       scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
          public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
             if (evt.isControlDown()) {
@@ -1020,7 +1038,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          //Barra de scroll redondeada
          UIManager.put("ScrollBar.thumbArc", 999);
          UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-         
+
       } catch (Exception e) {
       }
       java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1037,7 +1055,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       dm.setRowCount(0);
       for (Token entry : simbolos) {
          if (entry.grupoLexico.equals("Identificador")) {
-            Object[] campos = {entry.lexema, "@" + entry.toString().split("@")[1], entry.linea, entry.columna};
+            Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
             dm.addRow(campos);
          }
       }
@@ -1074,13 +1092,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }//metodo while para remover los renglones de la tabla
    }
 
-   
+
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton anLexButton;
    private javax.swing.JPanel contenedorBaseLexico;
    private javax.swing.JPanel contenedorBaseTS;
    private javax.swing.JPanel contenedorBaseTS1;
    private javax.swing.JButton jButton1;
+   private javax.swing.JButton jButton2;
    private javax.swing.JMenu jMenu1;
    private javax.swing.JMenu jMenu2;
    private javax.swing.JMenu jMenu3;
