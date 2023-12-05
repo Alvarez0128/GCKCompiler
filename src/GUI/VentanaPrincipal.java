@@ -45,6 +45,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    public ArrayList<Token> simbolos = null;
    public ArrayList<ErrorToken> errores = null;
    private Directory directorio;
+   int[] edad = {45,};
 
    public VentanaPrincipal() {
       initComponents();
@@ -102,8 +103,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jScrollPane3 = new javax.swing.JScrollPane();
       txtResultado = new javax.swing.JTextPane();
       jToolBar1 = new javax.swing.JToolBar();
-      anLexButton = new javax.swing.JButton();
-      jButton2 = new javax.swing.JButton();
+      compilationButton = new javax.swing.JButton();
       tsButton = new javax.swing.JButton();
       jToolBar2 = new javax.swing.JToolBar();
       jButton1 = new javax.swing.JButton();
@@ -508,27 +508,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       jToolBar1.setRollover(true);
 
-      anLexButton.setText("Análisis Léxico");
-      anLexButton.setFocusable(false);
-      anLexButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-      anLexButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-      anLexButton.addActionListener(new java.awt.event.ActionListener() {
+      compilationButton.setText("Compilar");
+      compilationButton.setFocusable(false);
+      compilationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+      compilationButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+      compilationButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            anLexButtonActionPerformed(evt);
+            compilationButtonActionPerformed(evt);
          }
       });
-      jToolBar1.add(anLexButton);
-
-      jButton2.setText("Análisis Sintáctico");
-      jButton2.setFocusable(false);
-      jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-      jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-      jButton2.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton2ActionPerformed(evt);
-         }
-      });
-      jToolBar1.add(jButton2);
+      jToolBar1.add(compilationButton);
 
       tsButton.setText("Tabla de símbolos");
       tsButton.setFocusable(false);
@@ -849,74 +838,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
        ventanaTS.setVisible(true);
     }//GEN-LAST:event_tsButtonActionPerformed
 
-    private void anLexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anLexButtonActionPerformed
-       String texto = "";
-       int indicePanelActivo = panelContenedorPestañas.getSelectedIndex(); // Obtiene el índice del panel activo
-       if (indicePanelActivo != -1) { // Asegúrate de que haya un panel activo seleccionado
-          Component componente = panelContenedorPestañas.getComponentAt(indicePanelActivo); // Obtiene el componente en el panel activo
-          if (componente instanceof JScrollPane) { // Comprueba si el componente es un JScrollPane
-             JScrollPane scrollPane = (JScrollPane) componente; // Convierte el componente en JScrollPane
-             Component componenteInterno = scrollPane.getViewport().getView(); // Obtiene el componente interno (en este caso, el JTextArea)
-             if (componenteInterno instanceof JTextArea) { // Comprueba si el componente interno es un JTextArea
-                JTextArea textArea = (JTextArea) componenteInterno; // Convierte el componente interno en JTextArea
-                texto += textArea.getText(); // Obtiene el texto del JTextArea
-                // Ahora, 'texto' contiene el texto del JTextArea en el panel activo
-
-             }
-          }
-       }
-       //simbolos.clear();
-       File archivo = new File("codigo.txt");
-       PrintWriter escribir;
-       DefaultTableModel Tabla = (DefaultTableModel) jTable1.getModel();
-       vaciarTabla(Tabla, jTable1);
-       try {
-          escribir = new PrintWriter(archivo);
-          escribir.print(texto);
-          escribir.close();
-       } catch (FileNotFoundException ex) {
-          Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-       }
-
-       try {
-          Reader lector = new BufferedReader(new FileReader("codigo.txt"));
-          Lexer lexer = new Lexer(lector);
-          txtResultado.setForeground(Color.green);
-
-          Object[] row = new Object[2];
-
-          jSplitPane4.setDividerLocation(0.75);
-
-          pantalla.setVisible(true);
-          ventanaLexico.setVisible(true);
-
-          while (true) {
-
-             if (lexer.yylex() == null) {
-                simbolos = lexer.tablaToken.getTokens();
-                errores = lexer.tablaError.getErrores();
-                llenarTS();
-                llenarTabla();
-
-                if (errores.isEmpty()) {
-                   txtResultado.setForeground(new Color(120, 212, 110));
-                   txtResultado.setText("-> Análisis finalizado sin errores");
-                } else {
-                   txtResultado.setForeground(new Color(219, 88, 88));
-                   mostrarErrores();
-                }
-
-                return;
-             }
-
-          }
-       } catch (FileNotFoundException ex) {
-          Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-       } catch (IOException ex) {
-          Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-       }
-    }//GEN-LAST:event_anLexButtonActionPerformed
-
     private void menuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarActionPerformed
        directorio.Save();
     }//GEN-LAST:event_menuGuardarActionPerformed
@@ -960,11 +881,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
    }//GEN-LAST:event_txtResultadoMouseWheelMoved
 
-   private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      Grammar gramatica = new Grammar(simbolos, errores);
-      
-      gramatica.show();
-   }//GEN-LAST:event_jButton2ActionPerformed
+   private void compilationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilationButtonActionPerformed
+      analisisLexico();
+      analisisSintactico();
+      mostrarErrores();
+   }//GEN-LAST:event_compilationButtonActionPerformed
 
    private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
       try {
@@ -978,7 +899,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private void RSyntax() {
       RSyntaxTextArea textArea = new RSyntaxTextArea();
       RTextScrollPane scrollPane = new RTextScrollPane(textArea);
-      
+
       //METODO PARA HACER ZOOM AL CODIGO
       scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
          public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
@@ -1049,6 +970,81 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
    }
 
+   private void analisisLexico() {
+      String texto = "";
+      int indicePanelActivo = panelContenedorPestañas.getSelectedIndex(); // Obtiene el índice del panel activo
+      if (indicePanelActivo != -1) { // Asegúrate de que haya un panel activo seleccionado
+         Component componente = panelContenedorPestañas.getComponentAt(indicePanelActivo); // Obtiene el componente en el panel activo
+         if (componente instanceof JScrollPane) { // Comprueba si el componente es un JScrollPane
+            JScrollPane scrollPane = (JScrollPane) componente; // Convierte el componente en JScrollPane
+            Component componenteInterno = scrollPane.getViewport().getView(); // Obtiene el componente interno (en este caso, el JTextArea)
+            if (componenteInterno instanceof JTextArea) { // Comprueba si el componente interno es un JTextArea
+               JTextArea textArea = (JTextArea) componenteInterno; // Convierte el componente interno en JTextArea
+               texto += textArea.getText(); // Obtiene el texto del JTextArea
+               // Ahora, 'texto' contiene el texto del JTextArea en el panel activo
+
+            }
+         }
+      }
+      //simbolos.clear();
+      File archivo = new File("codigo.txt");
+      PrintWriter escribir;
+      DefaultTableModel Tabla = (DefaultTableModel) jTable1.getModel();
+      vaciarTabla(Tabla, jTable1);
+      try {
+         escribir = new PrintWriter(archivo);
+         escribir.print(texto);
+         escribir.close();
+      } catch (FileNotFoundException ex) {
+         Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
+      try {
+         Reader lector = new BufferedReader(new FileReader("codigo.txt"));
+         Lexer lexer = new Lexer(lector);
+         txtResultado.setForeground(Color.green);
+
+         Object[] row = new Object[2];
+
+         jSplitPane4.setDividerLocation(0.75);
+
+         pantalla.setVisible(true);
+         ventanaLexico.setVisible(true);
+
+         while (true) {
+
+            if (lexer.yylex() == null) {
+               simbolos = lexer.tablaToken.getTokens();
+               errores = lexer.tablaError.getErrores();
+               llenarTS();
+               llenarTabla();
+               
+               return;
+            }
+         }
+      } catch (FileNotFoundException ex) {
+         Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (IOException ex) {
+         Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+      }
+   }
+
+   private void analisisSintactico() {
+      Grammar gramatica = new Grammar(simbolos, errores);
+      /*Agrupacion de valores*/
+      gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
+
+      /*Gramática Declaracion de variables*/
+      gramatica.group("VARIABLE", "TIPO_DATO Identificador OpAsignacion VALOR",true);
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO OpAsignacion VALOR", 11, "Se esperaba un identificador");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador OpAsignacion", 12, "Se esperaba un valor para la variable");
+      gramatica.group("ERROR_VARIABLE", "Identificador OpAsignacion VALOR", 13, "Se esperaba un tipo de dato para la variable");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO", 13, "Se esperaba una declaracion de variable");
+
+      gramatica.show();
+   }
+
    private void llenarTS() {
 
       DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
@@ -1075,12 +1071,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }
 
    private void mostrarErrores() {
-
-      txtResultado.setText("");
-      for (ErrorToken entry : errores) {
-         txtResultado.setText(txtResultado.getText() + "\n" + entry.toString());
+      int errorSize = errores.size();
+      if (errorSize > 0) {
+         txtResultado.setForeground(new Color(219, 88, 88));
+         txtResultado.setText("");
+         for (ErrorToken error : errores) {
+            txtResultado.setText(txtResultado.getText() + "\n" + String.valueOf(error));
+         }
+         txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Análisis finalizado con errores");
+      }else{
+         txtResultado.setForeground(new Color(120, 212, 110));
+         txtResultado.setText("-> Análisis finalizado sin errores");
       }
-      txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Análisis finalizado con errores");
+
    }
 
    public static void vaciarTabla(DefaultTableModel Modelo, JTable JT) {
@@ -1094,12 +1097,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton anLexButton;
+   private javax.swing.JButton compilationButton;
    private javax.swing.JPanel contenedorBaseLexico;
    private javax.swing.JPanel contenedorBaseTS;
    private javax.swing.JPanel contenedorBaseTS1;
    private javax.swing.JButton jButton1;
-   private javax.swing.JButton jButton2;
    private javax.swing.JMenu jMenu1;
    private javax.swing.JMenu jMenu2;
    private javax.swing.JMenu jMenu3;

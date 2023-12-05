@@ -140,9 +140,9 @@ public class Grammar {
 
                                 if (var6 != null) {
                                     if (this.indexComponentInt) {
-                                        this.errors.add(new ErrorToken(var5, var6, var18, this.lineaColumnaIni));
+                                        this.errors.add(new ErrorToken("Sintáctico",var5, var6, var18, this.lineaColumnaIni));
                                     } else {
-                                        this.errors.add(new ErrorToken(var5, var6, var17, this.lineaColumnaIni));
+                                        this.errors.add(new ErrorToken("Sintáctico",var5, var6, var17, this.lineaColumnaIni));
                                     }
                                 }
 
@@ -178,9 +178,9 @@ public class Grammar {
 
                                 if (var6 != null) {
                                     if (this.indexComponentInt) {
-                                        this.errors.add(new ErrorToken(var5, var6, var18, this.lineaColumnaIni));
+                                        this.errors.add(new ErrorToken("Sintáctico",var5, var6, var18, this.lineaColumnaIni));
                                     } else {
-                                        this.errors.add(new ErrorToken(var5, var6, var17, this.lineaColumnaIni));
+                                        this.errors.add(new ErrorToken("Sintáctico",var5, var6, var17, this.lineaColumnaIni));
                                     }
                                 }
 
@@ -427,7 +427,7 @@ public class Grammar {
                 Production var7 = (Production)this.producciones.get(var6);
                 if (var7.nameEqualTo(var1)) {
                     if (var3 != null) {
-                        this.errors.add(new ErrorToken(var2, var3, var7, this.lineaColumnaIni));
+                        this.errors.add(new ErrorToken("Sintáctico",var2, var3, var7, this.lineaColumnaIni));
                     }
 
                     this.producciones.remove(var6);
@@ -471,9 +471,9 @@ public class Grammar {
                 Production var6 = (Production)this.producciones.get(var5);
                 if (var6.nameEqualTo(var1)) {
                     if (var6.getSizeTokens() > 1) {
-                        this.errors.add(new ErrorToken(var2, " × Error sintáctico {}: No se esperaba encontrar los tokens \"[]\", favor de eliminarlos [#, %]", var6, this.lineaColumnaIni));
+                        this.errors.add(new ErrorToken("Sintáctico",var2, " × Error sintáctico {}: No se esperaba encontrar los tokens \"[]\", favor de eliminarlos [#, %]", var6, this.lineaColumnaIni));
                     } else {
-                        this.errors.add(new ErrorToken(var2, " × Error sintáctico {}: No se esperaba encontrar el token \"[]\", favor de eliminarlo [#, %]", var6, this.lineaColumnaIni));
+                        this.errors.add(new ErrorToken("Sintáctico",var2, " × Error sintáctico {}: No se esperaba encontrar el token \"[]\", favor de eliminarlo [#, %]", var6, this.lineaColumnaIni));
                     }
 
                     this.producciones.remove(var5);

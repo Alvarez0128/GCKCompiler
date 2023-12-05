@@ -23,7 +23,7 @@ CualquierCaracterExceptoComillasDoblesOBarraInvertida   = ([^\\\"\n])
 CualquierCaracterExceptoApostrofeOBarrainvertida = ([^\\'])
 NoSeparador = ([^\t\f\r\n\ \(\)\{\}\[\]\,\.\=\>\<\!\:\+\-\*\/\&\|\^\#\%\"\'a-zA-ZñÑ_áéíóúüÁÉÍÓÚÜ0-9] |"\\")
 EntradaCaracter = [^\r\n]
-EntradaCaracterMultln = [^"-/"]+ 
+EntradaCaracterMultln = [^"-/"]+
 espacio={FinalDeLinea} | [ \t\f]
 ComentarioSimple = ("//"{EntradaCaracter}*{FinalDeLinea}*) | ("#"{EntradaCaracter}*{FinalDeLinea}*)
 ComentarioMultilinea = "/-"{EntradaCaracterMultln}*"-/"
@@ -138,15 +138,17 @@ OpLogicoFaltanteAND = \&
    
    {CadChar}                   {tablaToken.insertar(new Token(yytext(),"CadenaCaracter",yyline+1,yycolumn+1));}
    {CadenaCaracteres}          {tablaToken.insertar(new Token(yytext(),"CadenaCaracteres",yyline+1,yycolumn+1));} 
+
+
    {CadCaracteresError}        {tablaError.insertar(new ErrorToken(1,"Léxico","Se esperaba otra \". Verifica que la cadena de caracteres sea válida",yytext(),yyline+1,yycolumn+1));}
    {CadCharError}              {tablaError.insertar(new ErrorToken(2,"Léxico","Se esperaba otra \'. Verifica que la cadena de caracter sea válida",yytext(),yyline+1,yycolumn+1));}
    {CadCharError2}             {tablaError.insertar(new ErrorToken(3,"Léxico","Longitud excedida. Se esperaba un caracter",yytext(),yyline+1,yycolumn+1));}
    {OpLogicoFaltanteOR}        {tablaError.insertar(new ErrorToken(4,"Léxico","Se esperaba otro caracter |",yytext(),yyline+1,yycolumn+1));}
-   {OpLogicoFaltanteAND}       {tablaError.insertar(new ErrorToken(4,"Léxico","Se esperaba otro caracter &",yytext(),yyline+1,yycolumn+1));}
-   {NumFloatError}             {tablaError.insertar(new ErrorToken(5,"Léxico","Número decimal inválido. Verifica que coincida con el formato #.#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));}
-   {NumEntError}               {tablaError.insertar(new ErrorToken(6,"Léxico","Número inválido. Verifica que coincida con el formato +# ó -#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));}
-   {ReservadaError}            {tablaError.insertar(new ErrorToken(7,"Léxico","La cadena escrita no se reconoce como palabra reservada ó identificador. Verifica que contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));}
-   {IdentificadorError}        {tablaError.insertar(new ErrorToken(8,"Léxico","Identificador inválido. Verifica que inicie con una letra y contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));}
+   {OpLogicoFaltanteAND}       {tablaError.insertar(new ErrorToken(5,"Léxico","Se esperaba otro caracter &",yytext(),yyline+1,yycolumn+1));}
+   {NumFloatError}             {tablaError.insertar(new ErrorToken(6,"Léxico","Número decimal inválido. Verifica que coincida con el formato #.#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));}
+   {NumEntError}               {tablaError.insertar(new ErrorToken(7,"Léxico","Número inválido. Verifica que coincida con el formato +# ó -#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));}
+   {ReservadaError}            {tablaError.insertar(new ErrorToken(8,"Léxico","La cadena escrita no se reconoce como palabra reservada ó identificador. Verifica que contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));}
+   {IdentificadorError}        {tablaError.insertar(new ErrorToken(9,"Léxico","Identificador inválido. Verifica que inicie con una letra y contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));}
     
    {Identificador}             {tablaToken.insertar(new Token(yytext(),"Identificador",yyline+1,yycolumn+1));}       
    {NumEntero}                 {tablaToken.insertar(new Token(yytext(),"NumEntero",yyline+1,yycolumn+1));} 

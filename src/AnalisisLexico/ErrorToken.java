@@ -27,7 +27,7 @@ public class ErrorToken {
         this.lexema = lexema;
     }
     
-    public ErrorToken(int var1, String var2, Token var3) {
+    public ErrorToken(String tipo,int var1, String var2, Token var3) {
         this.id = var1;
         this.descripcion = var2;
         this.lexema = var3.getLexeme();
@@ -35,7 +35,8 @@ public class ErrorToken {
         this.Column = var3.getColumn();
     }
 
-    public ErrorToken(int var1, String var2, Production var3, boolean var4) {
+    public ErrorToken(String tipo,int var1, String var2, Production var3, boolean var4) {
+        this.tipo = tipo;
         this.id = var1;
         this.descripcion = var2;
         this.lexema = var3.lexemeRank(0, -1);
