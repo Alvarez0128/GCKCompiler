@@ -4615,7 +4615,7 @@ public class Lexer {
             }
           case 59: break;
           case 10: 
-            { tablaError.insertar(new ErrorToken(4,"Léxico","Se esperaba otro caracter &",yytext(),yyline+1,yycolumn+1));
+            { tablaError.insertar(new ErrorToken(5,"Léxico","Se esperaba otro caracter &",yytext(),yyline+1,yycolumn+1));
             }
           case 60: break;
           case 11: 
@@ -4663,11 +4663,11 @@ public class Lexer {
             }
           case 71: break;
           case 22: 
-            { tablaError.insertar(new ErrorToken(8,"Léxico","Identificador inválido. Verifica que inicie con una letra y contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));
+            { tablaError.insertar(new ErrorToken(9,"Léxico","Identificador inválido. Verifica que inicie con una letra y contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));
             }
           case 72: break;
           case 23: 
-            { tablaError.insertar(new ErrorToken(5,"Léxico","Número decimal inválido. Verifica que coincida con el formato #.#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));
+            { tablaError.insertar(new ErrorToken(6,"Léxico","Número decimal inválido. Verifica que coincida con el formato #.#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));
             }
           case 73: break;
           case 24: 
@@ -4687,7 +4687,7 @@ public class Lexer {
             }
           case 77: break;
           case 28: 
-            { tablaError.insertar(new ErrorToken(7,"Léxico","La cadena escrita no se reconoce como palabra reservada ó identificador. Verifica que contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));
+            { tablaError.insertar(new ErrorToken(8,"Léxico","La cadena escrita no se reconoce como palabra reservada ó identificador. Verifica que contenga símbolos válidos e inténtalo de nuevo",yytext(),yyline+1,yycolumn+1));
             }
           case 78: break;
           case 29: 
@@ -4695,7 +4695,7 @@ public class Lexer {
             }
           case 79: break;
           case 30: 
-            { tablaError.insertar(new ErrorToken(6,"Léxico","Número inválido. Verifica que coincida con el formato +# ó -#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));
+            { tablaError.insertar(new ErrorToken(7,"Léxico","Número inválido. Verifica que coincida con el formato +# ó -#, donde # representa dígitos",yytext(),yyline+1,yycolumn+1));
             }
           case 80: break;
           case 31: 

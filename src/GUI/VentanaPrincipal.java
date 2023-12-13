@@ -1032,7 +1032,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       Grammar gramatica = new Grammar(simbolos, errores);
       /*Agrupacion de valores*/
       gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
-
+      
       /*Gramática Declaracion de variables*/
       gramatica.group("DECLARACION_VARIABLE", "TIPO_DATO Identificador OpAsignacion VALOR",true);
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
@@ -1051,7 +1051,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
       
       /*Agrupacion de funciones*/
-      gramatica.group("FUNCIONES", "");
+      gramatica.group("FUNCIONES", "PAREN_A PARAMETROS PAREN_C");
       
       gramatica.show();
    }

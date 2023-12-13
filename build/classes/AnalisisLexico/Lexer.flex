@@ -71,7 +71,6 @@ OpLogicoFaltanteAND = \&
    (A|a)(r|R)(r|R)(a|A)(y|Y) |
    (C|c)(o|O)(l|L)(o|O)(r|R) |
    (R|r)(e|E)(c|C)(t|T)2 |
-   (D|d)(i|I)(c|C)(t|T)(i|I)(o|O)(n|N)(a|A)(r|R)(y|Y) |
    (V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2 |
    (F|f)(i|I)(l|L)(e|E) |
    (A|a)(A|a)(B|b)(B|b) |

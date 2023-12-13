@@ -172,8 +172,7 @@ ReservadaError = ({NumFloat}|{ErrorNumFloatFormat})*{NoSeparador}+{Reservada} | 
     (c|C)(o|O)(l|L)(o|O)(r|R)|
     (r|R)(e|E)(c|C)(t|T)2|
     (e|E)(r|R)(r|R)(o|O)(r|R)|
-    (v|V)(e|E)(c|C)(t|T)(o|O)(r|R)2|
-    (d|D)(i|I)(c|C)(t|T)(i|I)(o|O)(n|N)(a|A)(r|R)(y|Y)      { addToken(Token.DATA_TYPE); }   
+    (v|V)(e|E)(c|C)(t|T)(o|O)(r|R)2     { addToken(Token.DATA_TYPE); }   
     
     /* bool */
     (t|T)(r|R)(u|U)(e|E)|
