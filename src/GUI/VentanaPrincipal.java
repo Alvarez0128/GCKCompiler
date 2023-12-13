@@ -276,32 +276,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             {"10", "Color"},
             {"11", "Rect2"},
             {"12", "importAll"},
-            {"13", "Dictionary"},
-            {"14", "extends"},
-            {"15", "Vector2"},
-            {"16", "File"},
-            {"17", "return"},
-            {"18", "new"},
-            {"19", "AABB"},
-            {"20", "TimeSpan"},
-            {"21", "Resource"},
-            {"22", "Object"},
-            {"23", "Start"},
-            {"24", "SceneTree"},
-            {"25", "PhysicsShape"},
-            {"26", "in"},
-            {"27", "class"},
-            {"28", "range"},
-            {"29", "void"},
-            {"30", "print"},
-            {"31", "PhysicsBody"},
-            {"32", "func"},
-            {"33", "Error"},
-            {"34", "for"},
-            {"35", "while"},
-            {"36", "if"},
-            {"37", "elif"},
-            {"38", "else"},
+            {"13", "extends"},
+            {"14", "Vector2"},
+            {"15", "File"},
+            {"16", "return"},
+            {"17", "new"},
+            {"18", "AABB"},
+            {"19", "TimeSpan"},
+            {"20", "Resource"},
+            {"21", "Object"},
+            {"22", "Start"},
+            {"23", "SceneTree"},
+            {"24", "PhysicsShape"},
+            {"25", "in"},
+            {"26", "class"},
+            {"27", "range"},
+            {"28", "void"},
+            {"29", "print"},
+            {"30", "PhysicsBody"},
+            {"31", "func"},
+            {"32", "Error"},
+            {"33", "for"},
+            {"34", "while"},
+            {"35", "if"},
+            {"36", "elif"},
+            {"37", "else"},
             {"38", "break"}
          },
          new String [] {
@@ -1016,7 +1015,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             if (lexer.yylex() == null) {
                simbolos = lexer.tablaToken.getTokens();
                errores = lexer.tablaError.getErrores();
-               llenarTS();
+               llenarTSIdentificadores();
                llenarTabla();
                
                return;
@@ -1035,17 +1034,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
 
       /*Gramática Declaracion de variables*/
-      gramatica.group("VARIABLE", "TIPO_DATO Identificador OpAsignacion VALOR",true);
+      gramatica.group("DECLARACION_VARIABLE", "TIPO_DATO Identificador OpAsignacion VALOR",true);
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO OpAsignacion VALOR", 11, "Se esperaba un identificador");
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador OpAsignacion", 12, "Se esperaba un valor para la variable");
       gramatica.group("ERROR_VARIABLE", "Identificador OpAsignacion VALOR", 13, "Se esperaba un tipo de dato para la variable");
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO", 13, "Se esperaba una declaracion de variable");
-
+      gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
+      
+      /*Eliminacion de operadores de asignacion y valores*/
+      gramatica.delete("OpAsignacion",15,"El operador de asignación no está en una declaración");
+      gramatica.delete("VALOR",16,"El valor no está en una declaración");
+      
+      /*Agrupacion de identificadores como valores y definicion de parametros*/
+      gramatica.group("VALOR", "IDENTIFICADOR",true);
+      gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
+      
+      /*Agrupacion de funciones*/
+      gramatica.group("FUNCIONES", "");
+      
       gramatica.show();
    }
 
-   private void llenarTS() {
+   private void llenarTSIdentificadores() {
 
       DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
       dm.setRowCount(0);
@@ -1057,7 +1068,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
       jTableTS.setModel(dm);
    }
+   
+   private void llenarTSArreglos() {
 
+      DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
+      dm.setRowCount(0);
+      for (Token entry : simbolos) {
+         if (entry.grupoLexico.equals("Identificador")) {
+            Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
+            dm.addRow(campos);
+         }
+      }
+      jTableTS.setModel(dm);
+   }
+   
+   private void llenarTSFunciones() {
+
+      DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
+      dm.setRowCount(0);
+      for (Token entry : simbolos) {
+         if (entry.grupoLexico.equals("Identificador")) {
+            Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
+            dm.addRow(campos);
+         }
+      }
+      jTableTS.setModel(dm);
+   }
+   
    private void llenarTabla() {
 
       DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
@@ -1078,10 +1115,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          for (ErrorToken error : errores) {
             txtResultado.setText(txtResultado.getText() + "\n" + String.valueOf(error));
          }
-         txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Análisis finalizado con errores");
+         txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Compilación finalizada con errores");
       }else{
          txtResultado.setForeground(new Color(120, 212, 110));
-         txtResultado.setText("-> Análisis finalizado sin errores");
+         txtResultado.setText("-> Compilación finalizada sin errores");
       }
 
    }

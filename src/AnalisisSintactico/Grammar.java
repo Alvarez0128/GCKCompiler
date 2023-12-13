@@ -25,7 +25,7 @@ public class Grammar {
             this.producciones.add(new Production(var1x));
         });
         this.errors = var2;
-        String var3 = " Grammar v0.68 (By Yisus Efebei and M45t3r L3g10n) ";
+        String var3 = " GCK Compiler ";
         String var4 = "Gramática generada con éxito, se crearon " + this.producciones.size() + " producciones";
         String var5 = "Todos los componentes están listos para su ejecución";
         int var6 = var4.length() + 6;
