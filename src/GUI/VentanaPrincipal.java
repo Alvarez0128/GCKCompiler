@@ -1181,13 +1181,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
 
       /*Eliminacion de operadores de asignacion y valores*/
-      gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
+      //gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
       gramatica.delete("CONSTANTE", 17, "Se esperaba una declaración de variable");
       //gramatica.delete("VALOR", 16, "El valor no está en una declaración");
       //gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
 
       /*Agrupacion de identificadores como valores y definicion de parametros*/
       gramatica.group("VALOR", "Identificador");
+      gramatica.group("COLORS", "VALOR COMA VALOR COMA VALOR");
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
 
       /*Agrupacion de funciones*/
@@ -1196,6 +1197,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
       
       gramatica.delete("FUNCION_INTERNA", 18, "La función no está declarada correctamente");
+      
+      /*Gramatica para declaras colores*/
+      //gramatica.group("COLOR_VAL", "PAREN_A NumEntero COMA NumEntero COMA NumEntero PAREN_C");
+      gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");
       
       gramatica.show();
    }

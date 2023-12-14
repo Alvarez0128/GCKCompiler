@@ -69,7 +69,6 @@ OpLogicoFaltanteAND = \&
    (S|s)(t|T)(r|R)(i|I)(n|N)(g|G) |
    (b|B)(o|O)(o|O)(l|L) |
    (A|a)(r|R)(r|R)(a|A)(y|Y) |
-   (C|c)(o|O)(l|L)(o|O)(r|R) |
    (O|o)(b|B)(j|J)(e|E)(c|C)(t|T) | 
    (R|r)(e|E)(c|C)(t|T)2 |
    (V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2 |
@@ -89,6 +88,8 @@ OpLogicoFaltanteAND = \&
    
    (i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)      {tablaToken.insertar(new Token(yytext(),"IMPORT",yyline+1,yycolumn+1));}  
    
+   
+   (C|c)(o|O)(l|L)(o|O)(r|R)                          {tablaToken.insertar(new Token(yytext(),"COLOR",yyline+1,yycolumn+1));}
    (e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)                {tablaToken.insertar(new Token(yytext(),"EXTENDS",yyline+1,yycolumn+1));}
    (n|N)(e|E)(w|W)                                    {tablaToken.insertar(new Token(yytext(),"NEW",yyline+1,yycolumn+1));}
    (r|R)(e|E)(t|T)(u|U)(r|R)(n|N)                     {tablaToken.insertar(new Token(yytext(),"RETURN",yyline+1,yycolumn+1));}
