@@ -1181,19 +1181,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
 
       /*Eliminacion de operadores de asignacion y valores*/
-      gramatica.delete("OpAsignacion", 15, "El operador de asignación no está en una declaración");
-      gramatica.delete("CONSTANTE", 15, "Se esperaba una declaración de variable");
-      gramatica.delete("VALOR", 16, "El valor no está en una declaración");
-      gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
+      gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
+      gramatica.delete("CONSTANTE", 17, "Se esperaba una declaración de variable");
+      //gramatica.delete("VALOR", 16, "El valor no está en una declaración");
+      //gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
 
       /*Agrupacion de identificadores como valores y definicion de parametros*/
-      gramatica.group("VALOR", "Identificador", true);
+      gramatica.group("VALOR", "Identificador");
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
 
       /*Agrupacion de funciones*/
-      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)? PAREN_C");
+      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C");
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
+      
+      gramatica.delete("FUNCION_INTERNA", 18, "La función no está declarada correctamente");
       
       gramatica.show();
    }

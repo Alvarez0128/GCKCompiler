@@ -1,4 +1,1 @@
-func correr(int x){
-	
-}
-array[string] posiciones=["a","n"]
+inputeventkey(
