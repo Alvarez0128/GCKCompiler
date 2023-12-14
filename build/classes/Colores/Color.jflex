@@ -127,7 +127,7 @@ Separator2            = ([,.:])
 Identificador            = ({IdentificadorIni}{IdentificadorCuerpo}*)   
 IdentificadorError = ({Digit}{Identificador} | {NoSeparador}+{Identificador}{NoSeparador}* | {NoSeparador}*{Identificador}{NoSeparador}+ | {Identificador}{NoSeparador}+{Identificador})+
 
-Reservada = (i|I)(n|N)(t|T)|(f|F)(l|L)(o|O)(a|A)(t|T)|(c|C)(o|O)(n|N)(s|S)(t|T)|(c|C)(h|H)(a|A)(r|R)|(S|s)(t|T)(r|R)(i|I)(n|N)(g|G)|(b|B)(o|O)(o|O)(l|L)|(A|a)(r|R)(r|R)(a|A)(y|Y)|(C|c)(o|O)(l|L)(o|O)(r|R)|(R|r)(e|E)(c|C)(t|T)2|(D|d)(i|I)(c|C)(t|T)(i|I)(o|O)(n|N)(a|A)(r|R)(y|Y)|(e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)|(V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2|(F|f)(i|I)(l|L)(e|E)|(r|R)(e|E)(t|T)(u|U)(r|R)(n|N)|(n|N)(e|E)(w|W)|(A|a)(A|a)(B|b)(B|b)|(T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N)|(R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E)|(O|o)(b|B)(j|J)(e|E)(c|C)(t|T)|(S|s)(t|T)(a|A)(r|R)(t|T)|(S|s)(c|C)(e|E)(n|N)(e|E)(T|t)(r|R)(e|E)(e|E)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E)|(c|C)(l|L)(a|A)(s|S)(s|S)|(v|V)(o|O)(i|I)(d|D)|(p|P)(r|R)(i|I)(n|N)(t|T)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y)|(r|R)(a|A)(n|N)(g|G)(e|E)|(f|F)(u|U)(n|N)(c|C)|(E|e)(r|R)(r|R)(o|O)(r|R)|(f|F)(o|O)(r|R)|(w|W)(h|H)(i|I)(l|L)(e|E)|(i|I)(f|F)|(e|E)(l|L)(i|I)(f|F)|(e|E)(l|L)(s|S)(e|E)|(t|T)(r|R)(u|U)(e|E)|(f|F)(a|A)(l|L)(s|S)(e|E)|(b|B)(r|R)(e|E)(a|A)(k|K)|(i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)|(i|I)(n|N)
+Reservada = (i|I)(n|N)(t|T)|(f|F)(l|L)(o|O)(a|A)(t|T)|(c|C)(o|O)(n|N)(s|S)(t|T)|(c|C)(h|H)(a|A)(r|R)|(S|s)(t|T)(r|R)(i|I)(n|N)(g|G)|(b|B)(o|O)(o|O)(l|L)|(A|a)(r|R)(r|R)(a|A)(y|Y)|(C|c)(o|O)(l|L)(o|O)(r|R)|(R|r)(e|E)(c|C)(t|T)2|(D|d)(i|I)(c|C)(t|T)(i|I)(o|O)(n|N)(a|A)(r|R)(y|Y)|(e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)|(V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2|(F|f)(i|I)(l|L)(e|E)|(r|R)(e|E)(t|T)(u|U)(r|R)(n|N)|(n|N)(e|E)(w|W)|(A|a)(A|a)(B|b)(B|b)|(T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N)|(R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E)|(O|o)(b|B)(j|J)(e|E)(c|C)(t|T)|(S|s)(t|T)(a|A)(r|R)(t|T)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E)|(c|C)(l|L)(a|A)(s|S)(s|S)|(v|V)(o|O)(i|I)(d|D)|(p|P)(r|R)(i|I)(n|N)(t|T)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y)|(r|R)(a|A)(n|N)(g|G)(e|E)|(f|F)(u|U)(n|N)(c|C)|(E|e)(r|R)(r|R)(o|O)(r|R)|(f|F)(o|O)(r|R)|(w|W)(h|H)(i|I)(l|L)(e|E)|(i|I)(f|F)|(e|E)(l|L)(i|I)(f|F)|(e|E)(l|L)(s|S)(e|E)|(t|T)(r|R)(u|U)(e|E)|(f|F)(a|A)(l|L)(s|S)(e|E)|(b|B)(r|R)(e|E)(a|A)(k|K)|(i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)|(i|I)(n|N)|(i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(k|K)(e|E)(y|Y)|(i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(m|M)(o|O)(u|U)(s|S)(e|E)(b|B)(u|U)(t|T)(t|T)(o|O)(n|N) 
 
 ReservadaError = ({NumFloat}|{ErrorNumFloatFormat})*{NoSeparador}+{Reservada} | {Reservada}{NoSeparador}+({NumFloat}|{ErrorNumFloatFormat})* | {Reservada}{IdentificadorError} | {IdentificadorError}{Reservada} | {Reservada}({NumFloat}|{ErrorNumFloatFormat})+
 
@@ -145,7 +145,6 @@ ReservadaError = ({NumFloat}|{ErrorNumFloatFormat})*{NoSeparador}+{Reservada} | 
     (n|N)(e|E)(w|W) |
     (a|A)(a|A)(b|B)(b|B) |
     (o|O)(b|B)(j|J)(e|E)(c|C)(t|T) |
-    (s|S)(c|C)(e|E)(n|N)(e|E)(t|T)(r|R)(e|E)(e|E) |
     (p|P)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(s|S)(h|H)(a|A)(p|P)(e|E) |
     (c|C)(l|L)(a|A)(s|S)(s|S) |
     (v|V)(o|O)(i|I)(d|D) |

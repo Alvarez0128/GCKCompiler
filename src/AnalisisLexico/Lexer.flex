@@ -70,18 +70,21 @@ OpLogicoFaltanteAND = \&
    (b|B)(o|O)(o|O)(l|L) |
    (A|a)(r|R)(r|R)(a|A)(y|Y) |
    (C|c)(o|O)(l|L)(o|O)(r|R) |
+   (O|o)(b|B)(j|J)(e|E)(c|C)(t|T) | 
    (R|r)(e|E)(c|C)(t|T)2 |
    (V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2 |
-   (F|f)(i|I)(l|L)(e|E) |
-   (A|a)(A|a)(B|b)(B|b) |
    (T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N) | 
    (R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E) |
-   (O|o)(b|B)(j|J)(e|E)(c|C)(t|T) | 
-   (S|s)(c|C)(e|E)(n|N)(e|E)(T|t)(r|R)(e|E)(e|E) |
-   (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E) | 
-   (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y) |
+   (A|a)(A|a)(B|b)(B|b) |
+   (F|f)(i|I)(l|L)(e|E) |
    (E|e)(r|R)(r|R)(o|O)(r|R)                          {tablaToken.insertar(new Token(yytext(),"TIPO_DATO",yyline+1,yycolumn+1));}
    
+
+   (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(k|K)(e|E)(y|Y) |
+   (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(m|M)(o|O)(u|U)(s|S)(e|E)(b|B)(u|U)(t|T)(t|T)(o|O)(n|N) |
+   (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E) | 
+   (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y) {tablaToken.insertar(new Token(yytext(),"FUNCION_INTERNA",yyline+1,yycolumn+1));}
+
    (c|C)(o|O)(n|N)(s|S)(t|T)                          {tablaToken.insertar(new Token(yytext(),"CONSTANTE",yyline+1,yycolumn+1));}  
    
    (i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)      {tablaToken.insertar(new Token(yytext(),"IMPORT",yyline+1,yycolumn+1));}  

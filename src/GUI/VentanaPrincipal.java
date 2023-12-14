@@ -4,6 +4,7 @@ import AnalisisLexico.ErrorToken;
 import AnalisisLexico.Lexer;
 import AnalisisLexico.Token;
 import AnalisisSintactico.Grammar;
+import TablasSimbolos.AnalizarFunciones;
 import com.formdev.flatlaf.icons.FlatTabbedPaneCloseIcon;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import java.awt.AWTKeyStroke;
@@ -42,7 +43,7 @@ import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-   public ArrayList<Token> simbolos = null;
+   public ArrayList<Token> ComponentesLexicos = null;
    public ArrayList<ErrorToken> errores = null;
    private Directory directorio;
    int[] edad = {45,};
@@ -84,7 +85,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       ventanaTSFija = new javax.swing.JFrame();
       contenedorBaseTS1 = new javax.swing.JPanel();
       scrollTS1 = new javax.swing.JScrollPane();
-      jTableTS1 = new javax.swing.JTable();
+      tablaIdentificadores = new javax.swing.JTable();
+      ventanaTSIdFunciones = new javax.swing.JFrame();
+      contenedorBaseTS2 = new javax.swing.JPanel();
+      jScrollPane4 = new javax.swing.JScrollPane();
+      tablaFunciones = new javax.swing.JTable();
+      ventanaTSIdArreglos = new javax.swing.JFrame();
+      contenedorBaseTS3 = new javax.swing.JPanel();
+      jScrollPane5 = new javax.swing.JScrollPane();
+      tablaArreglos = new javax.swing.JTable();
       panelContenedorPrincipal = new javax.swing.JPanel();
       jSplitPane2 = new javax.swing.JSplitPane();
       panelBaseIzquierdo = new javax.swing.JPanel();
@@ -105,8 +114,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jToolBar1 = new javax.swing.JToolBar();
       compilationButton = new javax.swing.JButton();
       tsButton = new javax.swing.JButton();
-      jToolBar2 = new javax.swing.JToolBar();
-      jButton1 = new javax.swing.JButton();
       jMenuBar1 = new javax.swing.JMenuBar();
       jMenu1 = new javax.swing.JMenu();
       menuNuevo = new javax.swing.JMenuItem();
@@ -143,6 +150,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jMenuItem3 = new javax.swing.JMenuItem();
       jMenuItem4 = new javax.swing.JMenuItem();
       jMenuItem1 = new javax.swing.JMenuItem();
+      TSMenu = new javax.swing.JMenu();
+      TSFijaMenu = new javax.swing.JMenuItem();
+      TSFunciones = new javax.swing.JMenuItem();
+      TSArreglos = new javax.swing.JMenuItem();
 
       ventanaLexico.setTitle("Análisis Léxico");
 
@@ -262,7 +273,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       ventanaTS.setIconImage(new FlatSVGIcon("assets/TS.svg").getImage());
 
-      jTableTS1.setModel(new javax.swing.table.DefaultTableModel(
+      ventanaTSFija.setTitle("Tabla Fija");
+
+      tablaIdentificadores.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
             {"1", "int"},
             {"2", "float"},
@@ -307,9 +320,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             "ID", "Lexema"
          }
       ));
-      jTableTS1.setShowGrid(true);
-      jTableTS1.setSurrendersFocusOnKeystroke(true);
-      scrollTS1.setViewportView(jTableTS1);
+      tablaIdentificadores.setShowGrid(true);
+      tablaIdentificadores.setSurrendersFocusOnKeystroke(true);
+      scrollTS1.setViewportView(tablaIdentificadores);
 
       javax.swing.GroupLayout contenedorBaseTS1Layout = new javax.swing.GroupLayout(contenedorBaseTS1);
       contenedorBaseTS1.setLayout(contenedorBaseTS1Layout);
@@ -345,7 +358,100 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addContainerGap())
       );
 
+      ventanaTSIdFunciones.setTitle("Tabla de funciones");
+
+      tablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
+         new Object [][] {
+
+         },
+         new String [] {
+            "Identificador", "Cantidad de parámetros", "Tipos de parámetros", "Dirección"
+         }
+      ) {
+         boolean[] canEdit = new boolean [] {
+            false, false, false, false
+         };
+
+         public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+         }
+      });
+      jScrollPane4.setViewportView(tablaFunciones);
+
+      javax.swing.GroupLayout contenedorBaseTS2Layout = new javax.swing.GroupLayout(contenedorBaseTS2);
+      contenedorBaseTS2.setLayout(contenedorBaseTS2Layout);
+      contenedorBaseTS2Layout.setHorizontalGroup(
+         contenedorBaseTS2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(contenedorBaseTS2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+            .addContainerGap())
+      );
+      contenedorBaseTS2Layout.setVerticalGroup(
+         contenedorBaseTS2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(contenedorBaseTS2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .addContainerGap())
+      );
+
+      ventanaTSIdFunciones.setSize(new java.awt.Dimension(500, 480));
+      ventanaTSIdFunciones.setLocationRelativeTo(null);
+      ventanaTSIdFunciones.setType(java.awt.Window.Type.POPUP);
+      // Layout setup code - not shown here
+      ventanaTSIdFunciones.setIconImage(new FlatSVGIcon("assets/TS.svg").getImage());
+
+      javax.swing.GroupLayout ventanaTSIdFuncionesLayout = new javax.swing.GroupLayout(ventanaTSIdFunciones.getContentPane());
+      ventanaTSIdFunciones.getContentPane().setLayout(ventanaTSIdFuncionesLayout);
+      ventanaTSIdFuncionesLayout.setHorizontalGroup(
+         ventanaTSIdFuncionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addComponent(contenedorBaseTS2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      );
+      ventanaTSIdFuncionesLayout.setVerticalGroup(
+         ventanaTSIdFuncionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addComponent(contenedorBaseTS2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      );
+
+      tablaArreglos.setModel(new javax.swing.table.DefaultTableModel(
+         new Object [][] {
+
+         },
+         new String [] {
+            "Nombre", "Dimension", "Tipos de elementos", "Direccion"
+         }
+      ));
+      jScrollPane5.setViewportView(tablaArreglos);
+
+      javax.swing.GroupLayout contenedorBaseTS3Layout = new javax.swing.GroupLayout(contenedorBaseTS3);
+      contenedorBaseTS3.setLayout(contenedorBaseTS3Layout);
+      contenedorBaseTS3Layout.setHorizontalGroup(
+         contenedorBaseTS3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+      );
+      contenedorBaseTS3Layout.setVerticalGroup(
+         contenedorBaseTS3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+      );
+
+      javax.swing.GroupLayout ventanaTSIdArreglosLayout = new javax.swing.GroupLayout(ventanaTSIdArreglos.getContentPane());
+      ventanaTSIdArreglos.getContentPane().setLayout(ventanaTSIdArreglosLayout);
+      ventanaTSIdArreglosLayout.setHorizontalGroup(
+         ventanaTSIdArreglosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(ventanaTSIdArreglosLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(contenedorBaseTS3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
+      );
+      ventanaTSIdArreglosLayout.setVerticalGroup(
+         ventanaTSIdArreglosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(ventanaTSIdArreglosLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(contenedorBaseTS3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
+      );
+
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setPreferredSize(new java.awt.Dimension(1079, 734));
 
       jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -492,7 +598,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          panelBaseDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(panelBaseDerechoLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
+            .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
             .addContainerGap())
       );
       panelBaseDerechoLayout.setVerticalGroup(
@@ -529,19 +635,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       });
       jToolBar1.add(tsButton);
 
-      jToolBar2.setRollover(true);
-
-      jButton1.setText("TS Fija");
-      jButton1.setFocusable(false);
-      jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-      jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-      jButton1.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton1ActionPerformed(evt);
-         }
-      });
-      jToolBar2.add(jButton1);
-
       javax.swing.GroupLayout panelContenedorPrincipalLayout = new javax.swing.GroupLayout(panelContenedorPrincipal);
       panelContenedorPrincipal.setLayout(panelContenedorPrincipalLayout);
       panelContenedorPrincipalLayout.setHorizontalGroup(
@@ -550,9 +643,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addContainerGap()
             .addComponent(jSplitPane2))
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorPrincipalLayout.createSequentialGroup()
-            .addGap(135, 135, 135)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
       );
@@ -560,9 +651,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          panelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorPrincipalLayout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(panelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addComponent(jSplitPane2)
             .addContainerGap())
@@ -741,6 +830,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       jMenuBar1.add(jMenu7);
 
+      TSMenu.setText("Tablas de símbolos");
+
+      TSFijaMenu.setText("TS Fija");
+      TSFijaMenu.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            TSFijaMenuActionPerformed(evt);
+         }
+      });
+      TSMenu.add(TSFijaMenu);
+
+      TSFunciones.setText("TS Funciones");
+      TSFunciones.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            TSFuncionesActionPerformed(evt);
+         }
+      });
+      TSMenu.add(TSFunciones);
+
+      TSArreglos.setText("TS Arreglos");
+      TSMenu.add(TSArreglos);
+
+      jMenuBar1.add(TSMenu);
+
       setJMenuBar(jMenuBar1);
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -845,10 +957,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       ventanaTSFija.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -885,6 +993,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       analisisSintactico();
       mostrarErrores();
    }//GEN-LAST:event_compilationButtonActionPerformed
+
+   private void TSFijaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TSFijaMenuActionPerformed
+      ventanaTSFija.setVisible(true);
+   }//GEN-LAST:event_TSFijaMenuActionPerformed
+
+   private void TSFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TSFuncionesActionPerformed
+      ventanaTSIdFunciones.setVisible(true);
+   }//GEN-LAST:event_TSFuncionesActionPerformed
 
    private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
       try {
@@ -985,11 +1101,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
          }
       }
+      DefaultTableModel TablaFunciones = (DefaultTableModel) tablaFunciones.getModel();
+      vaciarTabla(TablaFunciones, tablaFunciones);
+      AnalizarFunciones.analizarCodigo(texto,tablaFunciones);
+
       //simbolos.clear();
       File archivo = new File("codigo.txt");
       PrintWriter escribir;
-      DefaultTableModel Tabla = (DefaultTableModel) jTable1.getModel();
-      vaciarTabla(Tabla, jTable1);
+      DefaultTableModel Tabla = (DefaultTableModel) jTableTS.getModel();
+      vaciarTabla(Tabla, jTableTS);
       try {
          escribir = new PrintWriter(archivo);
          escribir.print(texto);
@@ -1013,11 +1133,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          while (true) {
 
             if (lexer.yylex() == null) {
-               simbolos = lexer.tablaToken.getTokens();
+               ComponentesLexicos = lexer.tablaToken.getTokens();
                errores = lexer.tablaError.getErrores();
                llenarTSIdentificadores();
-               llenarTabla();
-               
+
                return;
             }
          }
@@ -1029,30 +1148,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }
 
    private void analisisSintactico() {
-      Grammar gramatica = new Grammar(simbolos, errores);
+      Grammar gramatica = new Grammar(ComponentesLexicos, errores);
       /*Agrupacion de valores*/
       gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
-      
+
       /*Gramática Declaracion de variables*/
-      gramatica.group("DECLARACION_VARIABLE", "TIPO_DATO Identificador OpAsignacion VALOR",true);
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador OpAsignacion VALOR", true);
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador", true);
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO OpAsignacion VALOR", 11, "Se esperaba un identificador");
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador OpAsignacion", 12, "Se esperaba un valor para la variable");
       gramatica.group("ERROR_VARIABLE", "Identificador OpAsignacion VALOR", 13, "Se esperaba un tipo de dato para la variable");
-      gramatica.group("ERROR_VARIABLE", "TIPO_DATO", 13, "Se esperaba una declaracion de variable");
+      gramatica.group("ERROR_VARIABLE", "(CONSTANTE)? TIPO_DATO", 14, "Se esperaba una declaracion de variable");
       gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
-      
+
       /*Eliminacion de operadores de asignacion y valores*/
-      gramatica.delete("OpAsignacion",15,"El operador de asignación no está en una declaración");
-      gramatica.delete("VALOR",16,"El valor no está en una declaración");
-      
+      gramatica.delete("OpAsignacion", 15, "El operador de asignación no está en una declaración");
+      gramatica.delete("CONSTANTE", 15, "Se esperaba una declaración de variable");
+      gramatica.delete("VALOR", 16, "El valor no está en una declaración");
+      gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
+
       /*Agrupacion de identificadores como valores y definicion de parametros*/
-      gramatica.group("VALOR", "IDENTIFICADOR",true);
+      gramatica.group("VALOR", "Identificador", true);
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
-      
+
       /*Agrupacion de funciones*/
-      gramatica.group("FUNCIONES", "PAREN_A PARAMETROS PAREN_C");
-      
+      //gramatica.group("FUNCION", "");
       gramatica.show();
    }
 
@@ -1060,7 +1181,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
       dm.setRowCount(0);
-      for (Token entry : simbolos) {
+      for (Token entry : ComponentesLexicos) {
          if (entry.grupoLexico.equals("Identificador")) {
             Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
             dm.addRow(campos);
@@ -1068,12 +1189,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
       jTableTS.setModel(dm);
    }
-   
+
    private void llenarTSArreglos() {
 
       DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
       dm.setRowCount(0);
-      for (Token entry : simbolos) {
+      for (Token entry : ComponentesLexicos) {
          if (entry.grupoLexico.equals("Identificador")) {
             Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
             dm.addRow(campos);
@@ -1081,30 +1202,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
       jTableTS.setModel(dm);
    }
-   
+
    private void llenarTSFunciones() {
 
       DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
       dm.setRowCount(0);
-      for (Token entry : simbolos) {
+      for (Token entry : ComponentesLexicos) {
          if (entry.grupoLexico.equals("Identificador")) {
             Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
             dm.addRow(campos);
          }
       }
       jTableTS.setModel(dm);
-   }
-   
-   private void llenarTabla() {
-
-      DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
-      dm.setRowCount(0);
-
-      for (Token entry : simbolos) {
-         Object[] campos = {entry.lexema, entry.grupoLexico};
-         dm.addRow(campos);
-      }
-      jTable1.setModel(dm);
    }
 
    private void mostrarErrores() {
@@ -1116,7 +1225,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             txtResultado.setText(txtResultado.getText() + "\n" + String.valueOf(error));
          }
          txtResultado.setText(txtResultado.getText() + "\n\n" + "-> Compilación finalizada con errores");
-      }else{
+      } else {
          txtResultado.setForeground(new Color(120, 212, 110));
          txtResultado.setText("-> Compilación finalizada sin errores");
       }
@@ -1134,11 +1243,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JMenuItem TSArreglos;
+   private javax.swing.JMenuItem TSFijaMenu;
+   private javax.swing.JMenuItem TSFunciones;
+   private javax.swing.JMenu TSMenu;
    private javax.swing.JButton compilationButton;
    private javax.swing.JPanel contenedorBaseLexico;
    private javax.swing.JPanel contenedorBaseTS;
    private javax.swing.JPanel contenedorBaseTS1;
-   private javax.swing.JButton jButton1;
+   private javax.swing.JPanel contenedorBaseTS2;
+   private javax.swing.JPanel contenedorBaseTS3;
    private javax.swing.JMenu jMenu1;
    private javax.swing.JMenu jMenu2;
    private javax.swing.JMenu jMenu3;
@@ -1168,6 +1282,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JScrollPane jScrollPane1;
    private javax.swing.JScrollPane jScrollPane2;
    private javax.swing.JScrollPane jScrollPane3;
+   private javax.swing.JScrollPane jScrollPane4;
+   private javax.swing.JScrollPane jScrollPane5;
    private javax.swing.JPopupMenu.Separator jSeparator1;
    private javax.swing.JPopupMenu.Separator jSeparator2;
    private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -1179,9 +1295,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JTabbedPane jTabbedPane2;
    private javax.swing.JTable jTable1;
    private javax.swing.JTable jTableTS;
-   private javax.swing.JTable jTableTS1;
    private javax.swing.JToolBar jToolBar1;
-   private javax.swing.JToolBar jToolBar2;
    private javax.swing.JTree jTree1;
    private javax.swing.JTree jTree2;
    private javax.swing.JMenuItem menuAbrir;
@@ -1199,10 +1313,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JScrollPane scrollLexico;
    private javax.swing.JScrollPane scrollTS;
    private javax.swing.JScrollPane scrollTS1;
+   private javax.swing.JTable tablaArreglos;
+   private javax.swing.JTable tablaFunciones;
+   private javax.swing.JTable tablaIdentificadores;
    private javax.swing.JButton tsButton;
    private javax.swing.JTextPane txtResultado;
    private javax.swing.JFrame ventanaLexico;
    private javax.swing.JFrame ventanaTS;
    private javax.swing.JFrame ventanaTSFija;
+   private javax.swing.JFrame ventanaTSIdArreglos;
+   private javax.swing.JFrame ventanaTSIdFunciones;
    // End of variables declaration//GEN-END:variables
 }
