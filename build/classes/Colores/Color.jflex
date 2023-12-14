@@ -149,6 +149,8 @@ ReservadaError = ({NumFloat}|{ErrorNumFloatFormat})*{NoSeparador}+{Reservada} | 
     (c|C)(l|L)(a|A)(s|S)(s|S) |
     (v|V)(o|O)(i|I)(d|D) |
     (i|I)(n|N) |
+    (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(k|K)(e|E)(y|Y) |
+    (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(m|M)(o|O)(u|U)(s|S)(e|E)(b|B)(u|U)(t|T)(t|T)(o|O)(n|N) |
     (p|P)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(b|B)(o|O)(d|D)(y|Y) |
     (f|F)(u|U)(n|N)(c|C)    { addToken(Token.RESERVED_WORD); } 
 

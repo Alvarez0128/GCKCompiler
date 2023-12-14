@@ -433,6 +433,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JFrame" name="ventanaTSIdArreglos">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="ventanaTSIdArreglos.setSize(new java.awt.Dimension(500, 480));&#xa;ventanaTSIdArreglos.setLocationRelativeTo(null);&#xa;ventanaTSIdArreglos.setType(java.awt.Window.Type.POPUP);&#xa;// Layout setup code - not shown here&#xa;ventanaTSIdArreglos.setIconImage(new FlatSVGIcon(&quot;assets/TS.svg&quot;).getImage());"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -477,8 +480,9 @@
                 <Component class="javax.swing.JTable" name="tablaArreglos">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="0">
+                      <Table columnCount="5" rowCount="0">
                         <Column editable="true" title="Nombre" type="java.lang.Object"/>
+                        <Column editable="true" title="Tipo" type="java.lang.Object"/>
                         <Column editable="true" title="Dimension" type="java.lang.Object"/>
                         <Column editable="true" title="Tipos de elementos" type="java.lang.Object"/>
                         <Column editable="true" title="Direccion" type="java.lang.Object"/>
@@ -486,6 +490,11 @@
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -797,6 +806,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="TS Arreglos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TSArreglosActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

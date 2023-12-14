@@ -67,7 +67,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       setIconImage(new FlatSVGIcon("assets/GCK.svg").getImage());
 
       pantalla.setVisible(false);
-
    }
 
    @SuppressWarnings("unchecked")
@@ -417,7 +416,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
          },
          new String [] {
-            "Nombre", "Dimension", "Tipos de elementos", "Direccion"
+            "Nombre", "Tipo", "Dimension", "Tipos de elementos", "Direccion"
          }
       ));
       jScrollPane5.setViewportView(tablaArreglos);
@@ -432,6 +431,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          contenedorBaseTS3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
       );
+
+      ventanaTSIdArreglos.setSize(new java.awt.Dimension(500, 480));
+      ventanaTSIdArreglos.setLocationRelativeTo(null);
+      ventanaTSIdArreglos.setType(java.awt.Window.Type.POPUP);
+      // Layout setup code - not shown here
+      ventanaTSIdArreglos.setIconImage(new FlatSVGIcon("assets/TS.svg").getImage());
 
       javax.swing.GroupLayout ventanaTSIdArreglosLayout = new javax.swing.GroupLayout(ventanaTSIdArreglos.getContentPane());
       ventanaTSIdArreglos.getContentPane().setLayout(ventanaTSIdArreglosLayout);
@@ -849,6 +854,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       TSMenu.add(TSFunciones);
 
       TSArreglos.setText("TS Arreglos");
+      TSArreglos.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            TSArreglosActionPerformed(evt);
+         }
+      });
       TSMenu.add(TSArreglos);
 
       jMenuBar1.add(TSMenu);
@@ -1002,12 +1012,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       ventanaTSIdFunciones.setVisible(true);
    }//GEN-LAST:event_TSFuncionesActionPerformed
 
+   private void TSArreglosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TSArreglosActionPerformed
+      ventanaTSIdArreglos.setVisible(true);
+   }//GEN-LAST:event_TSArreglosActionPerformed
+
    private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
       try {
          Theme theme = Theme.load(new FileInputStream("byMe.xml"));
          theme.apply(textArea);
       } catch (IOException ioe) {
-         // Never happens
       }
    }
 
