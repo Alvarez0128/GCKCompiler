@@ -1,1 +1,4 @@
-int float x = 12
+func correr(int x){
+	
+}
+array[string] posiciones=["a","n"]

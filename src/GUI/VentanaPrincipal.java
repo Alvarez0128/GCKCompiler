@@ -411,12 +411,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          .addComponent(contenedorBaseTS2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       );
 
+      ventanaTSIdArreglos.setTitle("Tabla de arreglos");
+
       tablaArreglos.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
 
          },
          new String [] {
-            "Nombre", "Tipo", "Dimension", "Tipos de elementos", "Direccion"
+            "Nombre", "Dimension", "Tipo", "Elementos", "Direccion"
          }
       ));
       jScrollPane5.setViewportView(tablaArreglos);
@@ -1116,7 +1118,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
       DefaultTableModel TablaFunciones = (DefaultTableModel) tablaFunciones.getModel();
       vaciarTabla(TablaFunciones, tablaFunciones);
-      AnalizarFunciones.analizarCodigo(texto,tablaFunciones);
+      DefaultTableModel TablaArreglos = (DefaultTableModel) tablaArreglos.getModel();
+      vaciarTabla(TablaArreglos, tablaArreglos);
+      AnalizarFunciones.analizarCodigo(texto,tablaFunciones,tablaArreglos);
       
       //simbolos.clear();
       File archivo = new File("codigo.txt");
@@ -1218,32 +1222,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jTable1.setModel(dm);
    }
    
-   private void llenarTSArreglos() {
-
-      DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
-      dm.setRowCount(0);
-      for (Token entry : ComponentesLexicos) {
-         if (entry.grupoLexico.equals("Identificador")) {
-            Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
-            dm.addRow(campos);
-         }
-      }
-      jTableTS.setModel(dm);
-   }
-
-   private void llenarTSFunciones() {
-
-      DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
-      dm.setRowCount(0);
-      for (Token entry : ComponentesLexicos) {
-         if (entry.grupoLexico.equals("Identificador")) {
-            Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
-            dm.addRow(campos);
-         }
-      }
-      jTableTS.setModel(dm);
-   }
-
    private void mostrarErrores() {
       int errorSize = errores.size();
       if (errorSize > 0) {
