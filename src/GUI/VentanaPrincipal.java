@@ -1104,12 +1104,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       DefaultTableModel TablaFunciones = (DefaultTableModel) tablaFunciones.getModel();
       vaciarTabla(TablaFunciones, tablaFunciones);
       AnalizarFunciones.analizarCodigo(texto,tablaFunciones);
-
+      
       //simbolos.clear();
       File archivo = new File("codigo.txt");
       PrintWriter escribir;
-      DefaultTableModel Tabla = (DefaultTableModel) jTableTS.getModel();
-      vaciarTabla(Tabla, jTableTS);
+      DefaultTableModel Tabla = (DefaultTableModel) jTable1.getModel();
+      vaciarTabla(Tabla, jTable1);
       try {
          escribir = new PrintWriter(archivo);
          escribir.print(texto);
@@ -1136,7 +1136,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                ComponentesLexicos = lexer.tablaToken.getTokens();
                errores = lexer.tablaError.getErrores();
                llenarTSIdentificadores();
-
+               llenarTabla();
+               
                return;
             }
          }
@@ -1173,7 +1174,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
 
       /*Agrupacion de funciones*/
-      //gramatica.group("FUNCION", "");
+      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)? PAREN_C");
+      gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
+      gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
+      
       gramatica.show();
    }
 
@@ -1189,7 +1193,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
       jTableTS.setModel(dm);
    }
+   private void llenarTabla() {
 
+      DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
+      dm.setRowCount(0);
+
+      for (Token entry : ComponentesLexicos) {
+         Object[] campos = {entry.lexema, entry.grupoLexico};
+         dm.addRow(campos);
+      }
+      jTable1.setModel(dm);
+   }
+   
    private void llenarTSArreglos() {
 
       DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();

@@ -82,7 +82,7 @@ OpLogicoFaltanteAND = \&
 
    (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(k|K)(e|E)(y|Y) |
    (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(m|M)(o|O)(u|U)(s|S)(e|E)(b|B)(u|U)(t|T)(t|T)(o|O)(n|N) |
-   (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E) | 
+   (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E) |
    (P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y) {tablaToken.insertar(new Token(yytext(),"FUNCION_INTERNA",yyline+1,yycolumn+1));}
 
    (c|C)(o|O)(n|N)(s|S)(t|T)                          {tablaToken.insertar(new Token(yytext(),"CONSTANTE",yyline+1,yycolumn+1));}  
