@@ -298,22 +298,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             {"20", "Resource"},
             {"21", "Object"},
             {"22", "Start"},
-            {"23", "SceneTree"},
-            {"24", "PhysicsShape"},
-            {"25", "in"},
-            {"26", "class"},
-            {"27", "range"},
-            {"28", "void"},
-            {"29", "print"},
-            {"30", "PhysicsBody"},
-            {"31", "func"},
-            {"32", "Error"},
-            {"33", "for"},
-            {"34", "while"},
-            {"35", "if"},
-            {"36", "elif"},
-            {"37", "else"},
-            {"38", "break"}
+            {"23", "PhysicsShape"},
+            {"24", "in"},
+            {"25", "class"},
+            {"26", "range"},
+            {"27", "void"},
+            {"28", "print"},
+            {"29", "PhysicsBody"},
+            {"30", "func"},
+            {"31", "Error"},
+            {"32", "for"},
+            {"33", "while"},
+            {"34", "if"},
+            {"35", "elif"},
+            {"36", "else"},
+            {"37", "break"}
          },
          new String [] {
             "ID", "Lexema"
@@ -1192,7 +1191,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
 
       /*Agrupacion de funciones*/
-      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C");
+      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C LLAVE_A (FUNC_INTERN|DECLARACION_VARIABLE|DECLARACION_FUNCION)+ LLAVE_C");
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
       
@@ -1201,6 +1200,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       /*Gramatica para declaras colores*/
       //gramatica.group("COLOR_VAL", "PAREN_A NumEntero COMA NumEntero COMA NumEntero PAREN_C");
       gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");
+      
+      /*Gramatica para funciones*/
+      gramatica.group("DECLARACION_FUNCION", "FUNC VALOR PAREN_A (VALOR|PARAMETROS)? PAREN_C LLAVE_A (FUNC_INTERN|DECLARACION_VARIABLE|DECLARACION_FUNCION)+ LLAVE_C");
+      gramatica.group("DECLARACION_FUNCION_ERROR", "FUNC VALOR PAREN_A (VALOR|PARAMETROS)? PAREN_C LLAVE_A ",20,"Se esperaba una llave de cierre");
+      gramatica.group("DECLARACION_FUNCION_ERROR", "FUNC VALOR PAREN_A (VALOR|PARAMETROS)? PAREN_C (FUNC_INTERN|DECLARACION_VARIABLE|DECLARACION_FUNCION)+ LLAVE_C ",20,"Se esperaba una llave de apertura");
+      
+      gramatica.loopForFunExecUntilChangeNotDetected(()->{
+         gramatica.group("EXP_LOGICA", "(FUNCION)(OpLogico (FUNCION|EXP_LOGICA))+");
+         gramatica.group("EXP_LOGICA", "PAREN_A (EXP_LOGICA|FUNCION)PAREN_C");
+      });
+      
+      gramatica.group("VALOR", "Identificador");
+      gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
+      
+      gramatica.group("EST_CONTROL", "(ELIF|FOR|WHILE|IF|ELSE)");
+      gramatica.group("EST_CONTROL_COMP", "EST_CONTROL PAREN_A PAREM_C");
+      gramatica.group("EST_CONTROL", "EST_CONTROL (VALOR|PARAMETROS)");
+      gramatica.group("EST_CONTROL_COMP", "EST_CONTROL PAREN_A (VALOR|PARAMETROS) PAREN_C");
+      gramatica.group("SENTENCIAS", "(DECLARACION_VARIABLE|FUNCION|FUNC_INTERN)+");
+      
+      gramatica.loopForFunExecUntilChangeNotDetected(()->{
+         gramatica.group("EST_CONTROL_COMP_LASLC", "EST_CONTROL_COMP LLAVE_A (SENTENCIAS)? LLAVE_C");
+         gramatica.group("SENTENCIAS", "(SENTENCIAS|EST_CONTROL_COMP_LASLC)+");
+      });
       
       gramatica.show();
    }

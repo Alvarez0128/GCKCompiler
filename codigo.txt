@@ -1,1 +1,1 @@
-color x=(g,df,f)
+func x(){
