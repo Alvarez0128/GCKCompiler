@@ -5,6 +5,8 @@ import AnalisisLexico.Lexer;
 import AnalisisLexico.Token;
 import AnalisisSintactico.Grammar;
 import TablasSimbolos.AnalizarFunciones;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.formdev.flatlaf.icons.FlatTabbedPaneCloseIcon;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import java.awt.AWTKeyStroke;
@@ -30,11 +32,15 @@ import javax.swing.table.DefaultTableModel;
 import org.fife.ui.rsyntaxtextarea.*;
 import org.fife.ui.rtextarea.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.FontFormatException;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
 
 /**
@@ -43,10 +49,12 @@ import org.fife.ui.rsyntaxtextarea.folding.FoldParserManager;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+   boolean dark = true;
+   String rutaFuente = "src/assets/JetBrainsMono-Regular.ttf";
+   Font fuente = cargarFuenteDesdeArchivo(rutaFuente).deriveFont(Font.PLAIN, 16);
    public ArrayList<Token> ComponentesLexicos = null;
    public ArrayList<ErrorToken> errores = null;
    private Directory directorio;
-   int[] edad = {45,};
 
    public VentanaPrincipal() {
       initComponents();
@@ -80,11 +88,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       ventanaTS = new javax.swing.JFrame();
       contenedorBaseTS = new javax.swing.JPanel();
       scrollTS = new javax.swing.JScrollPane();
-      jTableTS = new javax.swing.JTable();
+      tablaIdentificadores = new javax.swing.JTable();
       ventanaTSFija = new javax.swing.JFrame();
       contenedorBaseTS1 = new javax.swing.JPanel();
       scrollTS1 = new javax.swing.JScrollPane();
-      tablaIdentificadores = new javax.swing.JTable();
+      tablaFija = new javax.swing.JTable();
       ventanaTSIdFunciones = new javax.swing.JFrame();
       contenedorBaseTS2 = new javax.swing.JPanel();
       jScrollPane4 = new javax.swing.JScrollPane();
@@ -112,7 +120,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       txtResultado = new javax.swing.JTextPane();
       jToolBar1 = new javax.swing.JToolBar();
       compilationButton = new javax.swing.JButton();
-      tsButton = new javax.swing.JButton();
       jMenuBar1 = new javax.swing.JMenuBar();
       jMenu1 = new javax.swing.JMenu();
       menuNuevo = new javax.swing.JMenuItem();
@@ -133,17 +140,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jSeparator4 = new javax.swing.JPopupMenu.Separator();
       jMenuItem14 = new javax.swing.JMenuItem();
       jMenu3 = new javax.swing.JMenu();
-      jMenuItem9 = new javax.swing.JMenuItem();
-      jMenu4 = new javax.swing.JMenu();
-      jMenu8 = new javax.swing.JMenu();
-      jMenuItem5 = new javax.swing.JMenuItem();
-      jMenuItem6 = new javax.swing.JMenuItem();
-      jMenuItem7 = new javax.swing.JMenuItem();
-      jMenu9 = new javax.swing.JMenu();
-      jMenuItem8 = new javax.swing.JMenuItem();
-      jMenuItem16 = new javax.swing.JMenuItem();
-      jMenuItem15 = new javax.swing.JMenuItem();
-      jMenu5 = new javax.swing.JMenu();
+      modoOscuroMenuItem = new javax.swing.JMenuItem();
+      modoClaroMenuItem = new javax.swing.JMenuItem();
       jMenu7 = new javax.swing.JMenu();
       jMenu6 = new javax.swing.JMenu();
       jMenuItem3 = new javax.swing.JMenuItem();
@@ -153,6 +151,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       TSFijaMenu = new javax.swing.JMenuItem();
       TSFunciones = new javax.swing.JMenuItem();
       TSArreglos = new javax.swing.JMenuItem();
+      jMenuItem18 = new javax.swing.JMenuItem();
+      jSeparator5 = new javax.swing.JPopupMenu.Separator();
+      jMenuItem19 = new javax.swing.JMenuItem();
 
       ventanaLexico.setTitle("Análisis Léxico");
 
@@ -213,30 +214,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       ventanaTS.setTitle("Tabla de símbolos");
 
-      jTableTS.setModel(new javax.swing.table.DefaultTableModel(
+      tablaIdentificadores.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null}
+
          },
          new String [] {
-            "Lexema", "Dirección", "Linea", "Columna"
+            "Identificador", "Tipo", "Valor"
          }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, true
+            false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
             return canEdit [columnIndex];
          }
       });
-      scrollTS.setViewportView(jTableTS);
-      if (jTableTS.getColumnModel().getColumnCount() > 0) {
-         jTableTS.getColumnModel().getColumn(2).setHeaderValue("Linea");
-         jTableTS.getColumnModel().getColumn(3).setHeaderValue("Columna");
-      }
+      scrollTS.setViewportView(tablaIdentificadores);
 
       javax.swing.GroupLayout contenedorBaseTSLayout = new javax.swing.GroupLayout(contenedorBaseTS);
       contenedorBaseTS.setLayout(contenedorBaseTSLayout);
@@ -274,7 +268,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       ventanaTSFija.setTitle("Tabla Fija");
 
-      tablaIdentificadores.setModel(new javax.swing.table.DefaultTableModel(
+      tablaFija.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
             {"1", "int"},
             {"2", "float"},
@@ -318,9 +312,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             "ID", "Lexema"
          }
       ));
-      tablaIdentificadores.setShowGrid(true);
-      tablaIdentificadores.setSurrendersFocusOnKeystroke(true);
-      scrollTS1.setViewportView(tablaIdentificadores);
+      tablaFija.setShowGrid(true);
+      tablaFija.setSurrendersFocusOnKeystroke(true);
+      scrollTS1.setViewportView(tablaFija);
 
       javax.swing.GroupLayout contenedorBaseTS1Layout = new javax.swing.GroupLayout(contenedorBaseTS1);
       contenedorBaseTS1.setLayout(contenedorBaseTS1Layout);
@@ -457,7 +451,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       );
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-      setPreferredSize(new java.awt.Dimension(1079, 734));
 
       jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -620,7 +613,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       jToolBar1.setRollover(true);
 
       compilationButton.setText("Compilar");
-      compilationButton.setFocusable(false);
       compilationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
       compilationButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
       compilationButton.addActionListener(new java.awt.event.ActionListener() {
@@ -629,17 +621,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          }
       });
       jToolBar1.add(compilationButton);
-
-      tsButton.setText("Tabla de símbolos");
-      tsButton.setFocusable(false);
-      tsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-      tsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-      tsButton.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            tsButtonActionPerformed(evt);
-         }
-      });
-      jToolBar1.add(tsButton);
 
       javax.swing.GroupLayout panelContenedorPrincipalLayout = new javax.swing.GroupLayout(panelContenedorPrincipal);
       panelContenedorPrincipal.setLayout(panelContenedorPrincipalLayout);
@@ -650,15 +631,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addComponent(jSplitPane2))
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorPrincipalLayout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
       );
       panelContenedorPrincipalLayout.setVerticalGroup(
          panelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorPrincipalLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jSplitPane2)
             .addContainerGap())
       );
@@ -760,49 +741,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
       jMenu3.setText("Ver");
 
-      jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-      jMenuItem9.setText("jMenuItem9");
-      jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+      modoOscuroMenuItem.setText("Modo Oscuro");
+      modoOscuroMenuItem.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem9ActionPerformed(evt);
+            modoOscuroMenuItemActionPerformed(evt);
          }
       });
-      jMenu3.add(jMenuItem9);
+      jMenu3.add(modoOscuroMenuItem);
+
+      modoClaroMenuItem.setText("Modo Claro");
+      modoClaroMenuItem.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            modoClaroMenuItemActionPerformed(evt);
+         }
+      });
+      jMenu3.add(modoClaroMenuItem);
 
       jMenuBar1.add(jMenu3);
-
-      jMenu4.setText("Fuente");
-
-      jMenu8.setText("Ventana");
-
-      jMenuItem5.setText("jMenuItem5");
-      jMenu8.add(jMenuItem5);
-
-      jMenuItem6.setText("jMenuItem6");
-      jMenu8.add(jMenuItem6);
-
-      jMenuItem7.setText("jMenuItem7");
-      jMenu8.add(jMenuItem7);
-
-      jMenu4.add(jMenu8);
-
-      jMenu9.setText("Código");
-
-      jMenuItem8.setText("jMenuItem8");
-      jMenu9.add(jMenuItem8);
-
-      jMenuItem16.setText("jMenuItem16");
-      jMenu9.add(jMenuItem16);
-
-      jMenuItem15.setText("jMenuItem15");
-      jMenu9.add(jMenuItem15);
-
-      jMenu4.add(jMenu9);
-
-      jMenuBar1.add(jMenu4);
-
-      jMenu5.setText("Opciones");
-      jMenuBar1.add(jMenu5);
 
       jMenu7.setText("Ayuda");
 
@@ -816,7 +771,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       });
       jMenu6.add(jMenuItem3);
 
-      jMenuItem4.setText("Manual técnico");
+      jMenuItem4.setText("Manual Usuario");
       jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
             jMenuItem4ActionPerformed(evt);
@@ -861,6 +816,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          }
       });
       TSMenu.add(TSArreglos);
+
+      jMenuItem18.setText("TS Identificadores");
+      jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem18ActionPerformed(evt);
+         }
+      });
+      TSMenu.add(jMenuItem18);
+      TSMenu.add(jSeparator5);
+
+      jMenuItem19.setText("Ver todas");
+      jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem19ActionPerformed(evt);
+         }
+      });
+      TSMenu.add(jMenuItem19);
 
       jMenuBar1.add(TSMenu);
 
@@ -907,6 +879,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       inputMap.put(ctrlShiftTab, "navigatePrevious");
    }
     private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
+       String tema;
        RSyntaxTextArea textArea = new RSyntaxTextArea(); // Crea una nueva instancia de RSyntaxTextArea
        RTextScrollPane scrollPane = new RTextScrollPane(textArea);
        scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
@@ -923,12 +896,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
        //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
 
        textArea.setSyntaxEditingStyle("text/myLanguage");
-
+       if (dark) {
+          tema = "dark.xml";
+       } else {
+          tema = "light.xml";
+       }
        textArea.setCodeFoldingEnabled(true);
        textArea.setAntiAliasingEnabled(true);
        textArea.setAnimateBracketMatching(true);
-       changeStyleViaThemeXml(textArea);
-       textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
+       changeStyleViaThemeXml(textArea, tema);
+       textArea.setFont(fuente);
        /*CompletionProvider provider = createCompletionProvider();
         AutoCompletion ac = new AutoCompletion(provider);
         ac.install(textArea);*/
@@ -956,17 +933,35 @@ public class VentanaPrincipal extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_menuCerrarActionPerformed
 
-    private void tsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tsButtonActionPerformed
-       ventanaTS.setVisible(true);
-    }//GEN-LAST:event_tsButtonActionPerformed
-
     private void menuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarActionPerformed
        directorio.Save();
     }//GEN-LAST:event_menuGuardarActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void modoOscuroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modoOscuroMenuItemActionPerformed
+       dark = true;
+       String tema;
+       FlatAnimatedLafChange.showSnapshot();
+       FlatMaterialDeepOceanIJTheme.setup();
+       FlatLaf.updateUI();
+       FlatAnimatedLafChange.hideSnapshotWithAnimation();
 
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+       if (dark) {
+          tema = "dark.xml";
+       } else {
+          tema = "light.xml";
+       }
+       // Obtener todos los JTextArea
+       List<JTextArea> textAreas = obtenerTextAreas(panelContenedorPestañas);
+
+       // Aplicar cambios de estilo y fuente a cada JTextArea
+       for (JTextArea textArea : textAreas) {
+          // Cambios de estilo según el método changeStyleViaThemeXml
+          changeStyleViaThemeXml((RSyntaxTextArea) textArea, tema);
+
+          // Establecer la fuente
+          textArea.setFont(fuente);
+       }
+    }//GEN-LAST:event_modoOscuroMenuItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        // TODO add your handling code here:
@@ -981,7 +976,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
        try {
-          Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1qeY6uYMQqamKzeFeyg6Z0P87JS65njK4om06n904f1Q/edit?usp=sharing"));
+          Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/1yc6FY7_Jf-wVLyMsxOwNdvWdntnXM8HANJwj1CX4o8I/edit?usp=sharing"));
        } catch (IOException | URISyntaxException ex) {
        }
 
@@ -1017,9 +1012,46 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       ventanaTSIdArreglos.setVisible(true);
    }//GEN-LAST:event_TSArreglosActionPerformed
 
-   private void changeStyleViaThemeXml(RSyntaxTextArea textArea) {
+   private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+      ventanaTS.setVisible(true);
+   }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+   private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+      ventanaTS.setVisible(true);
+      ventanaTSIdArreglos.setVisible(true);
+      ventanaTSIdFunciones.setVisible(true);
+      ventanaTSFija.setVisible(true);
+   }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+   private void modoClaroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modoClaroMenuItemActionPerformed
+      dark = false;
+      String tema;
+      FlatAnimatedLafChange.showSnapshot();
+      FlatMaterialLighterIJTheme.setup();
+      FlatLaf.updateUI();
+      FlatAnimatedLafChange.hideSnapshotWithAnimation();
+
+      if (dark) {
+         tema = "dark.xml";
+      } else {
+         tema = "light.xml";
+      }
+      // Obtener todos los JTextArea
+      List<JTextArea> textAreas = obtenerTextAreas(panelContenedorPestañas);
+
+      // Aplicar cambios de estilo y fuente a cada JTextArea
+      for (JTextArea textArea : textAreas) {
+         // Cambios de estilo según el método changeStyleViaThemeXml
+         changeStyleViaThemeXml((RSyntaxTextArea) textArea, tema);
+
+         // Establecer la fuente
+         textArea.setFont(fuente);
+      }
+   }//GEN-LAST:event_modoClaroMenuItemActionPerformed
+
+   private void changeStyleViaThemeXml(RSyntaxTextArea textArea, String xml) {
       try {
-         Theme theme = Theme.load(new FileInputStream("byMe.xml"));
+         Theme theme = Theme.load(new FileInputStream(xml));
          theme.apply(textArea);
       } catch (IOException ioe) {
       }
@@ -1028,6 +1060,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private void RSyntax() {
       RSyntaxTextArea textArea = new RSyntaxTextArea();
       RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+      String tema;
 
       //METODO PARA HACER ZOOM AL CODIGO
       scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
@@ -1046,10 +1079,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       textArea.setSyntaxEditingStyle("text/myLanguage");
       textArea.setCodeFoldingEnabled(true); //Para contraer partes del codigo
 
+      if (dark) {
+         tema = "dark.xml";
+      } else {
+         tema = "light.xml";
+      }
       textArea.setAntiAliasingEnabled(true);
       textArea.setAnimateBracketMatching(true);
-      changeStyleViaThemeXml(textArea);
-      textArea.setFont(new Font("Segoe UI", Font.BOLD, 18));
+      changeStyleViaThemeXml(textArea, tema);
+      textArea.setFont(fuente);
 
       panelContenedorPestañas.putClientProperty("JTabbedPane.tabClosable", true);
       panelContenedorPestañas.putClientProperty("JTabbedPane.tabCloseCallback", (IntConsumer) tabIndex -> {
@@ -1070,6 +1108,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    public static void main(String args[]) {
       try {
          FlatMaterialDeepOceanIJTheme.setup();
+
          //Boton circular Cerrar pestaña 
          UIManager.put("TabbedPane.closeArc", Integer.valueOf(999));
          UIManager.put("TabbedPane.closeCrossFilledSize", Float.valueOf(5.5F));
@@ -1098,7 +1137,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       });
 
    }
-
+   
    private void analisisLexico() {
       String texto = "";
       int indicePanelActivo = panelContenedorPestañas.getSelectedIndex(); // Obtiene el índice del panel activo
@@ -1119,8 +1158,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       vaciarTabla(TablaFunciones, tablaFunciones);
       DefaultTableModel TablaArreglos = (DefaultTableModel) tablaArreglos.getModel();
       vaciarTabla(TablaArreglos, tablaArreglos);
-      AnalizarFunciones.analizarCodigo(texto,tablaFunciones,tablaArreglos);
+      DefaultTableModel TablaIdentificadores = (DefaultTableModel) tablaIdentificadores.getModel();
+      vaciarTabla(TablaIdentificadores, tablaIdentificadores);
       
+      AnalizarFunciones.analizarCodigo(texto, tablaFunciones, tablaArreglos,tablaIdentificadores);
       //simbolos.clear();
       File archivo = new File("codigo.txt");
       PrintWriter escribir;
@@ -1151,9 +1192,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             if (lexer.yylex() == null) {
                ComponentesLexicos = lexer.tablaToken.getTokens();
                errores = lexer.tablaError.getErrores();
-               llenarTSIdentificadores();
+               //llenarTSIdentificadores();
                llenarTabla();
-               
+
                return;
             }
          }
@@ -1165,72 +1206,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }
 
    private void analisisSintactico() {
-      Grammar gramatica = new Grammar(ComponentesLexicos, errores);
-      /*Agrupacion de valores*/
-      gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
+      
 
-      /*Gramática Declaracion de variables*/
-      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador OpAsignacion VALOR", true);
-      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador", true);
-      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
-      gramatica.group("ERROR_VARIABLE", "TIPO_DATO OpAsignacion VALOR", 11, "Se esperaba un identificador");
-      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador OpAsignacion", 12, "Se esperaba un valor para la variable");
-      gramatica.group("ERROR_VARIABLE", "Identificador OpAsignacion VALOR", 13, "Se esperaba un tipo de dato para la variable");
-      gramatica.group("ERROR_VARIABLE", "(CONSTANTE)? TIPO_DATO", 14, "Se esperaba una declaracion de variable");
-      gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
-
-      /*Eliminacion de operadores de asignacion y valores*/
-      //gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
-      gramatica.delete("CONSTANTE", 17, "Se esperaba una declaración de variable");
-      //gramatica.delete("VALOR", 16, "El valor no está en una declaración");
-      //gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
-
-      /*Agrupacion de identificadores como valores y definicion de parametros*/
-      gramatica.group("VALOR", "Identificador");
-      gramatica.group("COLORS", "VALOR COMA VALOR COMA VALOR");
-      gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
-
-      /*Agrupacion de funciones*/
-      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C LLAVE_A (FUNC_INTERN|DECLARACION_VARIABLE|DECLARACION_FUNCION)+ LLAVE_C");
-      gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
-      gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
       
-      gramatica.delete("FUNCION_INTERNA", 18, "La función no está declarada correctamente");
-      
-      /*Gramatica para declaras colores*/
-      //gramatica.group("COLOR_VAL", "PAREN_A NumEntero COMA NumEntero COMA NumEntero PAREN_C");
-      gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");
-      
-      /*Gramatica para funciones*/
-      gramatica.group("DECLARACION_FUNCION", "FUNC VALOR PAREN_A (VALOR|PARAMETROS)? PAREN_C LLAVE_A (FUNC_INTERN|DECLARACION_VARIABLE|DECLARACION_FUNCION)+ LLAVE_C");
-      gramatica.group("DECLARACION_FUNCION_ERROR", "FUNC VALOR PAREN_A (VALOR|PARAMETROS)? PAREN_C LLAVE_A ",20,"Se esperaba una llave de cierre");
-      gramatica.group("DECLARACION_FUNCION_ERROR", "FUNC VALOR PAREN_A (VALOR|PARAMETROS)? PAREN_C (FUNC_INTERN|DECLARACION_VARIABLE|DECLARACION_FUNCION)+ LLAVE_C ",20,"Se esperaba una llave de apertura");
-      
-      gramatica.loopForFunExecUntilChangeNotDetected(()->{
-         gramatica.group("EXP_LOGICA", "(FUNCION)(OpLogico (FUNCION|EXP_LOGICA))+");
-         gramatica.group("EXP_LOGICA", "PAREN_A (EXP_LOGICA|FUNCION)PAREN_C");
-      });
-      
-      gramatica.group("VALOR", "Identificador");
-      gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
-      
-      gramatica.group("EST_CONTROL", "(ELIF|FOR|WHILE|IF|ELSE)");
-      gramatica.group("EST_CONTROL_COMP", "EST_CONTROL PAREN_A PAREM_C");
-      gramatica.group("EST_CONTROL", "EST_CONTROL (VALOR|PARAMETROS)");
-      gramatica.group("EST_CONTROL_COMP", "EST_CONTROL PAREN_A (VALOR|PARAMETROS) PAREN_C");
-      gramatica.group("SENTENCIAS", "(DECLARACION_VARIABLE|FUNCION|FUNC_INTERN)+");
-      
-      gramatica.loopForFunExecUntilChangeNotDetected(()->{
-         gramatica.group("EST_CONTROL_COMP_LASLC", "EST_CONTROL_COMP LLAVE_A (SENTENCIAS)? LLAVE_C");
-         gramatica.group("SENTENCIAS", "(SENTENCIAS|EST_CONTROL_COMP_LASLC)+");
-      });
-      
-      gramatica.show();
    }
 
    private void llenarTSIdentificadores() {
 
-      DefaultTableModel dm = (DefaultTableModel) jTableTS.getModel();
+      DefaultTableModel dm = (DefaultTableModel) tablaIdentificadores.getModel();
       dm.setRowCount(0);
       for (Token entry : ComponentesLexicos) {
          if (entry.grupoLexico.equals("Identificador")) {
@@ -1238,8 +1221,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             dm.addRow(campos);
          }
       }
-      jTableTS.setModel(dm);
+      tablaIdentificadores.setModel(dm);
    }
+
    private void llenarTabla() {
 
       DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
@@ -1251,7 +1235,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }
       jTable1.setModel(dm);
    }
-   
+
    private void mostrarErrores() {
       int errorSize = errores.size();
       if (errorSize > 0) {
@@ -1277,7 +1261,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       }//metodo while para remover los renglones de la tabla
    }
 
+   private Font cargarFuenteDesdeArchivo(String rutaArchivo) {
+      try {
+         // Cargar la fuente desde el archivo TTF
+         return Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(new FileInputStream(rutaArchivo)));
+      } catch (FontFormatException | IOException e) {
+         e.printStackTrace();
+         // En caso de error, retornar una fuente predeterminada
+         return new Font("Arial", Font.PLAIN, 16);
+      }
+   }
 
+   private static List<JTextArea> obtenerTextAreas(JTabbedPane panelContenedorPestañas) {
+      List<JTextArea> textAreas = new ArrayList<>();
+
+      // Itera sobre todos los paneles en el JTabbedPane
+      for (int i = 0; i < panelContenedorPestañas.getTabCount(); i++) {
+         Component componente = panelContenedorPestañas.getComponentAt(i);
+
+         // Verifica si el componente es un JScrollPane
+         if (componente instanceof JScrollPane) {
+            JScrollPane scrollPane = (JScrollPane) componente;
+
+            // Obtén el componente interno del JScrollPane
+            Component componenteInterno = scrollPane.getViewport().getView();
+
+            // Verifica si el componente interno es un JTextArea
+            if (componenteInterno instanceof JTextArea) {
+               JTextArea textArea = (JTextArea) componenteInterno;
+               textAreas.add(textArea); // Agrega el JTextArea a la lista
+            }
+         }
+      }
+
+      return textAreas;
+   }
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JMenuItem TSArreglos;
    private javax.swing.JMenuItem TSFijaMenu;
@@ -1292,12 +1310,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JMenu jMenu1;
    private javax.swing.JMenu jMenu2;
    private javax.swing.JMenu jMenu3;
-   private javax.swing.JMenu jMenu4;
-   private javax.swing.JMenu jMenu5;
    private javax.swing.JMenu jMenu6;
    private javax.swing.JMenu jMenu7;
-   private javax.swing.JMenu jMenu8;
-   private javax.swing.JMenu jMenu9;
    private javax.swing.JMenuBar jMenuBar1;
    private javax.swing.JMenuItem jMenuItem1;
    private javax.swing.JMenuItem jMenuItem10;
@@ -1305,16 +1319,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JMenuItem jMenuItem12;
    private javax.swing.JMenuItem jMenuItem13;
    private javax.swing.JMenuItem jMenuItem14;
-   private javax.swing.JMenuItem jMenuItem15;
-   private javax.swing.JMenuItem jMenuItem16;
+   private javax.swing.JMenuItem jMenuItem18;
+   private javax.swing.JMenuItem jMenuItem19;
    private javax.swing.JMenuItem jMenuItem2;
    private javax.swing.JMenuItem jMenuItem3;
    private javax.swing.JMenuItem jMenuItem4;
-   private javax.swing.JMenuItem jMenuItem5;
-   private javax.swing.JMenuItem jMenuItem6;
-   private javax.swing.JMenuItem jMenuItem7;
-   private javax.swing.JMenuItem jMenuItem8;
-   private javax.swing.JMenuItem jMenuItem9;
    private javax.swing.JScrollPane jScrollPane1;
    private javax.swing.JScrollPane jScrollPane2;
    private javax.swing.JScrollPane jScrollPane3;
@@ -1324,13 +1333,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JPopupMenu.Separator jSeparator2;
    private javax.swing.JPopupMenu.Separator jSeparator3;
    private javax.swing.JPopupMenu.Separator jSeparator4;
+   private javax.swing.JPopupMenu.Separator jSeparator5;
    private javax.swing.JSplitPane jSplitPane2;
    private javax.swing.JSplitPane jSplitPane3;
    private javax.swing.JSplitPane jSplitPane4;
    private javax.swing.JTabbedPane jTabbedPane1;
    private javax.swing.JTabbedPane jTabbedPane2;
    private javax.swing.JTable jTable1;
-   private javax.swing.JTable jTableTS;
    private javax.swing.JToolBar jToolBar1;
    private javax.swing.JTree jTree1;
    private javax.swing.JTree jTree2;
@@ -1340,6 +1349,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JMenuItem menuGuardarComo;
    private javax.swing.JMenuItem menuNuevo;
    private javax.swing.JMenuItem menuSalir;
+   private javax.swing.JMenuItem modoClaroMenuItem;
+   private javax.swing.JMenuItem modoOscuroMenuItem;
    private javax.swing.JPanel panelBaseDerecho;
    private javax.swing.JPanel panelBaseIzquierdo;
    private javax.swing.JPanel panelBasePestañas;
@@ -1350,9 +1361,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private javax.swing.JScrollPane scrollTS;
    private javax.swing.JScrollPane scrollTS1;
    private javax.swing.JTable tablaArreglos;
+   private javax.swing.JTable tablaFija;
    private javax.swing.JTable tablaFunciones;
    private javax.swing.JTable tablaIdentificadores;
-   private javax.swing.JButton tsButton;
    private javax.swing.JTextPane txtResultado;
    private javax.swing.JFrame ventanaLexico;
    private javax.swing.JFrame ventanaTS;

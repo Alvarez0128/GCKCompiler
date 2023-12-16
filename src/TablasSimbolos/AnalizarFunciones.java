@@ -14,24 +14,51 @@ public class AnalizarFunciones {
            "rect2", "vector2", "timespan", "resource", "aabb", "file", "error"
    ));
 
-   public static void analizarCodigo(String codigo, JTable tablaFunciones, JTable tablaArreglos) {
+   public static void analizarCodigo(String codigo, JTable tablaFunciones, JTable tablaArreglos, JTable tablaVariables) {
       analizarFunciones(codigo, tablaFunciones);
       analizarArreglos(codigo, tablaArreglos);
+      analizarVariables(codigo, tablaVariables);
    }
 
-   public static void analizarFunciones(String codigo, JTable tablaFunciones) {
-      String regex = "func\\s+(\\w+)\\s*\\(([^)]*)\\)\\s*\\{";
-      Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-      Matcher matcher = pattern.matcher(codigo);
+   private static void analizarVariables(String codigo, JTable tablaVariables) {
+      String regexVariables = "\\b(" + String.join("|", tiposValidos) + ")\\b\\s+([a-zA-Z][a-zA-Z0-9_]*)\\s*=\\s*([^;]+)";
+      Pattern patternVariables = Pattern.compile(regexVariables, Pattern.CASE_INSENSITIVE);
+      Matcher matcherVariables = patternVariables.matcher(codigo);
 
-      DefaultTableModel modeloTabla = (DefaultTableModel) tablaFunciones.getModel();
+      DefaultTableModel modeloVariables = (DefaultTableModel) tablaVariables.getModel();
+      Set<String> nombresVariablesAgregados = new HashSet<>();
 
-      while (matcher.find()) {
-         String nombreFuncion = matcher.group(1);
-         String parametrosTexto = matcher.group(2).trim();
+      while (matcherVariables.find()) {
+         String identificadorVariable = matcherVariables.group(2);
+
+         // Verificar si el nombre ya fue agregado a la tabla
+         if (nombresVariablesAgregados.add(identificadorVariable)) {
+            String tipoVariable = matcherVariables.group(1).toLowerCase();
+            String valorVariable = matcherVariables.group(3).trim();
+
+            modeloVariables.addRow(new Object[]{identificadorVariable, tipoVariable, valorVariable});
+         }
+      }
+
+      if (!matcherVariables.hitEnd()) {
+         // Manejar error: problemas con el patrón de búsqueda
+         System.out.println("Error en el patron de busqueda de variables.");
+      }
+   }
+
+   private static void analizarFunciones(String codigo, JTable tablaFunciones) {
+      String regexFunciones = "func\\s+([a-zA-Z][a-zA-Z0-9_]*)\\s*\\(([^)]*)\\)\\s*\\{";
+      Pattern patternFunciones = Pattern.compile(regexFunciones, Pattern.CASE_INSENSITIVE);
+      Matcher matcherFunciones = patternFunciones.matcher(codigo);
+
+      DefaultTableModel modeloFunciones = (DefaultTableModel) tablaFunciones.getModel();
+
+      while (matcherFunciones.find()) {
+         String nombreFuncion = matcherFunciones.group(1);
+         String parametrosTexto = matcherFunciones.group(2).trim();
 
          if (parametrosTexto.isEmpty()) {
-            modeloTabla.addRow(new Object[]{nombreFuncion, 0, "Sin parametros", nombreFuncion.hashCode()});
+            modeloFunciones.addRow(new Object[]{nombreFuncion, 0, "Sin parametros"});
          } else {
             String[] parametros = parametrosTexto.split("\\s*,\\s*");
             int cantidadParametros = parametros.length;
@@ -44,9 +71,11 @@ public class AnalizarFunciones {
                   if (tiposValidos.contains(tipoParametro)) {
                      tiposParametros.append(tipoParametro);
                   } else {
+                     // Manejar error: tipo de parámetro no válido
                      tiposParametros.append("Error: Tipo de parametro no valido: ").append(tipoParametro);
                   }
                } else {
+                  // Manejar error: formato de parámetro incorrecto
                   tiposParametros.append("Error en el formato del parametro: ").append(parametros[i]);
                }
 
@@ -55,37 +84,42 @@ public class AnalizarFunciones {
                }
             }
 
-            modeloTabla.addRow(new Object[]{nombreFuncion, cantidadParametros, tiposParametros.toString(), Math.abs(nombreFuncion.hashCode())});
+            modeloFunciones.addRow(new Object[]{nombreFuncion, cantidadParametros, tiposParametros.toString()});
          }
       }
 
-      if (!matcher.hitEnd()) {
+      if (!matcherFunciones.hitEnd()) {
          // Manejar error: problemas con el patrón de búsqueda
-         System.out.println("Error en el patron de busqueda.");
+         System.out.println("Error en el patron de busqueda de funciones.");
       }
    }
 
    private static void analizarArreglos(String codigo, JTable tablaArreglos) {
-      String regexArreglos = "array\\s*\\[\\s*(\\w+)\\s*\\]\\s*(\\w+)\\s*=\\s*\\[(.*?)\\]";
+      String regexArreglos = "array\\s*\\[\\s*(\\w+)\\s*\\]\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*=\\s*\\[(.*?)\\]";
       Pattern patternArreglos = Pattern.compile(regexArreglos, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
       Matcher matcherArreglos = patternArreglos.matcher(codigo);
 
       DefaultTableModel modeloArreglos = (DefaultTableModel) tablaArreglos.getModel();
+      Set<String> nombresArreglosAgregados = new HashSet<>();
 
       while (matcherArreglos.find()) {
          String nombreArreglo = matcherArreglos.group(2);
-         String tipoElemento = matcherArreglos.group(1).toLowerCase();
-         String elementosTexto = matcherArreglos.group(3).trim();
 
-         String[] elementos = elementosTexto.isEmpty() ? new String[0] : elementosTexto.split("\\s*,\\s*");
-         int cantidadElementos = elementos.length;
+         // Verificar si el nombre ya fue agregado a la tabla
+         if (nombresArreglosAgregados.add(nombreArreglo)) {
+            String tipoElemento = matcherArreglos.group(1).toLowerCase();
+            String elementosTexto = matcherArreglos.group(3).trim();
 
-         // Ajuste: si el arreglo no tiene elementos, establecer elementosTexto como "vacío"
-         if (elementos.length == 0) {
-            elementosTexto = "vacío";
+            String[] elementos = elementosTexto.isEmpty() ? new String[0] : elementosTexto.split("\\s*,\\s*");
+            int cantidadElementos = elementos.length;
+
+            // Ajuste: si el arreglo no tiene elementos, establecer elementosTexto como "vacío"
+            if (elementos.length == 0) {
+               elementosTexto = "vacío";
+            }
+
+            modeloArreglos.addRow(new Object[]{nombreArreglo, cantidadElementos, tipoElemento, elementosTexto});
          }
-
-         modeloArreglos.addRow(new Object[]{nombreArreglo, cantidadElementos, tipoElemento, elementosTexto,Math.abs(nombreArreglo.hashCode())});
       }
 
       if (!matcherArreglos.hitEnd()) {

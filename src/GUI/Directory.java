@@ -7,6 +7,7 @@ package GUI;
  */
 //
 
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,11 +15,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.JTextComponent;
 
@@ -32,7 +38,7 @@ public class Directory {
     private final String extension;
     private final JFrame jFrame;
     private final JTextComponent jTextComponent;
-    
+    private Map<JTextComponent, File> fileMap = new HashMap<>();
     
     public Directory(JFrame var1, JTextComponent var2, String var3, String var4, JTabbedPane tab) {
         this.title = var3;
@@ -40,6 +46,12 @@ public class Directory {
         this.jFrame = var1;
         this.jTextComponent = var2;
         this.tabs = tab;
+        tabs.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateFrameTitle();
+            }
+        });
         //System.out.println(Functions.ANSI_PURPLE_BLACK + "Directory v0.35 (By Yisus Efebei and M45t3r L3g10n)");
     }
     public Directory(JFrame var1, JTextComponent var2, String var3, String var4) {
@@ -71,7 +83,37 @@ public class Directory {
             return null;
         }
     }
-
+    private void saveFile(File var1) {
+        boolean var2 = saveFile(var1, jTextComponent.getText());
+        if (var2) {
+            this.file = var1;
+            updateFrameTitle();
+        } else {
+            JOptionPane.showMessageDialog(jFrame, "No se pudo guardar el archivo", "Error desconocido", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void updateFrameTitle() {
+        int selectedIndex = tabs.getSelectedIndex();
+        if (selectedIndex != -1) {
+            Component selectedComponent = tabs.getComponentAt(selectedIndex);
+            if (selectedComponent instanceof JScrollPane) {
+                JScrollPane scrollPane = (JScrollPane) selectedComponent;
+                Component innerComponent = scrollPane.getViewport().getView();
+                if (innerComponent instanceof JTextComponent) {
+                    JTextComponent textComponent = (JTextComponent) innerComponent;
+                    File file = getFileFromTab(textComponent);
+                    if (file != null) {
+                        jFrame.setTitle(file.getName());
+                        return;
+                    }
+                }
+            }
+        }
+        jFrame.setTitle("sin nombre.gck");
+    }
+    private File getFileFromTab(JTextComponent textComponent) {
+        return fileMap.get(textComponent);
+    }
     private boolean saveFile(File var1, String var2) {
         try {
             FileOutputStream var3 = new FileOutputStream(var1);
@@ -201,16 +243,6 @@ public class Directory {
         }
 
         return true;
-    }
-
-    private void saveFile(File var1) {
-        boolean var2 = this.saveFile(var1, this.jTextComponent.getText());
-        if (var2) {
-            this.jFrame.setTitle(var1.getName());
-        } else {
-            JOptionPane.showMessageDialog(this.jFrame, "No se pudo guardar el archivo", "Error desconocido", 2);
-        }
-
     }
 
     private boolean fileNameValid(String var1) {
