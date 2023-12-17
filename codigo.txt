@@ -1,3 +1,1 @@
-int x=23
-float x =24
-int x=20
+Rect2 cajaDelimitadora = new rect2(coordenadas,dimension) 

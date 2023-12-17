@@ -38,7 +38,7 @@ NumFloat = [-+]?{D}(\.{D})
 NumEntero = [-+]?{D}+
 
 
-Reservada = (i|I)(n|N)(t|T)|(f|F)(l|L)(o|O)(a|A)(t|T)|(c|C)(o|O)(n|N)(s|S)(t|T)|(c|C)(h|H)(a|A)(r|R)|(S|s)(t|T)(r|R)(i|I)(n|N)(g|G)|(b|B)(o|O)(o|O)(l|L)|(A|a)(r|R)(r|R)(a|A)(y|Y)|(C|c)(o|O)(l|L)(o|O)(r|R)|(R|r)(e|E)(c|C)(t|T)2|(D|d)(i|I)(c|C)(t|T)(i|I)(o|O)(n|N)(a|A)(r|R)(y|Y)|(e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)|(V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2|(F|f)(i|I)(l|L)(e|E)|(r|R)(e|E)(t|T)(u|U)(r|R)(n|N)|(n|N)(e|E)(w|W)|(A|a)(A|a)(B|b)(B|b)|(T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N)|(R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E)|(O|o)(b|B)(j|J)(e|E)(c|C)(t|T)|(S|s)(t|T)(a|A)(r|R)(t|T)|(S|s)(c|C)(e|E)(n|N)(e|E)(T|t)(r|R)(e|E)(e|E)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E)|(c|C)(l|L)(a|A)(s|S)(s|S)|(v|V)(o|O)(i|I)(d|D)|(p|P)(r|R)(i|I)(n|N)(t|T)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y)|(r|R)(a|A)(n|N)(g|G)(e|E)|(f|F)(u|U)(n|N)(c|C)|(E|e)(r|R)(r|R)(o|O)(r|R)|(f|F)(o|O)(r|R)|(w|W)(h|H)(i|I)(l|L)(e|E)|(i|I)(f|F)|(e|E)(l|L)(i|I)(f|F)|(e|E)(l|L)(s|S)(e|E)|(t|T)(r|R)(u|U)(e|E)|(f|F)(a|A)(l|L)(s|S)(e|E)|(b|B)(r|R)(e|E)(a|A)(k|K)|(i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)|(i|I)(n|N)
+Reservada = (i|I)(n|N)(t|T)|(f|F)(l|L)(o|O)(a|A)(t|T)|(c|C)(o|O)(n|N)(s|S)(t|T)|(c|C)(h|H)(a|A)(r|R)|(S|s)(t|T)(r|R)(i|I)(n|N)(g|G)|(b|B)(o|O)(o|O)(l|L)|(A|a)(r|R)(r|R)(a|A)(y|Y)|(C|c)(o|O)(l|L)(o|O)(r|R)|(R|r)(e|E)(c|C)(t|T)2|(D|d)(i|I)(c|C)(t|T)(i|I)(o|O)(n|N)(a|A)(r|R)(y|Y)|(e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)|(V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2|(r|R)(e|E)(t|T)(u|U)(r|R)(n|N)|(n|N)(e|E)(w|W)|(A|a)(A|a)(B|b)(B|b)|(T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N)|(R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E)|(O|o)(b|B)(j|J)(e|E)(c|C)(t|T)|(S|s)(t|T)(a|A)(r|R)(t|T)|(S|s)(c|C)(e|E)(n|N)(e|E)(T|t)(r|R)(e|E)(e|E)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(S|s)(h|H)(a|A)(p|P)(e|E)|(c|C)(l|L)(a|A)(s|S)(s|S)|(v|V)(o|O)(i|I)(d|D)|(p|P)(r|R)(i|I)(n|N)(t|T)|(P|p)(h|H)(y|Y)(s|S)(i|I)(c|C)(s|S)(B|b)(o|O)(d|D)(y|Y)|(r|R)(a|A)(n|N)(g|G)(e|E)|(f|F)(u|U)(n|N)(c|C)|(f|F)(o|O)(r|R)|(w|W)(h|H)(i|I)(l|L)(e|E)|(i|I)(f|F)|(e|E)(l|L)(i|I)(f|F)|(e|E)(l|L)(s|S)(e|E)|(t|T)(r|R)(u|U)(e|E)|(f|F)(a|A)(l|L)(s|S)(e|E)|(b|B)(r|R)(e|E)(a|A)(k|K)|(i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)|(i|I)(n|N)| (M|m)(o|O)(v|V)(e|E)(r|R)
 
 
 
@@ -74,9 +74,7 @@ OpLogicoFaltanteAND = \&
    (V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2 |
    (T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N) | 
    (R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E) |
-   (A|a)(A|a)(B|b)(B|b) |
-   (F|f)(i|I)(l|L)(e|E) |
-   (E|e)(r|R)(r|R)(o|O)(r|R)                          {tablaToken.insertar(new Token(yytext(),"TIPO_DATO",yyline+1,yycolumn+1));}
+   (A|a)(A|a)(B|b)(B|b)                               {tablaToken.insertar(new Token(yytext(),"TIPO_DATO",yyline+1,yycolumn+1));}
    
 
    (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(k|K)(e|E)(y|Y) |
@@ -88,7 +86,7 @@ OpLogicoFaltanteAND = \&
    
    (i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)      {tablaToken.insertar(new Token(yytext(),"IMPORT",yyline+1,yycolumn+1));}  
    
-   
+   (M|m)(o|O)(v|V)(e|E)(r|R)                          {tablaToken.insertar(new Token(yytext(),"MOVER",yyline+1,yycolumn+1));}
    (C|c)(o|O)(l|L)(o|O)(r|R)                          {tablaToken.insertar(new Token(yytext(),"COLOR",yyline+1,yycolumn+1));}
    (e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)                {tablaToken.insertar(new Token(yytext(),"EXTENDS",yyline+1,yycolumn+1));}
    (n|N)(e|E)(w|W)                                    {tablaToken.insertar(new Token(yytext(),"NEW",yyline+1,yycolumn+1));}
@@ -109,34 +107,33 @@ OpLogicoFaltanteAND = \&
    (i|I)(n|N)                                         {tablaToken.insertar(new Token(yytext(),"IN",yyline+1,yycolumn+1));}
    (r|R)(a|A)(n|N)(g|G)(e|E)                          {tablaToken.insertar(new Token(yytext(),"RANGE",yyline+1,yycolumn+1));}
    
-   "="                         {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
-   "+="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
-   "-="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
-   "%="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
-   "*="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
-   "/="                        {tablaToken.insertar(new Token(yytext(),"OpAsignacion",yyline+1,yycolumn+1));}
-   "!="                        {tablaToken.insertar(new Token(yytext(),"OpComparacion",yyline+1,yycolumn+1));}
-   "=="                        {tablaToken.insertar(new Token(yytext(),"OpComparacion",yyline+1,yycolumn+1));}
-   ">="                        {tablaToken.insertar(new Token(yytext(),"OpComparacion",yyline+1,yycolumn+1));}
-   "<="                        {tablaToken.insertar(new Token(yytext(),"OpComparacion",yyline+1,yycolumn+1));}
-   "<"                         {tablaToken.insertar(new Token(yytext(),"OpComparacion",yyline+1,yycolumn+1));}
-   ">"                         {tablaToken.insertar(new Token(yytext(),"OpComparacion",yyline+1,yycolumn+1));}
-   "+"                         {tablaToken.insertar(new Token(yytext(),"OpAritmetico",yyline+1,yycolumn+1));}
-   "*"                         {tablaToken.insertar(new Token(yytext(),"OpAritmetico",yyline+1,yycolumn+1));}
-   "/"                         {tablaToken.insertar(new Token(yytext(),"OpAritmetico",yyline+1,yycolumn+1));}
-   "-"                         {tablaToken.insertar(new Token(yytext(),"OpAritmetico",yyline+1,yycolumn+1));}
-   "%"                         {tablaToken.insertar(new Token(yytext(),"OpAritmetico",yyline+1,yycolumn+1));}
+   "="                         {tablaToken.insertar(new Token(yytext(),"signoIgual",yyline+1,yycolumn+1));}
+   "+="                        {tablaToken.insertar(new Token(yytext(),"signoMasIgual",yyline+1,yycolumn+1));}
+   "-="                        {tablaToken.insertar(new Token(yytext(),"signoMenosIgual",yyline+1,yycolumn+1));}
+   "%="                        {tablaToken.insertar(new Token(yytext(),"signoModIgual",yyline+1,yycolumn+1));}
+   "*="                        {tablaToken.insertar(new Token(yytext(),"signoPorIgual",yyline+1,yycolumn+1));}
+   "/="                        {tablaToken.insertar(new Token(yytext(),"signoEntreIgual",yyline+1,yycolumn+1));}
+   "!="                        {tablaToken.insertar(new Token(yytext(),"signoNotIgual",yyline+1,yycolumn+1));}
+   "=="                        {tablaToken.insertar(new Token(yytext(),"signoIgualIgual",yyline+1,yycolumn+1));}
+   ">="                        {tablaToken.insertar(new Token(yytext(),"signoMayorIgual",yyline+1,yycolumn+1));}
+   "<="                        {tablaToken.insertar(new Token(yytext(),"signoMenorIgual",yyline+1,yycolumn+1));}
+   "<"                         {tablaToken.insertar(new Token(yytext(),"signoMenor",yyline+1,yycolumn+1));}
+   ">"                         {tablaToken.insertar(new Token(yytext(),"signoMayor",yyline+1,yycolumn+1));}
+   "+"                         {tablaToken.insertar(new Token(yytext(),"signoSUMA",yyline+1,yycolumn+1));}
+   "*"                         {tablaToken.insertar(new Token(yytext(),"signoMUL",yyline+1,yycolumn+1));}
+   "/"                         {tablaToken.insertar(new Token(yytext(),"signoDIV",yyline+1,yycolumn+1));}
+   "-"                         {tablaToken.insertar(new Token(yytext(),"signoRESTA",yyline+1,yycolumn+1));}
+   "%"                         {tablaToken.insertar(new Token(yytext(),"signoMOD",yyline+1,yycolumn+1));}
    "{"                         {tablaToken.insertar(new Token(yytext(),"LLAVE_A",yyline+1,yycolumn+1));}
    "}"                         {tablaToken.insertar(new Token(yytext(),"LLAVE_C",yyline+1,yycolumn+1));}
    "["                         {tablaToken.insertar(new Token(yytext(),"CORCH_A",yyline+1,yycolumn+1));}
    "]"                         {tablaToken.insertar(new Token(yytext(),"CORCH_C",yyline+1,yycolumn+1));}
    "("                         {tablaToken.insertar(new Token(yytext(),"PAREN_A",yyline+1,yycolumn+1));}
    ")"                         {tablaToken.insertar(new Token(yytext(),"PAREN_C",yyline+1,yycolumn+1));}
-   ":"                         {tablaToken.insertar(new Token(yytext(),"DOS_PUNTOS",yyline+1,yycolumn+1));}
    ","                         {tablaToken.insertar(new Token(yytext(),"COMA",yyline+1,yycolumn+1));}
-   "&&"                        {tablaToken.insertar(new Token(yytext(),"OpLogico",yyline+1,yycolumn+1));}
-   "||"                        {tablaToken.insertar(new Token(yytext(),"OpLogico",yyline+1,yycolumn+1));}
-   "!"                         {tablaToken.insertar(new Token(yytext(),"OpLogico",yyline+1,yycolumn+1));}
+   "&&"                        {tablaToken.insertar(new Token(yytext(),"OpLogicoAND",yyline+1,yycolumn+1));}
+   "||"                        {tablaToken.insertar(new Token(yytext(),"OpLogicoOR",yyline+1,yycolumn+1));}
+   "!"                         {tablaToken.insertar(new Token(yytext(),"OpLogicoNOT",yyline+1,yycolumn+1));}
    "\."                        {tablaToken.insertar(new Token(yytext(),"OpAccesoMiembros",yyline+1,yycolumn+1));}
    
    {CadChar}                   {tablaToken.insertar(new Token(yytext(),"CadenaCaracter",yyline+1,yycolumn+1));}

@@ -6,6 +6,8 @@ bool v = true
 array[string] arr = ["a","b","1"]
 color c = (255,255,255)
 rect2 r = new rect2(vector2(0,0),vector2(100,200))
+                           coordenadas^,   dimension^
+                               
 vector2 vec = new vector2(50,10)
 resource res = {"src/app.png"}
 aabb cajaColision = new aabb()
@@ -13,4 +15,3 @@ aabb cajaColision = new aabb()
 func correr(String x, int y ){
    
 }
-

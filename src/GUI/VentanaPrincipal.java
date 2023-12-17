@@ -3,8 +3,7 @@ package GUI;
 import AnalisisLexico.ErrorToken;
 import AnalisisLexico.Lexer;
 import AnalisisLexico.Token;
-import AnalisisSintactico.Grammar;
-import TablasSimbolos.AnalizarFunciones;
+import TablasSimbolos.AnalizadorTablasSimbolos;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.formdev.flatlaf.icons.FlatTabbedPaneCloseIcon;
@@ -892,7 +891,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
           }
        });
        panelContenedorPestañas.add("Script", scrollPane);
-       directorio = new Directory(this, textArea, "GCKKKK", ".gck", panelContenedorPestañas);
+       directorio = new Directory(this, textArea, "nuevo", ".gck", panelContenedorPestañas);
        //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
 
        textArea.setSyntaxEditingStyle("text/myLanguage");
@@ -906,9 +905,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
        textArea.setAnimateBracketMatching(true);
        changeStyleViaThemeXml(textArea, tema);
        textArea.setFont(fuente);
-       /*CompletionProvider provider = createCompletionProvider();
-        AutoCompletion ac = new AutoCompletion(provider);
-        ac.install(textArea);*/
+
     }//GEN-LAST:event_menuNuevoActionPerformed
 
 
@@ -917,7 +914,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSalirActionPerformed
 
     private void menuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirActionPerformed
-       directorio.Open();
+       if (panelContenedorPestañas.getTabCount() > 0) {
+          directorio.Open();
+       } else {
+          String tema;
+          RSyntaxTextArea textArea = new RSyntaxTextArea(); // Crea una nueva instancia de RSyntaxTextArea
+          RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+          scrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+             public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                if (evt.isControlDown()) {
+                   int fontSize = textArea.getFont().getSize();
+                   fontSize += evt.getPreciseWheelRotation() > 0 ? -1 : 1;
+                   textArea.setFont(new Font(textArea.getFont().getName(), textArea.getFont().getStyle(), fontSize));
+                }
+             }
+          });
+          panelContenedorPestañas.add("Script", scrollPane);
+          directorio = new Directory(this, textArea, "nuevo", ".gck", panelContenedorPestañas);
+          //textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GO);
+
+          textArea.setSyntaxEditingStyle("text/myLanguage");
+          if (dark) {
+             tema = "dark.xml";
+          } else {
+             tema = "light.xml";
+          }
+          textArea.setCodeFoldingEnabled(true);
+          textArea.setAntiAliasingEnabled(true);
+          textArea.setAnimateBracketMatching(true);
+          changeStyleViaThemeXml(textArea, tema);
+          textArea.setFont(fuente);
+          directorio.Open();
+       }
     }//GEN-LAST:event_menuAbrirActionPerformed
 
     private void menuCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCerrarActionPerformed
@@ -943,8 +971,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
        FlatAnimatedLafChange.showSnapshot();
        FlatMaterialDeepOceanIJTheme.setup();
        FlatLaf.updateUI();
-       FlatAnimatedLafChange.hideSnapshotWithAnimation();
-
+       pantalla.setTitle("Output");
+       pantalla.setFrameIcon(null);
+       pantalla.setBorder(null);
+       
+       
        if (dark) {
           tema = "dark.xml";
        } else {
@@ -961,6 +992,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
           // Establecer la fuente
           textArea.setFont(fuente);
        }
+       FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }//GEN-LAST:event_modoOscuroMenuItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -995,9 +1027,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }//GEN-LAST:event_txtResultadoMouseWheelMoved
 
    private void compilationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilationButtonActionPerformed
-      analisisLexico();
-      analisisSintactico();
-      mostrarErrores();
+      if (panelContenedorPestañas.getTabCount() > 0) {
+         analisisLexico();
+         analisisSintactico();
+         mostrarErrores();
+      } else {
+         pantalla.hide();
+         return;
+      }
+      return;
    }//GEN-LAST:event_compilationButtonActionPerformed
 
    private void TSFijaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TSFijaMenuActionPerformed
@@ -1029,8 +1067,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       FlatAnimatedLafChange.showSnapshot();
       FlatMaterialLighterIJTheme.setup();
       FlatLaf.updateUI();
-      FlatAnimatedLafChange.hideSnapshotWithAnimation();
-
+      pantalla.setTitle("Output");
+      pantalla.setFrameIcon(null);
+      pantalla.setBorder(null);
+      
       if (dark) {
          tema = "dark.xml";
       } else {
@@ -1047,6 +1087,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          // Establecer la fuente
          textArea.setFont(fuente);
       }
+      FlatAnimatedLafChange.hideSnapshotWithAnimation();
    }//GEN-LAST:event_modoClaroMenuItemActionPerformed
 
    private void changeStyleViaThemeXml(RSyntaxTextArea textArea, String xml) {
@@ -1137,7 +1178,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       });
 
    }
-   
+
    private void analisisLexico() {
       String texto = "";
       int indicePanelActivo = panelContenedorPestañas.getSelectedIndex(); // Obtiene el índice del panel activo
@@ -1160,8 +1201,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       vaciarTabla(TablaArreglos, tablaArreglos);
       DefaultTableModel TablaIdentificadores = (DefaultTableModel) tablaIdentificadores.getModel();
       vaciarTabla(TablaIdentificadores, tablaIdentificadores);
-      
-      AnalizarFunciones.analizarCodigo(texto, tablaFunciones, tablaArreglos,tablaIdentificadores);
+
+      AnalizadorTablasSimbolos.analizarCodigo(texto, tablaFunciones, tablaArreglos, tablaIdentificadores);
       //simbolos.clear();
       File archivo = new File("codigo.txt");
       PrintWriter escribir;
@@ -1193,7 +1234,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                ComponentesLexicos = lexer.tablaToken.getTokens();
                errores = lexer.tablaError.getErrores();
                //llenarTSIdentificadores();
-               llenarTabla();
+               llenarTablaLexica();
 
                return;
             }
@@ -1206,25 +1247,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }
 
    private void analisisSintactico() {
-      
-
-      
+        
    }
 
-   private void llenarTSIdentificadores() {
 
-      DefaultTableModel dm = (DefaultTableModel) tablaIdentificadores.getModel();
-      dm.setRowCount(0);
-      for (Token entry : ComponentesLexicos) {
-         if (entry.grupoLexico.equals("Identificador")) {
-            Object[] campos = {entry.lexema, entry.hashCode(), entry.linea, entry.columna};
-            dm.addRow(campos);
-         }
-      }
-      tablaIdentificadores.setModel(dm);
-   }
-
-   private void llenarTabla() {
+   private void llenarTablaLexica() {
 
       DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
       dm.setRowCount(0);

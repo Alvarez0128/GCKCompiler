@@ -103,13 +103,13 @@ public class Directory {
                     JTextComponent textComponent = (JTextComponent) innerComponent;
                     File file = getFileFromTab(textComponent);
                     if (file != null) {
-                        jFrame.setTitle(file.getName());
+                        //jFrame.setTitle(file.getName());
                         return;
                     }
                 }
             }
         }
-        jFrame.setTitle("sin nombre.gck");
+        //jFrame.setTitle("sin nombre.gck");
     }
     private File getFileFromTab(JTextComponent textComponent) {
         return fileMap.get(textComponent);
@@ -141,7 +141,7 @@ public class Directory {
             if (var2.getSelectedFile() != null) {
                 boolean var4 = this.saveFile(var1, this.jTextComponent.getText());
                 if (var4) {
-                    this.jFrame.setTitle(var1.getName());
+                    //this.jFrame.setTitle(var1.getName());
                 }
             } else {
                 int var7;
@@ -201,7 +201,7 @@ public class Directory {
             if (var2.getSelectedFile() != null) {
                 boolean var4 = this.saveFile(var1, this.jTextComponent.getText());
                 if (var4) {
-                    this.jFrame.setTitle(var1.getName());
+                    //this.jFrame.setTitle(var1.getName());
                 }
             } else if (this.jFrame.getTitle().equals(this.title + "*")) {
                 int var7 = JOptionPane.showOptionDialog(this.jFrame, "¿Desea guardar el archivo actual?", "¿Descartar edición de archivo nuevo?", -1, 3, (Icon)null, this.options, this.options[0]);
@@ -234,12 +234,12 @@ public class Directory {
                     }
                 } else {
                     this.jTextComponent.setText("");
-                    this.jFrame.setTitle(this.title);
+                    //this.jFrame.setTitle(this.title);
                 }
             }
         } else {
             this.jTextComponent.setText("");
-            this.jFrame.setTitle(this.title);
+            //this.jFrame.setTitle(this.title);
         }
 
         return true;
@@ -255,13 +255,13 @@ public class Directory {
         this.file = this.selecFile.getSelectedFile();
         if (this.jFrame.getTitle().contains("*")) {
             if (this.saveEditNew(this.file, this.selecFile)) {
-                this.jFrame.setTitle(this.title);
+                //this.jFrame.setTitle(this.title);
                 this.jTextComponent.setText("");
                 this.selecFile = new JFileChooser();
                 this.file = null;
             }
         } else {
-            this.jFrame.setTitle(this.title);
+            //this.jFrame.setTitle(this.title);
             this.jTextComponent.setText("");
             this.selecFile = new JFileChooser();
             this.file = null;
@@ -299,7 +299,7 @@ public class Directory {
                         }
 
                         this.jTextComponent.setText(var4);
-                        this.jFrame.setTitle(var2.getName());
+                        //this.jFrame.setTitle(var2.getName());
                         this.selecFile = var1;
                         this.file = var2;
                         //this.tabs.setTitleAt(1, var2.getName());
