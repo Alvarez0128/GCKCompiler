@@ -1,5 +1,5 @@
 package AnalisisSintactico;
-import java_cup.runtime.Symbol;
+import java_cup.runtime.*;
 
 %%
 
@@ -9,6 +9,7 @@ import java_cup.runtime.Symbol;
 %line
 %char
 %cup
+%implements sym
 %full
 
 %{
@@ -97,11 +98,11 @@ OpLogicoFaltanteAND = \&
    
    (M|m)(o|O)(v|V)(e|E)(r|R)                          {return new Symbol(sym.mover,yychar,yyline,yytext());}
    (C|c)(o|O)(l|L)(o|O)(r|R)                          {return new Symbol(sym.color,yychar,yyline,yytext());}
-   (e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)                {return new Symbol(sym.extends,yychar,yyline,yytext());}
+   (e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)                {return new Symbol(sym.extendsP,yychar,yyline,yytext());}
    (n|N)(e|E)(w|W)                                    {return new Symbol(sym.new,yychar,yyline,yytext());}
    (r|R)(e|E)(t|T)(u|U)(r|R)(n|N)                     {return new Symbol(sym.return,yychar,yyline,yytext());}
-   (S|s)(t|T)(a|A)(r|R)(t|T)                          {return new Symbol(sym.start,yychar,yyline,yytext());}
-   (c|C)(l|L)(a|A)(s|S)(s|S)                          {return new Symbol(sym.class,yychar,yyline,yytext());}
+   (S|s)(t|T)(a|A)(r|R)(t|T)                          {return new Symbol(sym.startP,yychar,yyline,yytext());}
+   (c|C)(l|L)(a|A)(s|S)(s|S)                          {return new Symbol(sym.classP,yychar,yyline,yytext());}
    (v|V)(o|O)(i|I)(d|D)                               {return new Symbol(sym.void,yychar,yyline,yytext());}
    (p|P)(r|R)(i|I)(n|N)(t|T)                          {return new Symbol(sym.print,yychar,yyline,yytext());}
    (f|F)(u|U)(n|N)(c|C)                               {return new Symbol(sym.func,yychar,yyline,yytext());}
@@ -144,7 +145,8 @@ OpLogicoFaltanteAND = \&
    "||"                        {return new Symbol(sym.or,yychar,yyline,yytext());}
    "!"                         {return new Symbol(sym.not,yychar,yyline,yytext());}
    "\."                        {return new Symbol(sym.opAccMiembros,yychar,yyline,yytext());}
-   
+   {FinalDeLinea}              {return new Symbol(sym.FinDeLinea,yychar,yyline,yytext());}
+      
    {CadChar}                   {return new Symbol(sym.cadChar,yychar,yyline,yytext());}
    {CadenaCaracteres}          {return new Symbol(sym.cadCaracteres,yychar,yyline,yytext());} 
     

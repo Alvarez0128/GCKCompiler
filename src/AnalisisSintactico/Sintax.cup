@@ -15,25 +15,35 @@ parser code
 }
 :};
 
-terminal tipoDato,array,object,rect2,vector2,timeSpan,resource,aabb,file,funcionInterna,const,importAll,mover,color,extends,new,return,start,
-         class,void,print,func,for,while,if,elif,else,true,false,break,in,range,igual,masIgual,menosIgual,modIgual,porIgual,divIgual,notIgual,
+terminal tipoDato,array,object,rect2,vector2,timeSpan,resource,aabb,funcionInterna,const,importAll,mover,color,extendsP,new,return,startP,
+         classP,void,print,func,for,while,if,elif,else,true,false,break,in,range,igual,masIgual,menosIgual,modIgual,porIgual,divIgual,notIgual,
          igualIgual,mayorIgual,menorIgual,menor,mayor,mas,mul,div,resta,mod,llave_A,llave_C,corch_A,corch_C,paren_A,paren_C,coma,and,or,not,opAccMiembros,
-         cadChar,cadCaracteres,identificador,numEntero,numFloat
+         cadChar,cadCaracteres,identificador,numEntero,numFloat,FinDeLinea
          ;
 
-non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, ELIF,
-    ELSE, WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR;
+non terminal INICIO, SENTENCIA, DECLARACION, IF, ELIF,ELSE, WHILE, FOR,FUNCION,EXPRESION, BOOLEAN_EXPRESSION,BOOLEAN_TERM,BOOLEAN_LITERAL,BOOLEAN_FACTOR,PRIMARY,PARAMETRO,PARAMETROS,ELEMENTO,ELEMENTOS,DECCONST;
+
+/* Precedencias y asociatividades */
+precedence left mas, resta;
+precedence left mul, div, mod;
+precedence left or;
+precedence left and;
+precedence right not;
 
 start with INICIO;
 
 INICIO ::= 
-   importAll? 
-   class identificador llave_A SENTENCIA llave_C
+   importAll
+   classP identificador llave_A SENTENCIA llave_C
+   |
+   classP identificador llave_A SENTENCIA llave_C
 ;
 
 SENTENCIA ::= 
    SENTENCIA DECLARACION |
    DECLARACION |
+   SENTENCIA FUNCION |
+   FUNCION |
    SENTENCIA IF | 
    IF |
    SENTENCIA ELIF |
@@ -43,49 +53,118 @@ SENTENCIA ::=
    SENTENCIA WHILE
    WHILE |
    SENTENCIA FOR |
-   FOR
+   FOR | 
+   startP | /*empty*/
 ;
 
 DECLARACION ::= 
-   const? tipoDato identificador | 
-   const? tipoDato identificador igual (numEntero|numFloat|cadCaracteres|cadChar|identificador|true|false) |
-   const? array corch_A tipoDato corch_C identificador igual corch_A (numEntero|numFloat|cadCaracteres|cadChar|identificador|true|false)? corch_C
-   const? object identificador
-   const? object identificador igual paren_A (numEntero|numFloat|cadCaracteres|cadChar|identificador|true|false) paren_C
-   const? rect2 identificador igual new rect2 paren_A identificador coma identificador paren_C
-   const? vector2 identificador igual new vector2 paren_A numEntero coma numEntero paren_C
-   const? timeSpan identificador igual new timeSpan paren_A numEntero paren_C
-   const? resource identificador igual llave_A cadCaracteres llave_C
-   const? aabb identificador igual new aabb paren_A identificador paren_C
-   const? color identificador igual paren_A numEntero coma numEntero coma numEntero paren_C
+   DECCONST tipoDato identificador FinDeLinea | 
+   DECCONST tipoDato identificador igual EXPRESION FinDeLinea |
+   DECCONST funcionInterna identificador FinDeLinea |
+   DECCONST array corch_A tipoDato corch_C identificador igual corch_A ELEMENTOS corch_C FinDeLinea |
+   DECCONST array corch_A tipoDato corch_C identificador igual corch_A corch_C FinDeLinea |
+   DECCONST object identificador FinDeLinea |
+   DECCONST object identificador igual paren_A PARAMETROS paren_C FinDeLinea |
+   DECCONST rect2 identificador igual new rect2 paren_A identificador coma identificador paren_C FinDeLinea|
+   DECCONST vector2 identificador igual new vector2 paren_A numEntero coma numEntero paren_C FinDeLinea |
+   DECCONST timeSpan identificador igual new timeSpan paren_A numEntero paren_C FinDeLinea |
+   DECCONST resource identificador igual llave_A cadCaracteres llave_C FinDeLinea |
+   DECCONST aabb identificador igual new aabb paren_A identificador paren_C FinDeLinea |
+   DECCONST color identificador igual paren_A numEntero coma numEntero coma numEntero paren_C FinDeLinea 
+;
+
+DECCONST::=
+   const | /* VACIO */
+;
+
+EXPRESION ::=
+   identificador | numEntero | numEntero| numFloat | cadCaracteres | cadChar | identificador | true | false |
+   EXPRESION mas EXPRESION |
+   EXPRESION resta EXPRESION |
+   EXPRESION div EXPRESION |
+   EXPRESION mul EXPRESION |
+   EXPRESION mod EXPRESION |
+   identificador igual EXPRESION |
+   identificador masIgual EXPRESION |
+   identificador menosIgual EXPRESION |
+   identificador porIgual EXPRESION |
+   identificador divIgual EXPRESION |
+   identificador modIgual EXPRESION |
+   paren_A EXPRESION paren_C;
+
+FUNCION ::= func identificador paren_A PARAMETROS paren_C llave_A SENTENCIA llave_C
+          | func identificador paren_A paren_C llave_A SENTENCIA llave_C
+          | void func identificador paren_A PARAMETROS paren_C llave_A SENTENCIA llave_C
+          | void func identificador paren_A paren_C llave_A SENTENCIA llave_C
+;
+
+PARAMETROS ::= PARAMETRO
+             | PARAMETROS coma PARAMETRO
+;
+
+PARAMETRO ::= tipoDato identificador
+           | tipoDato identificador coma PARAMETRO
+;
+
+ELEMENTOS ::= ELEMENTO
+            | ELEMENTOS coma ELEMENTO
+;
+
+ELEMENTO ::= numEntero
+           | numFloat
+           | cadCaracteres
+           | cadChar
+           | identificador
+           | true
+           | false
 ;
 
 IF ::= 
-   if paren_A SENTENCIA_BOOLEANA paren_C llave_A SENTENCIA llave_C |
-   if SENTENCIA_BOOLEANA llave_A SENTENCIA llave_C
+   if paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA llave_C ELIF |
+   if paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA llave_C ELSE |
+   if BOOLEAN_EXPRESSION llave_A SENTENCIA llave_C 
 ;
-SENTENCIA_BOOLEANA ::= 
-   Op_booleano | 
-   Identificador Op_relacional Op_booleano |
-   Identificador Op_relacional Numero |
-   Identificador Op_relacional Identificador |
-   Identificador Op_relacional Comillas Comillas |
-   Identificador Op_relacional Comillas Identificador Comillas
+
+BOOLEAN_EXPRESSION ::= BOOLEAN_TERM
+                     | BOOLEAN_EXPRESSION or BOOLEAN_TERM;
+
+BOOLEAN_TERM ::= BOOLEAN_FACTOR
+               | BOOLEAN_TERM and BOOLEAN_FACTOR;
+
+BOOLEAN_FACTOR ::= PRIMARY
+                 | not PRIMARY;
+
+PRIMARY ::= BOOLEAN_LITERAL
+         | paren_A BOOLEAN_EXPRESSION paren_C
+         | PRIMARY igualIgual PRIMARY
+         | PRIMARY notIgual PRIMARY
+         | PRIMARY menor PRIMARY
+         | PRIMARY menorIgual PRIMARY
+         | PRIMARY mayor PRIMARY
+         | PRIMARY mayorIgual PRIMARY
+         | identificador opAccMiembros identificador 
+         | identificador
 ;
-IF_ELSE ::= If Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c Else Llave_a SENTENCIA Llave_c
+
+BOOLEAN_LITERAL ::= true | false;
+
+ELIF ::= elif paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA llave_C 
+       | elif paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA llave_C ELIF
+       | elif paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA llave_C ELSE
+       | /* empty */;
+
+ELSE ::= else llave_A SENTENCIA llave_C | /* empty */;
+
+WHILE ::= while paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA break llave_C 
+        | while BOOLEAN_EXPRESSION llave_A SENTENCIA break llave_C 
+        | while paren_A BOOLEAN_EXPRESSION paren_C llave_A SENTENCIA llave_C 
+        | while BOOLEAN_EXPRESSION llave_A SENTENCIA llave_C 
 ;
-WHILE ::= While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c
+
+FOR ::= for identificador in range identificador llave_A SENTENCIA llave_C
+      | for numEntero in range numEntero llave_A SENTENCIA llave_C
+      | for identificador in range numEntero llave_A SENTENCIA llave_C
+      | for numEntero in range identificador llave_A SENTENCIA llave_C
+
 ;
-DO_WHILE ::= Do Llave_a SENTENCIA Llave_c While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c P_coma
-;
-FOR ::= For Parentesis_a SENTENCIA_FOR Parentesis_c Llave_a SENTENCIA Llave_c
-;
-SENTENCIA_FOR ::=
-   T_dato Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR |
-   Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR
-;
-DECLARACION_FOR ::= 
-   Identificador Op_atribucion Numero |
-   Identificador Op_incremento | 
-   Op_incremento Identificador
-;
+

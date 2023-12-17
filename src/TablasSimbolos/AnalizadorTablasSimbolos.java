@@ -65,10 +65,13 @@ public class AnalizadorTablasSimbolos {
                   case "string":
                      valorVariable = "\"\"";
                      break;
+                  case "bool":
+                     valorVariable = "false";
+                     break;
                   // Agrega más casos según tus necesidades
                   default:
                      // Otros tipos, asignar un valor predeterminado
-                     valorVariable = "undefined";
+                     valorVariable = "No definido";
                      break;
                }
             }
