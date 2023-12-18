@@ -219,11 +219,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
          },
          new String [] {
-            "Identificador", "Tipo", "Valor"
+            "Identificador", "Tipo", "Valor", "Constante"
          }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false
+            false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -358,11 +358,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
          },
          new String [] {
-            "Identificador", "Cantidad de parámetros", "Tipos de parámetros", "Dirección"
+            "Identificador", "Cantidad de parámetros", "Tipos de parámetros"
          }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, false
+            false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -412,9 +412,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
          },
          new String [] {
-            "Nombre", "Dimension", "Tipo", "Elementos", "Direccion"
+            "Nombre", "Dimension", "Tipo", "Elementos"
          }
-      ));
+      ) {
+         boolean[] canEdit = new boolean [] {
+            false, false, false, false
+         };
+
+         public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+         }
+      });
       jScrollPane5.setViewportView(tablaArreglos);
 
       javax.swing.GroupLayout contenedorBaseTS3Layout = new javax.swing.GroupLayout(contenedorBaseTS3);
@@ -976,8 +984,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
        pantalla.setTitle("Output");
        pantalla.setFrameIcon(null);
        pantalla.setBorder(null);
-       
-       
+
        if (dark) {
           tema = "dark.xml";
        } else {
@@ -1072,7 +1079,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       pantalla.setTitle("Output");
       pantalla.setFrameIcon(null);
       pantalla.setBorder(null);
-      
+
       if (dark) {
          tema = "dark.xml";
       } else {
@@ -1251,10 +1258,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private void analisisSintactico() {
 
       Grammar gramatica = new Grammar(ComponentesLexicos, errores);
-      /*Agrupacion de valores*/
-      gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
+      /*gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
 
-      /*Gramática Declaracion de variables*/
       gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador OpAsignacion VALOR", true);
       gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador", true);
       gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
@@ -1264,32 +1269,68 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       gramatica.group("ERROR_VARIABLE", "(CONSTANTE)? TIPO_DATO", 14, "Se esperaba una declaracion de variable");
       gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
 
-      /*Eliminacion de operadores de asignacion y valores*/
       //gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
       gramatica.delete("CONSTANTE", 17, "Se esperaba una declaración de variable");
       //gramatica.delete("VALOR", 16, "El valor no está en una declaración");
       //gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
 
-      /*Agrupacion de identificadores como valores y definicion de parametros*/
       gramatica.group("VALOR", "Identificador");
       gramatica.group("COLORS", "VALOR COMA VALOR COMA VALOR");
       gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
 
-      /*Agrupacion de funciones*/
       gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C");
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
       gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
       
       gramatica.delete("FUNCION_INTERNA", 18, "La función no está declarada correctamente");
       
-      /*Gramatica para declaras colores*/
       //gramatica.group("COLOR_VAL", "PAREN_A NumEntero COMA NumEntero COMA NumEntero PAREN_C");
-      gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");
+      gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");*/
+
+      gramatica.group("VALOR", "(NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )");
+
+      gramatica.group("ELEMENTOS", "VALOR (COMA (VALOR)+)?");
+
+      gramatica.group("DECLARACION_ARREGLO", "(CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C Identificador signoIgual CORCH_A (ELEMENTOS)? CORCH_C");
+     
+
+      gramatica.group("ERROR_DECARR", "(CONSTANTE)? ARRAY CORCH_A TIPO_DATO Identificador signoIgual CORCH_A (ELEMENTOS)? CORCH_C", 3, "Declaración de arreglo inválida");
+
+      gramatica.delete("ELEMENTOS");
       
+      gramatica.group("VALOR", "(NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )");
+
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador | (CONSTANTE)? TIPO_DATO Identificador signoIgual VALOR |(CONSTANTE)? TIPO_DATO Identificador signoIgual Identificador | DECLARACION_ARREGLO");
+
+      gramatica.group("ERROR_DECVAR", "CONSTANTE signoIgual", 3, "Se esperaba una declaración de variable");
+      gramatica.group("ERROR_DECVAR", "CONSTANTE signoIgual VALOR", 3, "Se esperaba una declaración de variable");
+      gramatica.group("ERROR_DECVAR", "(CONSTANTE)? Identificador | (CONSTANTE)? Identificador signoIgual VALOR", 3, "Se esperaba un tipo de dato en la declaración");
+      gramatica.group("ERROR_DECVAR", "CONSTANTE TIPO_DATO | CONSTANTE TIPO_DATO signoIgual VALOR", 3, "Se esperaba un identificador en la declaración");
+      gramatica.group("ERROR_DECVAR", "(CONSTANTE)? TIPO_DATO VALOR", 3, "Se esperaba un '=' en la declaración");
+      gramatica.group("ERROR_DECVAR", "(CONSTANTE)? TIPO_DATO Identificador signoIgual", 3, "Se esperaba un valor en la declaración");
+      gramatica.group("ERROR_DECVAR", "(CONSTANTE)? TIPO_DATO | (CONSTANTE)? TIPO_DATO signoIgual VALOR", 3, "Se esperaba un identificador en la declaración");
+      gramatica.group("ERROR_DECVAR", "CONSTANTE", 3, "Se esperaba una declaración de variable");
+      gramatica.group("ERROR_DECVAR", "signoIgual", 3, "Se esperaba una declaración de variable");
+      gramatica.group("ERROR_DECVAR", "TIPO_DATO", 3, "Se esperaba una declaración de variable");
+      gramatica.group("ERROR_DECVAR", "VALOR", 3, "Se esperaba una declaración de variable");
+
+      gramatica.group("SENTENCIAS", "(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+");
+
+      gramatica.group("BLOQUE", "LLAVE_A (START|SENTENCIAS)? LLAVE_C");
+      gramatica.group("ERROR_BLOQUE", "(SENTENCIAS)? LLAVE_C", 2, "Faltó llave apertura");
+      gramatica.group("ERROR_BLOQUE", "LLAVE_A (SENTENCIAS)? ", 2, "Faltó llave de cierre");
+
+      gramatica.group("INICIO", "(IMPORT)? CLASS Identificador (EXTENDS Identificador)? BLOQUE");
+      gramatica.group("ERROR_INICIO", "CLASS Identificador (EXTENDS)? BLOQUE", 1, "No se especificó la clase padre");
+      gramatica.group("ERROR_INICIO", "Identificador (EXTENDS )? BLOQUE", 1, "inicio ilegal no se declaró la clase");
+      gramatica.group("ERROR_INICIO", "Identificador ", 1, "inicio ilegal no se declaró la clase");
+      gramatica.group("ERROR_INICIO", "BLOQUE ", 1, "inicio ilegal no se declaró la clase");
+      gramatica.group("ERROR_INICIO", "CLASS Identificador ERROR_BLOQUE", 1, "inicio ilegal no se declaró la clase");
+      //gramatica.group("ERROR_INICIO","SENTENCIAS",1,"inicio ilegal no se declaró la clase");
+      //FALTA INDICAR LOS ERRORES QUE INCLUYAN CASOS DONDE HAYA ERRORES DE OTRO TIPO
+
       gramatica.show();
-
    }
-
 
    private void llenarTablaLexica() {
 

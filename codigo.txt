@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Rect2 cajaDelimitadora = new rect2(coordenadas,dimension) 
-=======
-color x=(g,df,f)
->>>>>>> parent of fac4097 (V1.5.2)
+int s=223

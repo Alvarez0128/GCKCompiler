@@ -67,14 +67,7 @@ OpLogicoFaltanteAND = \&
    (f|F)(l|L)(o|O)(a|A)(t|T) |
    (c|C)(h|H)(a|A)(r|R) |
    (S|s)(t|T)(r|R)(i|I)(n|N)(g|G) |
-   (b|B)(o|O)(o|O)(l|L) |
-   (A|a)(r|R)(r|R)(a|A)(y|Y) |
-   (O|o)(b|B)(j|J)(e|E)(c|C)(t|T) | 
-   (R|r)(e|E)(c|C)(t|T)2 |
-   (V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2 |
-   (T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N) | 
-   (R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E) |
-   (A|a)(A|a)(B|b)(B|b)                               {tablaToken.insertar(new Token(yytext(),"TIPO_DATO",yyline+1,yycolumn+1));}
+   (b|B)(o|O)(o|O)(l|L)                               {tablaToken.insertar(new Token(yytext(),"TIPO_DATO",yyline+1,yycolumn+1));}
    
 
    (i|I)(n|N)(p|P)(u|U)(t|T)(e|E)(v|V)(e|E)(n|N)(t|T)(k|K)(e|E)(y|Y) |
@@ -86,8 +79,16 @@ OpLogicoFaltanteAND = \&
    
    (i|I)(m|M)(p|P)(o|O)(r|R)(t|T)(A|a)(l|L)(l|L)      {tablaToken.insertar(new Token(yytext(),"IMPORT",yyline+1,yycolumn+1));}  
    
+   (A|a)(r|R)(r|R)(a|A)(y|Y)                          {tablaToken.insertar(new Token(yytext(),"ARRAY",yyline+1,yycolumn+1));}
+   (O|o)(b|B)(j|J)(e|E)(c|C)(t|T)                     {tablaToken.insertar(new Token(yytext(),"OBJECT",yyline+1,yycolumn+1));}  
+   (R|r)(e|E)(c|C)(t|T)2                              {tablaToken.insertar(new Token(yytext(),"RECT2",yyline+1,yycolumn+1));}
+   (V|v)(e|E)(c|C)(t|T)(o|O)(r|R)2                    {tablaToken.insertar(new Token(yytext(),"VECTOR2",yyline+1,yycolumn+1));}
+   (T|t)(i|I)(m|M)(e|E)(S|s)(p|P)(a|A)(n|N)           {tablaToken.insertar(new Token(yytext(),"TIMESPAN",yyline+1,yycolumn+1));}
+   (R|r)(e|E)(s|S)(o|O)(u|U)(r|R)(c|C)(e|E)           {tablaToken.insertar(new Token(yytext(),"RESOURCE",yyline+1,yycolumn+1));}
+   (A|a)(A|a)(B|b)(B|b)                               {tablaToken.insertar(new Token(yytext(),"AABB",yyline+1,yycolumn+1));}
    (M|m)(o|O)(v|V)(e|E)(r|R)                          {tablaToken.insertar(new Token(yytext(),"MOVER",yyline+1,yycolumn+1));}
    (C|c)(o|O)(l|L)(o|O)(r|R)                          {tablaToken.insertar(new Token(yytext(),"COLOR",yyline+1,yycolumn+1));}
+   
    (e|E)(x|X)(t|T)(e|E)(n|N)(d|D)(s|S)                {tablaToken.insertar(new Token(yytext(),"EXTENDS",yyline+1,yycolumn+1));}
    (n|N)(e|E)(w|W)                                    {tablaToken.insertar(new Token(yytext(),"NEW",yyline+1,yycolumn+1));}
    (r|R)(e|E)(t|T)(u|U)(r|R)(n|N)                     {tablaToken.insertar(new Token(yytext(),"RETURN",yyline+1,yycolumn+1));}
@@ -153,10 +154,10 @@ OpLogicoFaltanteAND = \&
    {Identificador}             {tablaToken.insertar(new Token(yytext(),"Identificador",yyline+1,yycolumn+1));}       
    {NumEntero}                 {tablaToken.insertar(new Token(yytext(),"NumEntero",yyline+1,yycolumn+1));} 
    {NumFloat}                  {tablaToken.insertar(new Token(yytext(),"NumFlotante",yyline+1,yycolumn+1));} 
-      
+
    {ComentarioSimple}          {/**/}
    {ComentarioMultilinea}      {/**/}  
-   {espacio}                   {/**/}
+   {espacio}                   {/*IGNORAR*/}
 }
 
 .                               {tablaError.insertar(new ErrorToken(9,"Léxico","Simbolo desconocido; revise que el simbolo coincida con el alfabeto",yytext(),yyline+1,yycolumn+1));}

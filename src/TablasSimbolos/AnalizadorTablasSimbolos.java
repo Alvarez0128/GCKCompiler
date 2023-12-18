@@ -11,7 +11,7 @@ public class AnalizadorTablasSimbolos {
 
    private static final Set<String> tiposValidos = new HashSet<>(Set.of(
            "int", "float", "char", "string", "bool", "array", "color", "object",
-           "rect2", "vector2", "timespan", "resource", "aabb", "file", "error"
+           "rect2", "vector2", "timespan", "resource", "aabb"
    ));
 
    public static void analizarCodigo(String codigo, JTable tablaFunciones, JTable tablaArreglos, JTable tablaVariables) {
@@ -21,7 +21,7 @@ public class AnalizadorTablasSimbolos {
    }
 
    private static void analizarVariables(String codigo, JTable tablaVariables) {
-      String regexVariables = "\\b(" + String.join("|", tiposValidos) + ")\\b\\s+([a-zA-Z][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*)(\\s*=\\s*(([a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*)|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n])*(\\\\[^\\\"\\n])*)[\"]|([\\']([^\\\\'\\\\n])*(\\\\[^\\'\\\\n])*)[\']))?";
+      String regexVariables = "\\b(const)?\\s*(" + String.join("|", tiposValidos) + ")\\b\\s+([a-zA-Z][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*)(\\s*=\\s*((\\bnew\\b\\s*\\w+\\s*\\([^)]*\\))|([a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*)|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n])*(\\\\[^\\\"\\n])*)[\"]|([\\']([^\\\\'\\\\n])*(\\\\[^\\'\\\\n])*)[\']))?";
       Pattern patternVariables = Pattern.compile(regexVariables, Pattern.CASE_INSENSITIVE);
 
       DefaultTableModel modeloVariables = (DefaultTableModel) tablaVariables.getModel();
@@ -36,47 +36,25 @@ public class AnalizadorTablasSimbolos {
       Matcher matcherVariables = patternVariables.matcher(codigo);
 
       while (matcherVariables.find()) {
-         String identificadorVariable = matcherVariables.group(2);
+         String identificadorVariable = matcherVariables.group(3);
+         String tipoVariable = matcherVariables.group(2).toLowerCase();
+         String valorVariable = "";
+         boolean esConstante = matcherVariables.group(1) != null && !matcherVariables.group(1).isEmpty();
 
          // Verificar si el nombre ya fue agregado a la tabla
          if (nombresVariablesAgregados.add(identificadorVariable)) {
-            String tipoVariable = matcherVariables.group(1).toLowerCase();
-
-            // Obtener el valor de la variable, o asignar un valor predeterminado si no se proporciona
-            String valorVariable = "";
-            if (matcherVariables.group(3) != null) {
-               // Buscar la posición del igual y tomar la subcadena a partir de esa posición
-               int posicionIgual = matcherVariables.group(3).indexOf('=');
-               if (posicionIgual != -1) {
-                  valorVariable = matcherVariables.group(3).substring(posicionIgual + 1).trim();
-               }
+            if (matcherVariables.group(4) != null) {
+               // El valor de la variable se inicializa con "new", capturar lo que está dentro de los paréntesis
+               valorVariable = capturarValores(matcherVariables.group(4));
+            } else if (matcherVariables.group(5) != null) {
+               // El valor de la variable es un literal, como un número o cadena
+               valorVariable = capturarValores(matcherVariables.group(5));
             } else {
                // Asignar valor predeterminado según el tipo
-               switch (tipoVariable) {
-                  case "int":
-                     valorVariable = "0";
-                     break;
-                  case "float":
-                     valorVariable = "0.0";
-                     break;
-                  case "char":
-                     valorVariable = "''";
-                     break;
-                  case "string":
-                     valorVariable = "\"\"";
-                     break;
-                  case "bool":
-                     valorVariable = "false";
-                     break;
-                  // Agrega más casos según tus necesidades
-                  default:
-                     // Otros tipos, asignar un valor predeterminado
-                     valorVariable = "No definido";
-                     break;
-               }
+               valorVariable = obtenerValorPredeterminado(tipoVariable);
             }
 
-            modeloVariables.addRow(new Object[]{identificadorVariable, tipoVariable, valorVariable});
+            modeloVariables.addRow(new Object[]{identificadorVariable, tipoVariable, valorVariable, esConstante ? "Sí" : "No"});
          }
       }
 
@@ -84,6 +62,31 @@ public class AnalizadorTablasSimbolos {
          // Manejar error: problemas con el patrón de búsqueda
          System.out.println("Error en el patron de busqueda de variables.");
       }
+   }
+
+   private static String capturarValores(String input) {
+      // Usar una expresión regular para capturar diferentes casos de valores
+      String regex = "\\bnew\\s+(\\w+)\\s*\\(([^)]*)\\)|[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n])*(\\\\[^\\\"\\n])*)[\"]|([\\']([^\\\\'\\\\n])*(\\\\[^\\'\\\\n])*)[\']|[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*\\s*[-+/*]\\s*[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*";
+      Pattern pattern = Pattern.compile(regex);
+      Matcher matcher = pattern.matcher(input);
+
+      StringBuilder valoresCapturados = new StringBuilder();
+
+      while (matcher.find()) {
+         // Verificar si hay coincidencia con el patrón de "new"
+         if (matcher.group(1) != null) {
+            valoresCapturados.append(capturarValores(matcher.group(2))).append(", ");
+         } else {
+            valoresCapturados.append(matcher.group()).append(", ");
+         }
+      }
+
+      // Eliminar la coma final si hay valores capturados
+      if (valoresCapturados.length() > 0) {
+         valoresCapturados.delete(valoresCapturados.length() - 2, valoresCapturados.length());
+      }
+
+      return valoresCapturados.toString();
    }
 
    private static void analizarFunciones(String codigo, JTable tablaFunciones) {
@@ -138,7 +141,7 @@ public class AnalizadorTablasSimbolos {
    }
 
    private static void analizarArreglos(String codigo, JTable tablaArreglos) {
-      String regexArreglos = "array\\s*\\[\\s*(\\w+)\\s*\\]\\s*([a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*)\\s*=\\s*\\[([^\\]]*)\\]";
+      String regexArreglos = "array\\s*\\[\\s*(\\w+)\\s*\\]\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*=\\s*\\[([^\\]]*)\\]";
       Pattern patternArreglos = Pattern.compile(regexArreglos, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
       Matcher matcherArreglos = patternArreglos.matcher(codigo);
 
@@ -146,52 +149,86 @@ public class AnalizadorTablasSimbolos {
       Set<String> nombresArreglosAgregados = new HashSet<>();
 
       // Definir la expresión regular para un parámetro de arreglo
-      String regexParametroArreglo = "([a-zA-ZñÑáéíóúüÁÉÍÓÚÜ][a-zA-Z0-9ñÑ_áéíóúüÁÉÍÓÚÜ]*)|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n])*(\\\\[^\\\"\\n])*)[\"]|([\\']([^\\\\'\\\\n])*(\\\\[^\\'\\\\n])*)[\']";
+      String regexParametroArreglo = "([a-zA-Z][a-zA-Z0-9_]*)|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n]+)(\\\\[^\\\"\\n]*)*)[\"]|([\\']([^\\\\'\\\\n]+)(\\\\[^\\'\\\\n]*)*)[\']";
 
       while (matcherArreglos.find()) {
          String nombreArreglo = matcherArreglos.group(2);
 
          // Verificar si el nombre ya fue agregado a la tabla
          if (nombresArreglosAgregados.add(nombreArreglo)) {
-            try {
-               String tipoElemento = matcherArreglos.group(1).toLowerCase();
+            String tipoElemento = matcherArreglos.group(1).toLowerCase();
 
-               // Verificar que el tipo del arreglo esté en tiposValidos
-               if (!tiposValidos.contains(tipoElemento)) {
-                  throw new IllegalArgumentException("Error: Tipo de arreglo no válido - " + tipoElemento);
-               }
-
-               String elementosTexto = matcherArreglos.group(3).trim();
-
-               String[] elementos = elementosTexto.isEmpty() ? new String[0] : elementosTexto.split("\\s*,\\s*");
-               int cantidadElementos = elementos.length;
-
-               // Ajuste: si el arreglo no tiene elementos, establecer elementosTexto como "vacío"
-               if (elementos.length == 0) {
-                  elementosTexto = "vacío";
-               }
-
-               // Validar que los elementos coincidan con la expresión regular ParametroArreglo
-               Pattern patternParametro = Pattern.compile(regexParametroArreglo);
-               for (String elemento : elementos) {
-                  Matcher matcherParametro = patternParametro.matcher(elemento);
-                  if (!matcherParametro.matches()) {
-                     // Manejar error: elemento no válido
-                     throw new IllegalArgumentException("Error: Elemento de arreglo no válido - " + elemento);
-                  }
-               }
-
-               modeloArreglos.addRow(new Object[]{nombreArreglo, cantidadElementos, tipoElemento, elementosTexto});
-            } catch (Exception e) {
-               // Manejar el error (puedes imprimirlo o hacer lo que necesites)
-               System.out.println("Error en el arreglo " + nombreArreglo + ": " + e.getMessage());
+            // Verificar que el tipo del arreglo esté en tiposValidos
+            if (!tiposValidos.contains(tipoElemento)) {
+               // Manejar error: tipo de arreglo no válido
+               System.out.println("Error: Tipo de arreglo no válido - " + tipoElemento);
+               return;
             }
+
+            String elementosTexto = matcherArreglos.group(3).trim();
+
+            String[] elementos = elementosTexto.isEmpty() ? new String[0] : elementosTexto.split(",");
+            int cantidadElementos = 0;
+
+            // Ajuste: Contar solo los elementos no vacíos
+            for (String elemento : elementos) {
+               if (!elemento.trim().isEmpty()) {
+                  cantidadElementos++;
+               } else {
+                  // Manejar error: elemento vacío no válido
+                  System.out.println("Error: Elemento de arreglo vacío no válido.");
+                  return;
+               }
+            }
+
+            // Ajuste: si el arreglo no tiene elementos, establecer elementosTexto como "vacío"
+            if (cantidadElementos == 0) {
+               elementosTexto = "vacío";
+            }
+
+            // Validar que los elementos coincidan con la expresión regular ParametroArreglo
+            Pattern patternParametro = Pattern.compile(regexParametroArreglo);
+            for (String elemento : elementos) {
+               Matcher matcherParametro = patternParametro.matcher(elemento);
+               if (!matcherParametro.matches()) {
+                  // Manejar error: elemento no válido
+                  System.out.println("Error: Elemento de arreglo no válido - " + elemento);
+                  return;
+               }
+            }
+
+            modeloArreglos.addRow(new Object[]{nombreArreglo, cantidadElementos, tipoElemento, elementosTexto});
          }
       }
 
       if (!matcherArreglos.hitEnd()) {
          // Manejar error: problemas con el patrón de búsqueda
          System.out.println("Error en el patron de busqueda de arreglos.");
+      }
+   }
+
+   private static String obtenerValorPredeterminado(String tipoVariable) {
+      switch (tipoVariable) {
+         case "int":
+            return "0";
+         case "float":
+            return "0.0";
+         case "char":
+            return "''";
+         case "string":
+            return "\"\"";
+         case "bool":
+            return "false";
+         case "resource":
+            return "{path}";
+         case "color":
+            return "(R,G,B)";
+         case "object":
+            return "(params)";
+         // Agrega más casos según tus necesidades
+         default:
+            // Otros tipos, asignar un valor predeterminado
+            return "No definido";
       }
    }
 
