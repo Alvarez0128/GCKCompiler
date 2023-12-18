@@ -3,6 +3,7 @@ package GUI;
 import AnalisisLexico.ErrorToken;
 import AnalisisLexico.Lexer;
 import AnalisisLexico.Token;
+import AnalisisSintactico.Grammar;
 import TablasSimbolos.AnalizadorTablasSimbolos;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
@@ -291,21 +292,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             {"20", "Resource"},
             {"21", "Object"},
             {"22", "Start"},
-            {"23", "PhysicsShape"},
-            {"24", "in"},
-            {"25", "class"},
-            {"26", "range"},
-            {"27", "void"},
-            {"28", "print"},
-            {"29", "PhysicsBody"},
-            {"30", "func"},
-            {"31", "Error"},
-            {"32", "for"},
-            {"33", "while"},
-            {"34", "if"},
-            {"35", "elif"},
-            {"36", "else"},
-            {"37", "break"}
+            {"23", "SceneTree"},
+            {"24", "PhysicsShape"},
+            {"25", "in"},
+            {"26", "class"},
+            {"27", "range"},
+            {"28", "void"},
+            {"29", "print"},
+            {"30", "PhysicsBody"},
+            {"31", "func"},
+            {"32", "Error"},
+            {"33", "for"},
+            {"34", "while"},
+            {"35", "if"},
+            {"36", "elif"},
+            {"37", "else"},
+            {"38", "break"}
          },
          new String [] {
             "ID", "Lexema"
@@ -1247,7 +1249,45 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    }
 
    private void analisisSintactico() {
-        
+
+      Grammar gramatica = new Grammar(ComponentesLexicos, errores);
+      /*Agrupacion de valores*/
+      gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
+
+      /*Gramática Declaracion de variables*/
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador OpAsignacion VALOR", true);
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador", true);
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO OpAsignacion VALOR", 11, "Se esperaba un identificador");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador OpAsignacion", 12, "Se esperaba un valor para la variable");
+      gramatica.group("ERROR_VARIABLE", "Identificador OpAsignacion VALOR", 13, "Se esperaba un tipo de dato para la variable");
+      gramatica.group("ERROR_VARIABLE", "(CONSTANTE)? TIPO_DATO", 14, "Se esperaba una declaracion de variable");
+      gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
+
+      /*Eliminacion de operadores de asignacion y valores*/
+      //gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
+      gramatica.delete("CONSTANTE", 17, "Se esperaba una declaración de variable");
+      //gramatica.delete("VALOR", 16, "El valor no está en una declaración");
+      //gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
+
+      /*Agrupacion de identificadores como valores y definicion de parametros*/
+      gramatica.group("VALOR", "Identificador");
+      gramatica.group("COLORS", "VALOR COMA VALOR COMA VALOR");
+      gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
+
+      /*Agrupacion de funciones*/
+      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C");
+      gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
+      gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
+      
+      gramatica.delete("FUNCION_INTERNA", 18, "La función no está declarada correctamente");
+      
+      /*Gramatica para declaras colores*/
+      //gramatica.group("COLOR_VAL", "PAREN_A NumEntero COMA NumEntero COMA NumEntero PAREN_C");
+      gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");
+      
+      gramatica.show();
+
    }
 
 

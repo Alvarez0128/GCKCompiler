@@ -6,7 +6,12 @@
             <file>file:/C:/Users/cesar/OneDrive/Documentos/GitHub/GCKCompiler/src/TablasSimbolos/AnalizadorTablasSimbolos.java</file>
             <file>file:/C:/Users/cesar/OneDrive/Documentos/GitHub/GCKCompiler/src/AnalisisSintactico/LexerCup.flex</file>
             <file>file:/C:/Users/cesar/OneDrive/Documentos/GitHub/GCKCompiler/src/GUI/VentanaPrincipal.java</file>
+<<<<<<< HEAD
             <file>file:/C:/Users/cesar/OneDrive/Documentos/GitHub/GCKCompiler/src/AnalisisSintactico/Sintax.cup</file>
+=======
+            <file>file:/C:/Users/cesar/OneDrive/Documentos/GitHub/GCKCompiler/src/TablasSimbolos/AnalizarFunciones.java</file>
+            <file>file:/C:/Users/cesar/OneDrive/Documentos/GitHub/GCKCompiler/src/AnalisisLexico/Lexer.flex</file>
+>>>>>>> parent of fac4097 (V1.5.2)
         </group>
     </open-files>
 </project-private>
