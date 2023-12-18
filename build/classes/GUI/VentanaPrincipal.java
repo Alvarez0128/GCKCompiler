@@ -1258,109 +1258,54 @@ public class VentanaPrincipal extends javax.swing.JFrame {
    private void analisisSintactico() {
 
       Grammar gramatica = new Grammar(ComponentesLexicos, errores);
-      
-      gramatica.group("DECLARACION_AABB", "(CONSTANTE)? AABB Identificador signoIgual NEW AABB PAREN_A (Identificador)? PAREN_C");
-      
-            gramatica.group("ERROR_AABB", "(CONSTANTE)? Identificador signoIgual NEW AABB PAREN_A (Identificador)? PAREN_C", 7, "Declaración inválida, se esperaba que se declarara como un AABB");
-            gramatica.group("ERROR_AABB", "((CONSTANTE)? AABB signoIgual NEW AABB PAREN_A (Identificador)? PAREN_C", 7, "Declaración inválida, después de AABB se esperaba un IDENTIFICADOR ");
-            gramatica.group("ERROR_AABB", "((CONSTANTE)? AABB Identificador NEW AABB PAREN_A (Identificador)? PAREN_C", 7, "Declaración inválida,después del identificador se esperaba un SIGNO IGUAL ");
-            gramatica.group("ERROR_AABB", "(CONSTANTE)? AABB Identificador signoIgual NEW AABB (Identificador)? PAREN_C", 7, "Declaración inválida, después del signo igual se esperaba un parentesis IZQUIERDO");
-            gramatica.group("ERROR_AABB", "(CONSTANTE)? AABB Identificador signoIgual NEW AABB PAREN_A  PAREN_C", 7, "Declaración inválida, después del parentesisizquierdo o identificador se esperaba un parentesis DERECHO");
-            gramatica.group("ERROR_AABB", "(CONSTANTE)? AABB Identificador signoIgual NEW AABB PAREN_A  (Identificador)? ", 7, "Declaración inválida, después del parentesis izquierdo o identificador se esperaba parentesis derecho");
-            gramatica.group("ERROR_AABB", "(CONSTANTE)? AABB Identificador signoIgual AABB PAREN_A  (Identificador)? PAREN_C", 7, "Declaración inválida, después del signo igual o identificador se esperaba la palabra reservada NEW");
-            gramatica.group("ERROR_AABB", "(CONSTANTE)? AABB Identificador signoIgual NEW PAREN_A  (Identificador)? PAREN_C", 7, "Declaración inválida, después del new o identificador se esperaba la palabra reservada AABB");
-      
-            
-      gramatica.group("DECLARACION_RESOURCE", "(CONSTANTE)? RESOURCE Identificador signoIgual LLAVE_A CadenaCaracteres LLAVE_C");
-            //ERROR RESOURCE
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? Identificador signoIgual LLAVE_A CadenaCaracteres LLAVE_C", 8, "Declaración inválida, se esperaba que se declarara como un RESOURCE");
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? RESOURCE signoIgual LLAVE_A CadenaCaracteres LLAVE_C", 8, "Declaración inválida, despues de resource se esperaba un IDENTIFICADOR");
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? RESOURCE Identificador LLAVE_A CadenaCaracteres LLAVE_C", 8, "Declaración inválida, después de un identificador se esperaba UN SIGNO IGUAL");
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? RESOURCE Identificador signoIgual CadenaCaracteres LLAVE_C", 8, "Declaración inválida, después del signo igual se esperaba UN parentesis IZQUIERDO");
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? RESOURCE Identificador signoIgual LLAVE_A LLAVE_C", 8, "Declaración inválida,después del parentesis izquierdo se esperaba ua CADENA DE CARACTERES ");
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? RESOURCE Identificador signoIgual LLAVE_A CadenaCaracteres ", 8, "Declaración inválida,  después de la cadena caracteres se esperaba un parentesis DERECHO");
+      /*gramatica.group("VALOR", "(NumEntero | NumFloat | CadChar | CadenaCaracteres | TRUE | FALSE )");
 
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador OpAsignacion VALOR", true);
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador", true);
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador VALOR", 10, "Se esperaba un operador de asignación");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO OpAsignacion VALOR", 11, "Se esperaba un identificador");
+      gramatica.group("ERROR_VARIABLE", "TIPO_DATO Identificador OpAsignacion", 12, "Se esperaba un valor para la variable");
+      gramatica.group("ERROR_VARIABLE", "Identificador OpAsignacion VALOR", 13, "Se esperaba un tipo de dato para la variable");
+      gramatica.group("ERROR_VARIABLE", "(CONSTANTE)? TIPO_DATO", 14, "Se esperaba una declaracion de variable");
+      gramatica.group("ERROR_VARIABLE", "OpAsignacion VALOR", 15, "Se esperaba una declaracion de variable");
+
+      //gramatica.delete("OpAsignacion", 16, "El operador de asignación no está en una declaración");
+      gramatica.delete("CONSTANTE", 17, "Se esperaba una declaración de variable");
+      //gramatica.delete("VALOR", 16, "El valor no está en una declaración");
+      //gramatica.delete("Identificador", 17, "Se esperaba una expresion o declaracion");
+
+      gramatica.group("VALOR", "Identificador");
+      gramatica.group("COLORS", "VALOR COMA VALOR COMA VALOR");
+      gramatica.group("PARAMETROS", "VALOR (COMA VALOR)+");
+
+      gramatica.group("FUNC_INTERN", "FUNCION_INTERNA PAREN_A (VALOR|PARAMETROS)? PAREN_C");
+      gramatica.group("ERROR_FUNC","FUNCION_INTERNA PAREN_A (VALOR | PARAMETROS)?",18,"Se esperaba un parentesis de cierre");
+      gramatica.group("ERROR_FUNC","FUNCION_INTERNA (VALOR | PARAMETROS)? PAREN_A",19,"Se esperaba un parentesis de apertura");
+      
+      gramatica.delete("FUNCION_INTERNA", 18, "La función no está declarada correctamente");
+      
+      //gramatica.group("COLOR_VAL", "PAREN_A NumEntero COMA NumEntero COMA NumEntero PAREN_C");
+      gramatica.group("DECLARACION_COLOR", "COLOR VALOR OpAsignacion PAREN_A COLORS PAREN_C");*/
+
+
+      gramatica.group("DECLARACION_RESOURCE", "(CONSTANTE)? RESOURCE Identificador signoIgual LLAVE_A CadCaracteres LLAVE_C");
+      
       gramatica.group("DECLARACION_VECTOR2", "(CONSTANTE)? VECTOR2 Identificador signoIgual NEW VECTOR2 PAREN_A (NumEntero COMA NumEntero)? PAREN_C");
-            // ERROR VECTOR2
-            gramatica.group("ERROR_VECT2", "(CONSTANTE)? Identificador signoIgual NEW VECTOR2 PAREN_A (NumEntero COMA NumEntero)? PAREN_C", 9, "Declaración inválida, se esperaba que se declarara como VECTOR ");
-            gramatica.group("ERROR_VECT2", "(CONSTANTE)? VECTOR2 signoIgual NEW VECTOR2 PAREN_A (NumEntero COMA NumEntero)? PAREN_C", 9, "Declaración inválida, ");
-            gramatica.group("ERROR_VECT2", "(CONSTANTE)? VECTOR2 Identificador NEW VECTOR2 PAREN_A (NumEntero COMA NumEntero)? PAREN_C", 9, "Declaración inválida, despues del identificador se esperaba un SIGNO IGUAL");
-            gramatica.group("ERROR_VECT2", "(CONSTANTE)? VECTOR2 Identificador signoIgual VECTOR2 PAREN_A (NumEntero COMA NumEntero)? PAREN_C", 9, "Declaración inválida, después del signo igual se esperaba la palabra NEW  ");
-            gramatica.group("ERROR_VECT2", "(CONSTANTE)? VECTOR2 Identificador signoIgual NEW PAREN_A (NumEntero COMA NumEntero)? PAREN_C", 9, "Declaración inválida, después de new se esperaba la palabra reservada VECTOR2");
-            gramatica.group("ERROR_VECT2", "(CONSTANTE)? VECTOR2 Identificador signoIgual NEW VECTOR2 (NumEntero COMA NumEntero)? PAREN_C", 9, "Declaración inválida, después de VECTOR2 se esperaba un PARENTESIS ABRE");
-            gramatica.group("ERROR_RESOUR", "(CONSTANTE)? VECTOR2 Identificador signoIgual NEW VECTOR2 PAREN_A (NumEntero COMA NumEntero)?",9 , "Declaración inválida,después del PARENTESIS ABRE o  numero entero coma numero entero, se esperaba un PARENTESIS CIERRE ");
       
       gramatica.group("DECLARACION_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW RECT2 PAREN_A (Identificador COMA Identificador)? PAREN_C");
-            //RECT2
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? Identificador signoIgual NEW RECT2 PAREN_A (Identificador COMA Identificador)? PAREN_C", 10, "Declaración inválida,se esperaba que se declarara un RECT2");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 signoIgual NEW RECT2 PAREN_A (Identificador COMA Identificador)? PAREN_C", 10, "Declaración inválida, despues de rect se esperaba un identificador");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador NEW RECT2 PAREN_A (Identificador COMA Identificador)? PAREN_C", 10, "Declaración inválida, despues de un identificador se esperaba un SIGNO IGUAL");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual RECT2 PAREN_A (Identificador COMA Identificador)? PAREN_C", 10, "Declaración inválida, después del signo igual se esperaba la palabra reservada NEW");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW PAREN_A (Identificador COMA Identificador)? PAREN_C", 10, "Declaración inválida,despues de new se espera la palabra rservada RECT2");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW RECT2 (Identificador COMA Identificador)? PAREN_C", 10, "Declaración inválida, despues de rect2 se esperaba parentesis IZQUIERDO");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW RECT2 PAREN_A( COMA Identificador)? PAREN_C", 10, "Declaración inválida, despues de parentesis izquierdo se esperaba un identificador");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW RECT2 PAREN_A (Identificador Identificador)? PAREN_C", 10, "Declaración inválida,despues del parentesis izquierdo se esperaba una COMA");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW RECT2 PAREN_A (Identificador COMA)? PAREN_C", 10, "Declaración inválida, después de una coma se esperaba un IDENTIFICADOR");
-            gramatica.group("ERROR_RECT2", "(CONSTANTE)? RECT2 Identificador signoIgual NEW RECT2 PAREN_A (Identificador )? ", 10, "Declaración inválida, después de un parentesis izquierda se esperaba un parentesis derecho o un identificador o un identificador coma identificador");
       
+      gramatica.group("VALOR", "(NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )");
       
-      gramatica.group("DECLARACION_ARREGLO", "(CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C Identificador signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C");
-            //error arrays
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? CORCH_A TIPO_DATO CORCH_C Identificador signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida,  se esperaba que se declarara como un ARRAY");
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY TIPO_DATO CORCH_C Identificador signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida,despues del array se esperaba un parentesis que abre  ");
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY CORCH_A CORCH_C Identificador signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida, despues del parentesis que abre se esperaba el tipo de dato  ");
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY CORCH_A TIPO_DATO Identificador signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida, despues del  tipo de dato se espera parentesis que cierra ");
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida,  despues del parentesis se espera un identifiador");
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C Identificador CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida,  despues del identificador se espera un signo igual");
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C Identificador signoIgual (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? CORCH_C" , 3, "Declaración inválida,despues del signo igual, se espera un parentesis que abre  ");
+      gramatica.group("DECLARACION_ARREGLO", "(CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C Identificador signoIgual CORCH_A (VALOR (COMA (VALOR)+)?)? CORCH_C");
 
-            gramatica.group("ERROR_DECARR","((CONSTANTE)? ARRAY CORCH_A TIPO_DATO CORCH_C Identificador signoIgual CORCH_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)?" , 3, "Declaración inválida,para fiinalizar debe tener parentesis que cierra  ");   
-        
-      
-      gramatica.group("OPERADOR_ASIG", "(signoMenosIgual | signoMasIgual | signoModIgual | signoPorIgual | signoEntreIgual )");
-      
-      gramatica.group("ASIG_VARIABLE", "Identificador OPERADOR_ASIG (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) | Identificador) | (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) | Identificador) ((signoSUMA|signoMUL|signoDIV|signoMOD|signoRESTA) (VALOR | Identificador))+) | ( PAREN_A ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) | Identificador) ((signoSUMA|signoMUL|signoDIV|signoMOD|signoRESTA) ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) | Identificador))+ PAREN_C) )+");
-                                                                                                                                 
-      gramatica.group("DECLARACION_PRINT", "PRINT PAREN_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? PAREN_C");
-      
-      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador signoIgual (NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) | (CONSTANTE)? TIPO_DATO Identificador | (CONSTANTE)? TIPO_DATO Identificador signoIgual Identificador | DECLARACION_ARREGLO | DECLARACION_RECT2 | DECLARACION_VECTOR2 | DECLARACION_RESOURCE | DECLARACION_AABB ");
-            gramatica.group("ERROR_DECVAR", "CONSTANTE signoIgual", 3, "Se esperaba una declaración de variable");
-            gramatica.group("ERROR_DECVAR", "CONSTANTE signoIgual VALOR", 3, "Se esperaba una declaración de variable");
-          //----  gramatica.group("ERROR_DECVAR", "(CONSTANTE)? Identificador | (CONSTANTE)? Identificador signoIgual VALOR", 3, "Se esperaba un tipo de dato en la declaración");
-            gramatica.group("ERROR_DECVAR", "CONSTANTE TIPO_DATO | CONSTANTE TIPO_DATO signoIgual VALOR", 3, "Se esperaba un identificador en la declaración");
-            gramatica.group("ERROR_DECVAR", "(CONSTANTE)? TIPO_DATO VALOR", 3, "Se esperaba un '=' en la declaración");
-            gramatica.group("ERROR_DECVAR", "(CONSTANTE)? TIPO_DATO Identificador signoIgual", 3, "Se esperaba un valor en la declaración");
-            gramatica.group("ERROR_DECVAR", "(CONSTANTE)? TIPO_DATO | (CONSTANTE)? TIPO_DATO signoIgual VALOR", 3, "Se esperaba un identificador en la declaración");
-            gramatica.group("ERROR_DECVAR", "CONSTANTE", 3, "Se esperaba una declaración de variable");
+      gramatica.group("DECLARACION_VARIABLE", "(CONSTANTE)? TIPO_DATO Identificador signoIgual VALOR | (CONSTANTE)? TIPO_DATO Identificador | (CONSTANTE)? TIPO_DATO Identificador signoIgual Identificador | DECLARACION_ARREGLO | DECLARACION_RECT2 | DECLARACION_VECTOR2 | DECLARACION_RESOURCE");
 
-            gramatica.group("ERROR_DECVAR", "TIPO_DATO", 3, "Se esperaba una declaración de variable");
-            gramatica.group("ERROR_DECVAR", "signoIgual", 4, "Se esperaba una declaración de variable");
-            gramatica.group("ERROR_DECVAR", "VALOR", 3, "Se esperaba una declaración de variable");
-    
-      
-      gramatica.group("CICLO_WHILE", "(WHILE PAREN_A (((Identificador |TRUE|FALSE) (((OpLogicoOR | OpLogicoAND)(Identificador ) )+)?) | PAREN_A (Identificador  |TRUE|FALSE) PAREN_C) PAREN_C LLAVE_A (START|(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C) | (WHILE (((Identificador |TRUE|FALSE) (((OpLogicoOR | OpLogicoAND)(Identificador ) )+)?) | PAREN_A (Identificador  |TRUE|FALSE) PAREN_C) LLAVE_A (START|(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C)");
-      
-      gramatica.group("CICLO_FOR", "FOR Identificador IN RANGE (NumEntero | Identificador) LLAVE_A ((DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C");
-      
       gramatica.group("SENTENCIAS", "(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+");
-      
-      
-      gramatica.group("BLOQUE", "LLAVE_A (START|SENTENCIAS)? LLAVE_C");
-            gramatica.group("ERROR_BLOQUE", "(SENTENCIAS)? LLAVE_C", 2, "Faltó llave apertura");
-            gramatica.group("ERROR_BLOQUE", "LLAVE_A (SENTENCIAS)? ", 2, "Faltó llave de cierre");
-      
-      gramatica.group("FUNCION", "(void)? FUNC Identificador PAREN_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? PAREN_C BLOQUE");      
-            
-      gramatica.group("INICIO", "(IMPORT)? CLASS Identificador (EXTENDS Identificador)? BLOQUE");
-            gramatica.group("ERROR_INICIO", "CLASS Identificador (EXTENDS)? BLOQUE", 1, "No se especificó la clase padre");
-            gramatica.group("ERROR_INICIO", "Identificador (EXTENDS)? BLOQUE", 1, "inicio ilegal no se declaró la clase");
-            gramatica.group("ERROR_INICIO", "Identificador ", 1, "inicio ilegal no se declaró la clase");
-            gramatica.group("ERROR_INICIO", "BLOQUE ", 1, "inicio ilegal no se declaró la clase");
-            gramatica.group("ERROR_INICIO", "CLASS Identificador ERROR_BLOQUE", 1, "inicio ilegal no se declaró la clase");
-            gramatica.group("ERROR_INICIO", "CLASS", 1, "inicio ilegal no se declaró la clase");
 
-            gramatica.group("ERROR_INICIO","SENTENCIAS",1,"inicio ilegal no se declaró la clase");
-            
+      gramatica.group("BLOQUE", "LLAVE_A (START|SENTENCIAS)? LLAVE_C");
+      
+      gramatica.group("INICIO", "(IMPORT)? CLASS Identificador (EXTENDS Identificador)? BLOQUE");
+      
       //FALTA INDICAR LOS ERRORES QUE INCLUYAN CASOS DONDE HAYA ERRORES DE OTRO TIPO
 
       gramatica.show();

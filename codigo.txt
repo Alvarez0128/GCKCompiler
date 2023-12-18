@@ -1,1 +1,7 @@
-int s=223
+class dsf{
+	array[string] sd=["",2]
+
+	while(sad&&sds){
+		
+	}
+}
