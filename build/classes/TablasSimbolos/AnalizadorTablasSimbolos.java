@@ -149,7 +149,7 @@ public class AnalizadorTablasSimbolos {
       Set<String> nombresArreglosAgregados = new HashSet<>();
 
       // Definir la expresión regular para un parámetro de arreglo
-      String regexParametroArreglo = "([a-zA-Z][a-zA-Z0-9_]*)|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n]+)(\\\\[^\\\"\\n]*)*)[\"]|([\\']([^\\\\'\\\\n]+)(\\\\[^\\'\\\\n]*)*)[\']";
+      String regexParametroArreglo = "([a-zA-Z][a-zA-Z0-9_]*)|[-+]?[0-9]+(\\.[0-9]+)?|([\\\"]([^\\\\\"\\n]*)?(\\\\[^\\\"\\n]*)*)[\"]|([\\']([^\\\\'\\\\n]*)?(\\\\[^\\'\\\\n]*)*)[\']";
 
       while (matcherArreglos.find()) {
          String nombreArreglo = matcherArreglos.group(2);
@@ -168,23 +168,13 @@ public class AnalizadorTablasSimbolos {
             String elementosTexto = matcherArreglos.group(3).trim();
 
             String[] elementos = elementosTexto.isEmpty() ? new String[0] : elementosTexto.split(",");
-            int cantidadElementos = 0;
-
-            // Ajuste: Contar solo los elementos no vacíos
-            for (String elemento : elementos) {
-               if (!elemento.trim().isEmpty()) {
-                  cantidadElementos++;
-               } else {
-                  // Manejar error: elemento vacío no válido
-                  System.out.println("Error: Elemento de arreglo vacío no válido.");
-                  return;
-               }
-            }
 
             // Ajuste: si el arreglo no tiene elementos, establecer elementosTexto como "vacío"
-            if (cantidadElementos == 0) {
+            if (elementos.length == 0) {
                elementosTexto = "vacío";
             }
+
+            int cantidadElementos = elementos.length;
 
             // Validar que los elementos coincidan con la expresión regular ParametroArreglo
             Pattern patternParametro = Pattern.compile(regexParametroArreglo);

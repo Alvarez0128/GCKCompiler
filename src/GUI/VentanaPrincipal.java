@@ -1336,12 +1336,45 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             gramatica.group("ERROR_DECVAR", "TIPO_DATO", 3, "Se esperaba una declaración de variable");
             gramatica.group("ERROR_DECVAR", "signoIgual", 4, "Se esperaba una declaración de variable");
             gramatica.group("ERROR_DECVAR", "VALOR", 3, "Se esperaba una declaración de variable");
-    
-      
-      gramatica.group("CICLO_WHILE", "(WHILE PAREN_A (((Identificador |TRUE|FALSE) (((OpLogicoOR | OpLogicoAND)(Identificador ) )+)?) | PAREN_A (Identificador  |TRUE|FALSE) PAREN_C) PAREN_C LLAVE_A (START|(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C) | (WHILE (((Identificador |TRUE|FALSE) (((OpLogicoOR | OpLogicoAND)(Identificador ) )+)?) | PAREN_A (Identificador  |TRUE|FALSE) PAREN_C) LLAVE_A (START|(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C)");
-      
+      //Que pedo con valor
+    gramatica.group("CICLO_WHILE", 
+        //Caso while(true){}
+        //Caso while(false){}
+        //Caso while(identificador){}
+        "(WHILE PAREN_A (TRUE|FALSE|Identificador) PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C)" 
+        //while(identificador ==identificador) d<=e
+        + "| (WHILE PAREN_A (Identificador (signoIgualIgual|signoMenorIgual|signoMayorIgual|signoNotIgual|signoMenor|signoMayor)(Identificador))PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C)"
+     //XXXXX ERROR while(identificador ==identificador) d<=e || DZ>=E && d<=yd &&                                                                          
+        + "| (WHILE PAREN_A ((Identificador (signoIgualIgual|signoMenorIgual|signoMayorIgual|signoNotIgual|signoMenor|signoMayor)(Identificador)(OpLogicoAND|OpLogicoOR|OpLogicoNOT)?)+)PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C) "
+        //while(identificador ==true)
+        //while(identificador ==false)        
+         + "| (WHILE PAREN_A (Identificador signoIgualIgual(TRUE|FALSE))PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C) "
+        //while(identificador ==false && identificador ==true)        
+         + "| (WHILE PAREN_A ((Identificador signoIgualIgual(TRUE|FALSE)(OpLogicoAND|OpLogicoOR|OpLogicoNOT)?)+) PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C) "
+        //while(identificador ==5 && identificador ==13)        
+        + "| (WHILE PAREN_A ((Identificador (signoIgualIgual|signoMenorIgual|signoMayorIgual|signoNotIgual|signoMenor|signoMayor)(NumEntero|NumFlotante|CadChar|CadenaCaracteres)(OpLogicoAND|OpLogicoOR|OpLogicoNOT)?)+)PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C) "
+         
+//XXXX while(identificar())
+         + "| (WHILE PAREN_A (Identificador PAREN_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres |"
+                + " TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? PAREN_C PAREN_C LLAVE_A (START | DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)? LLAVE_C) "
+
+    );
+     // gramatica.group("FUNCION", "(VOID)? FUNC Identificador PAREN_A ((DECLARACION_VARIABLE) ((COMA DECLARACION_VARIABLE)+)?)? PAREN_C");      
+
+/*
+      gramatica.group("CICLO_WHILE", "(WHILE PAREN_A (((Identificador |TRUE|FALSE) "
+              + "(((OpLogicoOR | OpLogicoAND)(Identificador ) )+)?) | PAREN_A (Identificador  "
+              + "|TRUE|FALSE) PAREN_C) "
+              + "PAREN_C LLAVE_A (START|(DECLARACION_VARIABLE | CICLO_FOR "
+              + "| DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C) "
+              + "| "
+              + "(WHILE (((Identificador |TRUE|FALSE) (((OpLogicoOR | OpLogicoAND)(Identificador ) )+)?) | "
+              + "PAREN_A (Identificador  |TRUE|FALSE) PAREN_C) LLAVE_A (START|(DECLARACION_VARIABLE | CICLO_FOR |"
+              + " DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C)");
+  */    
       gramatica.group("CICLO_FOR", "FOR Identificador IN RANGE (NumEntero | Identificador) LLAVE_A ((DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+)? LLAVE_C");
-      
+      gramatica.group("DECLARACION_FUNCION", "(VOID)? FUNC Identificador PAREN_A ((DECLARACION_VARIABLE) ((COMA DECLARACION_VARIABLE)+)?)? PAREN_C LLAVE_A (START|((DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+))? LLAVE_C");      
+             
       gramatica.group("SENTENCIAS", "(DECLARACION_VARIABLE | CICLO_FOR | DECLARACION_FUNCION | CICLO_WHILE | DECLARACION_IF | DECLARACION_PRINT | ASIG_VARIABLE)+");
       
       
@@ -1349,8 +1382,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             gramatica.group("ERROR_BLOQUE", "(SENTENCIAS)? LLAVE_C", 2, "Faltó llave apertura");
             gramatica.group("ERROR_BLOQUE", "LLAVE_A (SENTENCIAS)? ", 2, "Faltó llave de cierre");
       
-      gramatica.group("FUNCION", "(void)? FUNC Identificador PAREN_A (((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE ) |Identificador) (COMA ((NumEntero | NumFlotante | CadChar | CadenaCaracteres | TRUE | FALSE )|Identificador)+)?)? PAREN_C BLOQUE");      
-            
+     
       gramatica.group("INICIO", "(IMPORT)? CLASS Identificador (EXTENDS Identificador)? BLOQUE");
             gramatica.group("ERROR_INICIO", "CLASS Identificador (EXTENDS)? BLOQUE", 1, "No se especificó la clase padre");
             gramatica.group("ERROR_INICIO", "Identificador (EXTENDS)? BLOQUE", 1, "inicio ilegal no se declaró la clase");

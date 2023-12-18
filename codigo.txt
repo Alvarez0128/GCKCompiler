@@ -1,7 +1,37 @@
-class dsf{
-	array[string] sd=["",2]
+class Heroe extends Personaje{
+	string nombre = "Shazam"
+	int nivel 
+	const int velocidad = 80
+	float poder = 80.0 
+	char capa 
 
-	while(sad&&sds){
+	vector2 coordenadas = new vector2(-50,10)
+	vector2 dimension = new Vector2(100,50)
+
+	const Rect2 cajaDelimitadora = new rect2(coordenadas,dimension)
+
+	Resource imagenLogo = {"src/logo.png"}	//un resource sirve para cargar archivos multimedia, y entre llaves se debe especificar la ruta de dicho archivo
+	aabb cajaColision = new AABB(cajaDelimitadora) //Axis-Aligned Bounding Box sirve para establecer una caja de choque para que la entidad interactúe con 
+										  //el entorno u otras entidades.
+
+	func volar(int x, int y){
+		int puntoX
+		int puntoY
+				
+	}
+
+	func lanzarPoder(float coordenadas){
+		
 		
 	}
+	
+	int i=0
+	for i in range 10{
+		print(nombre) //Para concatenar se hace por medio de comas
+		
+		i+=1
+	}
+
+	int k=0
+	
 }
